@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+body{
+	font-family: Helvetica, sans-serif;
+	background-color: #f5f5f5;
+}
+
+#header{
+	font-family: Helvetica, sans-serif;
+	font-size: 10rem;
+	text-align: center;
+	padding-top: 20vh;
+}
+
+#format{
+	margin-top: 5vh;
+	display: block;
+    text-align: center;
+}
+
+#search{
+	width: 25vw;
+	font-size: 2rem;
+}
+
+#number{
+	font-size: 2rem;
+	margin-left:1rem;
+	width: 4rem;
+}
+
+#submit {
+	font-family: Helvetica, sans-serif;
+	size: 10vw;
+	color: red;
+	margin-top: 5vh;
+}
+
+#hover_text{
+	font-size: 1rem;
+
+}
+
+#hover_format{
+	display: inline;
+}
+
+#hover_text{
+	margin-left:1rem;
+	margin-top:1rem;
+	position:absolute;
+	display: none;
+}
+#hover_format:hover #hover_text {
+  display: inline;
+}
