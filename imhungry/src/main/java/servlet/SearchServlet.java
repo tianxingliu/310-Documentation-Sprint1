@@ -58,12 +58,14 @@ public class SearchServlet extends HttpServlet {
 			session.setAttribute("Favorites", favoritesList);
 			session.setAttribute("To Explore", toExploreList);
 			session.setAttribute("Do Not Show", doNotShowList);
+			//TODO: Add grocery list
 		}
 		else
 		{
 			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
+			//TODO: Add grocery list
 		}
 
         //From previous page, extract parameters
@@ -84,7 +86,7 @@ public class SearchServlet extends HttpServlet {
         }
 
         //get lists
-        ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
+        ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList); //Don't add here
         ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, doNotShowList, favoritesList);
         ArrayList<String> urlList = getImageURLs(userSearch);
 
