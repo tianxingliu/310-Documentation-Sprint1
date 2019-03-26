@@ -17,7 +17,7 @@ Scenario: clicking "Manage List" button redirects to List Management Page
 	When I search for "chicken" and expect 5 results
 	And press "submit" button
 	And select the list "Favorites"
-	And press "manage_list" button
+	And press "Manage List" button
 	Then I should see the "List Management" page
 
 #5
