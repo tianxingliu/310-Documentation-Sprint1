@@ -1,9 +1,3 @@
-When(/^press search$/) do
-  find_field("q").native.send_key(:enter)
-end
-
-
-
 Given(/^I visit the website$/) do
   visit "localhost:9090"
 end
@@ -76,4 +70,8 @@ end
 
 Then(/^I should see the page of To Explore List$/) do
     expect(page).to have_content('To Explore List')
+end
+
+When(/^visit the website again$/) do
+    visit "localhost:9090"
 end

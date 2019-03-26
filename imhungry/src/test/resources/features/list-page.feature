@@ -45,20 +45,20 @@ Scenario: clicking on a restaurant item redirects to the restaurant page
 
 Scenario: clicking on a recipe item redirects to the recipe page
 
-		When I search for "chicken" and expect 5 results
-		And press "submit" button
-		And press a recipe
-		And select the list "Favorites"
-		And press "addtolist" button
-		And press "backtoresults" button
-		And select the list "Favorites"
-		And press "manage_list" button
-		And press an info item
-		Then I should see the "Recipe" page
+	When I search for "chicken" and expect 5 results
+	And press "submit" button
+	And press a recipe
+	And select the list "Favorites"
+	And press "addtolist" button
+	And press "backtoresults" button
+	And select the list "Favorites"
+	And press "manage_list" button
+	And press an info item
+	Then I should see the "Recipe" page
 
 #3
 Scenario: an item can be removed from a list
-	
+
 	When I search for "chicken" and expect 5 results
 	And press "submit" button
 	And press a recipe
@@ -102,3 +102,18 @@ Scenario: clicking on "Manage List" redirects to the list selected
 	And select the list "To Explore"
 	And press "Manage List" button
 	Then I should see the page of To Explore List
+
+
+# Backlog 2
+Scenario: maintain information beyond just a single session
+
+	When I search for "chicken" and expect 5 results
+	And press "submit" button
+	And press a restaurant
+	And select the list "Favorites"
+	And press "addtolist" button
+	And visit the website again
+	And I search for "chicken" and expect 5 results
+	And select the list "Favorites"
+	And press "manage_list" button
+	Then I should see an info item
