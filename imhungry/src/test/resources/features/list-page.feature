@@ -112,7 +112,7 @@ Scenario: maintain information beyond just a single session
 	And press a restaurant
 	And select the list "Favorites"
 	And press "addtolist" button
-	And visit the website again
+	And restart session
 	And I search for "chicken" and expect 5 results
 	And select the list "Favorites"
 	And press "Manage List" button
