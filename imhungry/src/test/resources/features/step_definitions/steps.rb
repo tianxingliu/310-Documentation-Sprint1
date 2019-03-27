@@ -72,6 +72,7 @@ Then(/^I should see the page of To Explore List$/) do
     expect(page).to have_content('To Explore List')
 end
 
-When(/^visit the website again$/) do
-    visit "localhost:9090"
+# FIXME
+When(/^restart session$/) do
+    Capybara.reset_sessions!
 end
