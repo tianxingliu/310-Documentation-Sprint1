@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I checked if jsps are styled uniformly
+2. No obstacles
+3. I'll finish the button function
+
+Haiyu Tian:
+1. Inspect our source code and improve readability by adding comments
+2. No obstacles
+3. Work with my teammate and try to tacke with backlog 8 before our next meeting
+
+Pinghao Luo:
+1. Modify the sql for database to fix some issue
+2. No obstacles
+3. Keep working on moving informaiton from backend classes to database
+
+Tianxing Liu:
+1. I pretty much finished blackbox test for Backlog 6.
+2. Not really.
+3. I will start connecting the backend grocery list to support the front-end design.
+
+Guancheng Qiu:
+1. I modified RestaurantSearch() function to take in an additional radius parameter and made the API call to specify radius.
+2. No obstacles; the task was rather straightforward.
+3. I'll start working on JDBC code on the backend.
