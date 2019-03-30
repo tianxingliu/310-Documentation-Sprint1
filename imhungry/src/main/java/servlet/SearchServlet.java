@@ -51,7 +51,8 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		ArrayList<Info> favoritesList, toExploreList, doNotShowList, groceryList;
+		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
+		ArrayList<String> groceryList;
 		
 		RecipeDataManager recipeDB = new RecipeDataManager();
 		recipeDB.addToList(null, "");
@@ -71,7 +72,7 @@ public class SearchServlet extends HttpServlet {
 			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
-			groceryList = (ArrayList<Info>) session.getAttribute("Grocery");
+			groceryList = (ArrayList<String>) session.getAttribute("Grocery");
 		}
 
         //From previous page, extract parameters
@@ -281,6 +282,7 @@ public class SearchServlet extends HttpServlet {
 	
 	//Create a request using place_id of all RestaurantInfo and send one request to obtain all drive times.
 	public void getDriveTimes(ArrayList<RestaurantInfo> restaurants) {
+		if(restaurants.isEmpty()) return;
 		String driveTimeURL = GOOGLE_MAPS_API_PREFIX + "/distancematrix/json?units=imperial&origins="
 				+ TOMMY_TROJAN_LOC + "&destinations=";
 		//concatenate the request URL to make use of the Distance Matrix API, obtaining drive times of multiple
