@@ -27,7 +27,9 @@
 				<div id="instr2"></div>
 			</div>
         </div>
-
+        
+     
+        
         <form action = "resultPage.jsp">
             <div class = "backToResults">
                 <input type="hidden" id="queryStringInput" name="search" value="" />
@@ -49,6 +51,19 @@
                 <button type="submit" id = "addtolist">Add to List</button>
             </div>
         </form>
+        
+        <form onsubmit = "console.log(result); addItem('Grocery', result); document.getElementById('numberResultsInput').value = JSON.parse(localStorage.getItem('searchResults'))[0].length; return false;">
+            <div class = "addToGrocery">
+                <button type="submit">Add to Grocery</button>
+            </div>
+        </form>
+        
+        <form onclick="console.log(getList('Grocery').body); ">
+  	 		<div class = "addToGrocery" style = "top:calc(20vh + 15rem)">
+                <button type="button">Display Grocery</button>
+            </div>
+		</form>
+        
 
         <div class="dropDown">
             <select id = "dropdown">
