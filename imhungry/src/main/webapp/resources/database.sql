@@ -13,7 +13,9 @@ CREATE TABLE Restaurants (
     DriveTimeValue INT(11) NOT NULL,
     Phone VARCHAR(200) NOT NULL,
     Website VARCHAR(200) NOT NULL,
-    RestaurantInList VARCHAR(20) NOT NULL
+    InFavorites INT(2) NOT NULL,
+    InDoNotShow INT(2) NOT NULL,
+    InToExplore INT(2) NOT NULL
 );
 
 CREATE TABLE Recipes(
@@ -26,7 +28,9 @@ CREATE TABLE Recipes(
     Ingredients VARCHAR(500) NOT NULL,
     Instructions VARCHAR(1000) NOT NULL,
     ImageURL VARCHAR(500) NOT NULL,
-    RecipeInList VARCHAR(20) NOT NULL
+    InFavorites INT(2) NOT NULL,
+    InDoNotShow INT(2) NOT NULL,
+    InToExplore INT(2) NOT NULL
 );
 
 CREATE TABLE GroceryList(
