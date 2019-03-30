@@ -13,7 +13,7 @@ CREATE TABLE Restaurants (
     DriveTimeValue INT(11) NOT NULL,
     Phone VARCHAR(200) NOT NULL,
     Website VARCHAR(200) NOT NULL,
-    RestaurantInList VARCHAR(20) NOT NULL  -- 'favorite', 'toexplore', 'donotshow'
+    RestaurantInList VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE Recipes(
@@ -23,22 +23,10 @@ CREATE TABLE Recipes(
     RecipeID INT(11) NOT NULL,
     PrepTime INT(11) NOT NULL,
     CookTime INT(11) NOT NULL,
+    Ingredients VARCHAR(500) NOT NULL,
+    Instructions VARCHAR(1000) NOT NULL,
     ImageURL VARCHAR(500) NOT NULL,
-    RecipeInList VARCHAR(20) NOT NULL  -- 'favorite', 'toexplore', 'donotshow'
-);
-
-CREATE TABLE Ingredients (
-    IngredientID INT(11) PRIMARY KEY AUTO_INCREMENT,
-    RecipeKeyID INT(11) NOT NULL,  -- use 'SELECT LAST_INSERT_ID();' to get RecipeKeyID
-    Ingredient VARCHAR(200) NOT NULL,
-    FOREIGN KEY (RecipeKeyID) REFERENCES Recipes(recipeKeyID)
-);
-
-CREATE TABLE Instructions(
-    InstructionID INT(11) PRIMARY KEY AUTO_INCREMENT,
-    RecipeKeyID INT(11) NOT NULL,
-    Instruction VARCHAR(200) NOT NULL,
-    FOREIGN KEY (RecipeKeyID) REFERENCES Recipes(recipeKeyID)
+    RecipeInList VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE GroceryList(
