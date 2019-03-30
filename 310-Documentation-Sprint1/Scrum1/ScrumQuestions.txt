@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I looked over different implementations of project 1 passed down from different people’s previous teams and analyzed over the pros and cons that each version of the projects have. We have generally agreed to develop with Team 12’s implementation of project 1.
+2. No
+3. I will, according to asana, add an “add ingredients to list” button to the recipe page in the front-end, and I will also add input field in frontend for radius
+
+Haiyu Tian:
+1. I set up the Google drive for the group. And draft the Sprint 1 Report outline. 
+2. No
+3. Pull from the group git repository. And start working on the assigned tasks on Asana.
+
+Pinghao Luo:
+1. Sending emails to TA for specification for our backlog task and Scrum meeting information. 
+2. No
+3. Start implement database for our project
+
+Tianxing Liu:
+1. This is our first group scrum meeting.
+2. The code structure of the new pre-defined list is not easy to implement.
+3. I will start design code structure to implement the first task on Backlog 6 to create a new pre-defined list “Grocery”. Also, I will start generating black-box test cases.
+
+Guancheng Qiu:
+1. I designed database tables.
+2. Not yet.
+3. I will initiate the local database and test the design with queries.

@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I have been working on adding the button feature and learning some proper test writing style
+2. I had to go to hospital today so a lot of my time was consumed
+3. I will continue working on the button feature and will start implementing the tests
+
+Haiyu Tian:
+1. I git pull the code and get it running on my local machine.  
+2. Not particularly.
+3. I will collaborate with teammate to implement backlog 8 grocery list. We decide to divide the tasks between front end and back end and will work on each part accordingly.
+
+Pinghao Luo:
+1. I work on building the database
+2. No
+3. I will keep connecting database with out backend code
+
+Tianxing Liu:
+1. I started to implement the Grocery list as a pre-defined list in the back-end java code.
+2. It is difficult at first to understand the structure inherited from one of my teammate's Proj1 code, but it was soon resolved with his help.
+3. I will try implement the front end portion for it.
+
+Guancheng Qiu:
+1. I tested our code base, uploaded it and helped teammates with run configurations.
+2. I spent some time figuring out the run configurations.
+3. I will start adding black-box tests for Backlog 2.

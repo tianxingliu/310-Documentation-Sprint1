@@ -75,6 +75,8 @@ public class SearchServlet extends HttpServlet {
         //uncomment once testing is complete
         String userSearch = request.getParameter("search");
         int numResults = Integer.parseInt(request.getParameter("number"));
+        //TODO: read radius
+        int radius = 0;
 
         PrintWriter out = response.getWriter();
 
@@ -90,7 +92,7 @@ public class SearchServlet extends HttpServlet {
 
         //get lists
         ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList); //Don't add here
-        ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, doNotShowList, favoritesList);
+        ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, radius, doNotShowList, favoritesList);
         ArrayList<String> urlList = getImageURLs(userSearch);
 
         //return content
@@ -225,10 +227,11 @@ public class SearchServlet extends HttpServlet {
 	
 	//Given a String query and number of results expected, return an ArrayList of RestaurantInfo. The function
 	//uses several Google Maps APIs and refer to Do Not Show List and Favorites List.
-	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults, List<Info> doNotShowList, List<Info> favoritesList) {
+	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults, int radius, List<Info> doNotShowList, List<Info> favoritesList) {
 		ArrayList<RestaurantInfo> restaurants = new ArrayList<RestaurantInfo>();
 		String searchURL = GOOGLE_MAPS_API_PREFIX + "/place/nearbysearch/json?location=" + TOMMY_TROJAN_LOC
-				+"&rankby=distance&type=restaurant&keyword=" + query.replaceAll("\\s+","%20") + "&key=" + MAPS_API_KEY;
+				+"&radius=" + radius + "&type=restaurant&keyword=" + query.replaceAll("\\s+","%20") + "&key="
+				+ MAPS_API_KEY;
 		//extract relevant part of the JSON response
 		JsonArray places = new JsonParser().parse(getJSONResponse(searchURL)).getAsJsonObject()
 				.get("results").getAsJsonArray();

@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I kept working on the structure of the tests and designing of the jsp features
+2. Still spent half of the day in hospital today so didn't have much time
+3. I intend to finish the frontend tasks soon
+
+Haiyu Tian:
+1. I design new buttons and add entries in drop down list. 
+2. I tried to be consistent with the buttons already existed.
+3. I will try to finsh the front end code for backlog8 "grocery list" before our next meeting.
+
+Pinghao Luo:
+1. Keey working on building backend and database.
+2. None.
+3. Try to connect database to backend and store all information to database
+
+Tianxing Liu:
+1. I started create blackbox tests for Backlog 6.
+2. Not really.
+3. I will try finish the blackbox test for Backlog 6.
+
+Guancheng Qiu:
+1. I finished blackbox tests for Backlog 2.
+2. None.
+3. I will finish blackbox tests for Backlog 8.
