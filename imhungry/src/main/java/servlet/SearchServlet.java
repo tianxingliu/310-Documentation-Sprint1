@@ -18,6 +18,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import info.*;
 
@@ -53,9 +54,6 @@ public class SearchServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
 		ArrayList<String> groceryList;
-		
-		RecipeDataManager recipeDB = new RecipeDataManager();
-		recipeDB.addToList(null, "");
 		
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
 			favoritesList = new ArrayList<>();
