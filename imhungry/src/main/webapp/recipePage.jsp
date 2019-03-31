@@ -52,9 +52,9 @@
             </div>
         </form>
         
-        <form onsubmit = "console.log(result); addItem('Grocery', result); document.getElementById('numberResultsInput').value = JSON.parse(localStorage.getItem('searchResults'))[0].length; return false;">
+        <form onclick = "console.log(result); addItem('Grocery', result);">
             <div class = "addToGrocery">
-                <button type="submit">Add to Grocery</button>
+                <button type="button">Add to Grocery</button>
             </div>
         </form>
         
