@@ -78,7 +78,7 @@ public class SearchServlet extends HttpServlet {
         String userSearch = request.getParameter("search");
         int numResults = Integer.parseInt(request.getParameter("number"));
         //TODO: read radius
-        int radius = 1000;
+        int radius = 5000;
 
         PrintWriter out = response.getWriter();
 
