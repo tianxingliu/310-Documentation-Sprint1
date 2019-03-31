@@ -58,12 +58,8 @@
             </div>
         </form>
         
-        <form onclick="console.log(getList('Grocery').body); ">
-  	 		<div class = "addToGrocery" style = "top:calc(20vh + 15rem)">
-                <button type="button">Display Grocery</button>
-            </div>
-		</form>
-        
+       
+ 
 
         <div class="dropDown">
             <select id = "dropdown">

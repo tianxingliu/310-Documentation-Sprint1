@@ -20,8 +20,26 @@
 	    
 		<div id = "header"></div>
 		<div id = "container">
+			<ul id = "text"></ul>
+			<script src="js/ListClient.js"></script>
 			<script>
-				console.log(sessionStorage);
+				document.getElementById("header").innerHTML = "Grocery List";
+				
+				var col1 = document.getElementById("container");
+				
+				var list = getList("Grocery").body;
+				
+				if(list == null || list.length === 0) col1.innerHTML = "This list is empty. Add something to see it here!" ;
+				else{
+					for(var i = 0;i < list.length; i++){
+						var element = document.createElement("li");
+						element.innerHTML = list[i].item;
+						document.getElementById("text").appendChild(element); /*  innerHTML += list[i].item; */
+						/* document.getElementById("text").innerHTML += "\n"; */ 
+					}
+				}
+				
+				
 			</script>
 		</div>
 
