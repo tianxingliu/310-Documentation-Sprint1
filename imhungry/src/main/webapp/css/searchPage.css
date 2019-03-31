@@ -28,6 +28,11 @@ body{
 	margin-left:1rem;
 	width: 4rem;
 }
+#radius{
+	font-size: 2rem;
+	margin-left:1rem;
+	width: 4rem;
+}
 
 #submit {
 	font-family: Helvetica, sans-serif;
@@ -49,8 +54,28 @@ body{
 	margin-left:1rem;
 	margin-top:1rem;
 	position:absolute;
+	left:70%;
 	display: none;
 }
 #hover_format:hover #hover_text {
+  display: inline;
+}
+
+#hover_text1{
+	font-size: 1rem;
+}
+
+#hover_format1{
+	display: inline;
+}
+
+#hover_text1{
+	margin-left:1rem;
+	margin-top:1rem;
+	position:absolute;
+	left:70%;
+	display: none;
+}
+#hover_format1:hover #hover_text1 {
   display: inline;
 }
