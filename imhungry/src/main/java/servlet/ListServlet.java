@@ -8,6 +8,7 @@ import info.Info;
 import info.Message;
 import info.RecipeInfo;
 import info.RestaurantInfo;
+import info.GroceryInfo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,15 +35,22 @@ public class ListServlet extends HttpServlet
         String listName = request.getParameter("list"); //See what list was requested
         PrintWriter respWriter = response.getWriter();
         Gson gson = new Gson();
-        if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show")) //Check if list is valid
+        if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery")) //Check if list is valid
         {
             respWriter.println(gson.toJson(new Message("Invalid List!")));
             respWriter.close();
             return;
         }
-        List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
+//        if(listName.equals("Grocery")) {
+//        	List<String> list = (List<String>)session.getAttribute("Grocery");
+//        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
+//            respWriter.close();
+//        }
+    
+    	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
         respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
         respWriter.close();
+        
     }
 
     //POST method used to add and remove items from a list
@@ -56,8 +65,10 @@ public class ListServlet extends HttpServlet
             Message reqMessage = gson.fromJson(reqBody, Message.class); //Parse outer Message object from JSON
             Message reqListAndItem = gson.fromJson((String)reqMessage.body, Message.class); //Parse inner Message object from json
             String listName = reqListAndItem.header; //Get name of list to modify from the inner Message
-            if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show")) //Check validity
+            if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery")) //Check validity
                 throw new Exception("Invalid list name.");
+            
+            
             String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
 
             //Interact with the raw JSON to determine the type of the object via unique fields
@@ -67,25 +78,73 @@ public class ListServlet extends HttpServlet
             else if(info.has("placeID")) infoType = RestaurantInfo.class;
             else throw new Exception("Unknown item type.");
 
-            Info item = gson.fromJson(infoJson, infoType); //Parse Info object from JSON
-            List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
-            //Switch on requested action
-            switch(reqMessage.header)
-            {
-                case "addItem":
-                    if(!list.contains(item)) list.add(item); //Check this is a new item for the list before adding
-                    respWriter.println(gson.toJson(new Message("Added to list "+listName)));
-                    break;
-                case "removeItem":
-                    list.remove(item);
-                    respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
-                    break;
-                case "resetLists":
-                    session.invalidate(); //Note: This is for debuggin only; the page will break if this is called and a new search is not immediately made
-                    break;
-                default:
-                    throw new Exception("Invalid action.");
-            }
+//            if(listName.equals("Grocery")) { //adding special case for "Grocery" List
+//            	RecipeInfo item = gson.fromJson(infoJson, infoType);
+//            	ArrayList<String> ingredients = item.ingredients;
+//            	List<String> list = (List<String>)session.getAttribute("Grocery");
+//            	switch(reqMessage.header)
+//                {
+//                    case "addItem":
+////                    	System.out.println(ingredients.size());
+////                        for(int i=0;i<ingredients.size();i++) {
+////                        	System.out.println(ingredients.get(i));
+////                        	//list.add(ingredients.get(i));
+////                        }
+//                        list = (List<String>)ingredients;
+//                        for(int i=0;i<list.size();i++) {
+//                        	System.out.println(list.get(i));
+//                        	//list.add(ingredients.get(i));
+//                        }
+//                        respWriter.println(gson.toJson(new Message("Added to list "+ list)));
+//                    //TODO: add other operations if necessary
+//                }
+//            }
+            
+            
+            
+            	Info item = gson.fromJson(infoJson, infoType); //Parse Info object from JSON
+                List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
+                //Switch on requested action
+                switch(reqMessage.header)
+                {
+                    case "addItem":
+//                        
+                        if(listName.equals("Grocery")) {
+                        	RecipeInfo newItem = gson.fromJson(infoJson, infoType);
+                        	ArrayList<String> ingredients = newItem.ingredients; 
+                        	for(int i = 0; i < ingredients.size(); i++) {
+                        		GroceryInfo newGrocery = new GroceryInfo(ingredients.get(i));
+                        		boolean alreadyAdded = false;
+                        		for(int j=0;j < list.size();j++) {
+                        			if(list.get(j).item.equals(ingredients.get(i))) {
+                        				alreadyAdded = true;
+                        				break;
+                        			}
+                        		}
+                        		if(!alreadyAdded) list.add(newGrocery);
+                        	}
+                
+       
+                        }
+                        else {
+                        	if(!list.contains(item)) list.add(item); //Check this is a new item for the list before adding
+//                          respWriter.println(gson.toJson(new Message("Added to list "+listName)));
+                        }
+                        respWriter.println(gson.toJson(new Message("Added to list "+ list)));
+                        break;
+                    case "removeItem":
+                        list.remove(item);
+                        respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
+                        break;
+                    case "resetLists":
+                        session.invalidate(); //Note: This is for debuggin only; the page will break if this is called and a new search is not immediately made
+                        break;
+                    default:
+                        throw new Exception("Invalid action.");
+                }
+            
+            
+            
         } catch(Exception e) { //Handle exceptions
             e.printStackTrace();
             respWriter.println(gson.toJson(new Message("Invalid Response!\n"+e.getMessage())));

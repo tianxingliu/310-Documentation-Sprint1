@@ -20,6 +20,9 @@ var ingre = result.ingredients;
 var instr = result.instructions;
 var img = result.imageURL;
 
+
+console.log(result);
+
 //Fill info into corresponding HTML tags on the JSP file
 document.title = "Recipe: " + title;
 document.getElementById("title").innerHTML = title;
