@@ -30,7 +30,7 @@ import java.sql.Connection;
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			try {
-				
+			
 				Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 				conn = DriverManager.getConnection(JDBC_CONNECTION);
 				ps = conn.prepareStatement("SELECT PlaceID FROM Restaurants WHERE PlaceID = '" + placeID +"'");
@@ -126,7 +126,6 @@ import java.sql.Connection;
 			}
 		}
 		
-		//TODO
 		public void removeFromList(int restaurantID, int list) {
 			
 			Connection conn = null;
@@ -158,7 +157,6 @@ import java.sql.Connection;
 			}
 		}
 		
-		//TODO
 		public ArrayList<RestaurantInfo> loadRestaurant(){
 			
 			Connection conn = null;
@@ -177,13 +175,18 @@ import java.sql.Connection;
 				
 
 				while(rs.next()){
+					RestaurantInfo  rest = new RestaurantInfo(
+							rs.getString("RestaurantName"), 
+							rs.getInt("RestaurantRating"),
+							rs.getString("PlaceID"),
+							rs.getString("Address"), 
+							rs.getInt("price"), 
+							rs.getString("DriveTimeText"),
+							rs.getInt("DriveTimeValue"), 
+							rs.getString("Phone"), 
+							rs.getString("Website"));
 					
-					
-					RestaurantInfo new_restaurant(rs.getString("RestaurantName", re.getInt("RestaurantRating",re.getString("PlaceID"),
-							rs.getString("Address"), rs.getInt("price"), rs.getString("DriveTimeText"),
-							rs.getInt("DriveTimeValue"), rs.getString("Phone"), rs.getString("Website"));
-
-					restaurantList.add(new_restaurant);
+					restaurantList.add(rest);
 				}
 			}catch (SQLException sqle) {
 				System.out.println("sqle: " + sqle.getMessage());
