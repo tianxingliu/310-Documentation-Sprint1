@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I finish the button function
+2. no
+3. I will add the radius function
+
+Haiyu Tian:
+1. Pair programming to inspect and review the jdbc code
+2. No
+3. Finish up the “grocery list” development and testing.
+
+Pinghao Luo:
+1. Fixing bugs for JDBC code for adding, deleting a restaurant to list to server
+2. No 
+3. Add JDBC code for removinga restaurant to list to server
+
+Tianxing Liu:
+1. I paired programmed with Haiyu to finish up the remaining functionality for Backlog 6.
+2. It is hard to embed our design to fit the already existed code.
+3. I will try to fix all the glitches.
+
+Guancheng Qiu:
+1. I modified database design and worked on JDBC code for Recipes table.
+2. The previous database design results in some implementation difficulties and the team solved it together by modifying the design.
+3. I will finish JDBC code for adding, removing and loading recipes from/to database.
