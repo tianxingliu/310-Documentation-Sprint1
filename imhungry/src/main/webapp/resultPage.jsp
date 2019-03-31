@@ -5,7 +5,7 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
 	<meta charset="UTF-8">
-	<title>Result Page</title>
+	<title>Results Page</title>
 </head>
 <body>
 	<div id = "header">Results</div>
@@ -28,6 +28,7 @@
 	</form>
 	
 	
+	<!--Jump to Grocery Page  -->
 	<form action="grocery.jsp"">
 		<input type="submit" id = "display_grocery" value="Display Grocery" />
 	</form>
