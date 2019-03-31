@@ -1,9 +1,3 @@
-When(/^press search$/) do
-  find_field("q").native.send_key(:enter)
-end
-
-
-
 Given(/^I visit the website$/) do
   visit "localhost:9090"
 end
@@ -103,5 +97,9 @@ end
 
 Then(/^the item will be added to the grocery list$/) do
    expect(page).to have_content("soy sauce")
+end
+
+When(/^restart session$/) do
+    Capybara.reset_sessions!
 end
 
