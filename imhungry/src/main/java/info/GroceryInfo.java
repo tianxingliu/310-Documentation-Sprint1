@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 public class GroceryInfo extends Info {
 	
-	public ArrayList<String> items;
-	
-	public GroceryInfo(ArrayList<String> ingredients) {
-		this.items = ingredients;
+	public GroceryInfo(String ingredient) {
+		this.item = ingredient;
 	}
 	
 	@Override
