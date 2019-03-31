@@ -26,6 +26,7 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 		this.driveTimeValue = driveTimeValue;
 		this.phone = phone;
 		this.url = url;
+		this.item = "";
 	}
 	
 	//used for sorting in ascending order based on driveTimeValue.

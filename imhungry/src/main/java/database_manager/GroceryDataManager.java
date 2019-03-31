@@ -8,31 +8,28 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
-
-import info.RecipeInfo;
-
-public class RecipeDataManager extends DataManager {
+public class GroceryDataManager extends DataManager {
 	
-	//TODO
-	public void addToList(RecipeInfo recipe, String listName) {
+	public void addToList(ArrayList<String> ingredients) {
 		Connection conn = null;
-		Statement st = null;
-		ResultSet rs = null;
+		PreparedStatement ps = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
+			ps = conn.prepareStatement("INSERT INTO GroceryList(GroceryItem) VALUES(?);");
+			for(String ingredient : ingredients) {
+				ps.setString(1, ingredient);
+				ps.executeUpdate();
+				ps.clearParameters();
+			}
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println("cnfe: " + cnfe.getMessage());
 		} finally {
 			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(st != null) {
-					st.close();
+				if(ps != null) {
+					ps.close();
 				}
 				if(conn != null) {
 					conn.close();
@@ -43,11 +40,4 @@ public class RecipeDataManager extends DataManager {
 		}
 	}
 	
-	//TODO
-	public void removeFromList(int recipeID, String listName) {}
-	
-	//TODO
-	public ArrayList<RecipeInfo> loadRecipes(){
-		return null;
-	} 
 }

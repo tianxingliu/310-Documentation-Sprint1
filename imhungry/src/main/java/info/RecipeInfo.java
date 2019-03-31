@@ -21,6 +21,7 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 		this.ingredients = ingredients;
 		this.instructions = instructions;
 		this.imageURL = imageURL;
+		this.item = "";
 	}
 	
 	//used for sorting in ascending order based on prepTime.

@@ -46,10 +46,10 @@
         </form>
 
         <!-- Fairly complicated onclick to add the item, because it not only calls the ListClient function, it updates the back to results button to force the results page to search on the Servlet again -->
-        <form onsubmit = "addItem(document.getElementById('dropdown').value, result); document.getElementById('numberResultsInput').value = JSON.parse(localStorage.getItem('searchResults'))[0].length; return false;">
+        <form onclick = "addItem(document.getElementById('dropdown').value, result);">
             <div class = "addToList">
-                <button type="submit" id = "addtolist">Add to List</button>
-            </div>
+                <button type="button" id = "addtolist">Add to List</button>
+            </div> 
         </form>
         
         <form onclick = "console.log(result); addItem('Grocery', result);">
@@ -58,12 +58,8 @@
             </div>
         </form>
         
-        <form onclick="console.log(getList('Grocery').body); ">
-  	 		<div class = "addToGrocery" style = "top:calc(20vh + 15rem)">
-                <button type="button">Display Grocery</button>
-            </div>
-		</form>
-        
+       
+ 
 
         <div class="dropDown">
             <select id = "dropdown">

@@ -46,11 +46,11 @@ public class ListServlet extends HttpServlet
 //        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
 //            respWriter.close();
 //        }
-        else {
-        	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
-            respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
-            respWriter.close();
-        }
+    
+    	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
+        respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
+        respWriter.close();
+        
     }
 
     //POST method used to add and remove items from a list
@@ -108,18 +108,29 @@ public class ListServlet extends HttpServlet
                 switch(reqMessage.header)
                 {
                     case "addItem":
-//                        if(!list.contains(item)) list.add(item); //Check this is a new item for the list before adding
-//                        respWriter.println(gson.toJson(new Message("Added to list "+listName)));
+//                        
                         if(listName.equals("Grocery")) {
                         	RecipeInfo newItem = gson.fromJson(infoJson, infoType);
                         	ArrayList<String> ingredients = newItem.ingredients; 
                         	for(int i = 0; i < ingredients.size(); i++) {
-                        		System.out.print(ingredients.get(i));
+                        		GroceryInfo newGrocery = new GroceryInfo(ingredients.get(i));
+                        		boolean alreadyAdded = false;
+                        		for(int j=0;j < list.size();j++) {
+                        			if(list.get(j).item.equals(ingredients.get(i))) {
+                        				alreadyAdded = true;
+                        				break;
+                        			}
+                        		}
+                        		if(!alreadyAdded) list.add(newGrocery);
                         	}
-                        	GroceryInfo newGrocery = new GroceryInfo(ingredients);
-                        	list.add(newGrocery);
-                        	respWriter.println(gson.toJson(new Message("Added to list "+ list)));
+                
+       
                         }
+                        else {
+                        	if(!list.contains(item)) list.add(item); //Check this is a new item for the list before adding
+//                          respWriter.println(gson.toJson(new Message("Added to list "+listName)));
+                        }
+                        respWriter.println(gson.toJson(new Message("Added to list "+ list)));
                         break;
                     case "removeItem":
                         list.remove(item);
