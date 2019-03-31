@@ -1,15 +1,13 @@
 package database_manager;
-
-
 import java.sql.Connection;
-	import java.sql.DriverManager;
-	import java.sql.PreparedStatement;
-	import java.sql.ResultSet;
-	import java.sql.SQLException;
-	import java.sql.Statement;
-	import java.util.ArrayList;
-	import javax.servlet.http.HttpSession;
-	import info.RestaurantInfo;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
+import info.RestaurantInfo;
 	
 	public class RestaurantData  extends DataManager {
 		
@@ -44,7 +42,7 @@ import java.sql.Connection;
 				   ps.setString(2, name);
 				   ps.setLong(3, rating);
 				   ps.setString(4, address); 
-				   ps.setLong(5, Integer.valueOf(priceLevel));	
+				   ps.setLong(5, priceLevel.length());	
 				   ps.setString(6, driveTimeText);
 				   ps.setLong(7, driveTimeValue); 
 				   ps.setString(8, phone);
@@ -70,37 +68,20 @@ import java.sql.Connection;
 				}else{
 					//Restaurant already in the list
 					System.out.println("user already exist");
-				    
-					ps = conn.prepareStatement("SELECT r.InFavorites, r.InDoNotShow, r.InToExplore FROM Restaurants r "
-							+ "WHERE r.PlaceID = " + placeID);
-					rs = ps.executeQuery();
-					int currFav = rs.getInt("r.InFavorites");
-					int currNot = rs.getInt("r.InDoNotShow");
-					int currExplore = rs.getInt("r.InToExplore");
-					
-				   if(list == 1) {
-					   if(currNot == 1){
-						  currNot = 0;
-					   }
-					   currFav = 1;
-				   }else if(list == 2 ){
-					   if(currFav == 1) {
-						   currFav = 0;
-					   }
-					   currNot = 1;
-				   }else if(list == 3) {
-					   if(currNot == 1){
-						  currNot = 0;
-					   }
-					   currExplore = 1;
-				   }
-				   
-				   PreparedStatement update = conn.prepareStatement("UPDATE Restaurants SET InFavorites = ?, "
-				   		+ "InDoNotShow = ?, InToExplore = ? WHERE PlaceID = " + placeID);
 
-					update.setInt(1, currFav);
-					update.setInt(2, currNot);
-					update.setInt(5, currExplore);
+					PreparedStatement update = null;
+
+
+			if(list == 1) {
+					 update = conn.prepareStatement("UPDATE Restaurants SET InFavorites = ? WHERE PlaceID LIKE '" + placeID + "'");
+						update.setInt(1, 1);
+			}else if(list == 2 ){
+				   update = conn.prepareStatement("UPDATE Restaurants SET InDoNotShow = ? WHERE PlaceID LIKE '" + placeID + "'");
+					update.setInt(1, 1);
+			   }else if(list == 3) {
+				    update = conn.prepareStatement("UPDATE Restaurants SET InToExplore = ? WHERE PlaceID LIKE '" + placeID + "'");
+					update.setInt(1, 1);
+			   }
 					update.execute();  
 				}
 
@@ -126,7 +107,7 @@ import java.sql.Connection;
 			}
 		}
 		
-		public void removeFromList(int restaurantID, int list) {
+		public void removeFromList(String restaurantID, int list) {
 			
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -134,8 +115,33 @@ import java.sql.Connection;
 			try {
 				Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 				conn = DriverManager.getConnection(JDBC_CONNECTION);
-				PreparedStatement stmt = conn.prepareStatement("DELETE FROM Restaurants WHERE PlaceID = " + restaurantID );
-				rs = ps.executeQuery();	
+	
+			PreparedStatement update = null;
+			if(list == 1) {
+					 update = conn.prepareStatement("UPDATE Restaurants SET InFavorites = ? WHERE PlaceID LIKE '" + restaurantID + "'");
+						update.setInt(1, 0);
+			}else if(list == 2 ){
+				   update = conn.prepareStatement("UPDATE Restaurants SET InDoNotShow = ? WHERE PlaceID LIKE '" + restaurantID + "'");
+					update.setInt(1, 0);
+			}else if(list == 3) {
+				    update = conn.prepareStatement("UPDATE Restaurants SET InToExplore = ? WHERE PlaceID LIKE '" + restaurantID + "'");
+					update.setInt(1, 0);
+			}
+			update.execute();  
+			
+			ps = conn.prepareStatement("SELECT r.InFavorites, r.InDoNotShow, r.InToExplore FROM Restaurants r "
+				+ "WHERE r.PlaceID LIKE '" + restaurantID + "'");
+			rs = ps.executeQuery();
+			rs.next();
+			int currFav = rs.getInt("InFavorites");
+			int currNot = rs.getInt("InDoNotShow");
+			int currExplore = rs.getInt("InToExplore");	
+			if(currFav == 0 && currNot == 0 && currExplore == 0) {
+				System.out.println("Empty");
+				PreparedStatement delete = conn.prepareStatement("DELETE FROM Restaurants WHERE PlaceID LIKE '" + restaurantID + "'");
+				delete.execute();	
+			}
+			
 			}catch (SQLException sqle) {
 				System.out.println("sqle: " + sqle.getMessage());
 			} catch (ClassNotFoundException cnfe) {
@@ -157,7 +163,7 @@ import java.sql.Connection;
 			}
 		}
 		
-		public ArrayList<RestaurantInfo> loadRestaurant(){
+		public ArrayList<RestaurantInfo> loadRestaurant(int list){
 			
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -166,13 +172,19 @@ import java.sql.Connection;
 			ArrayList<RestaurantInfo>  restaurantList = new ArrayList<RestaurantInfo>();
 			try {
 				
-				
 				Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 				conn = DriverManager.getConnection(JDBC_CONNECTION);
 				
-				ps = conn.prepareStatement("SELECT * FROM Restaurants");
-				rs = ps.executeQuery();
-				
+			   if(list == 1) {
+				   ps = conn.prepareStatement("SELECT * FROM Restaurants WHERE InFavorites = 1");
+				}else if(list == 2 ){
+					ps = conn.prepareStatement("SELECT * FROM Restaurants WHERE InDoNotShow = 1");
+					
+				}else if(list == 3) {
+					ps = conn.prepareStatement("SELECT * FROM Restaurants WHERE InToExplore = 1");
+				}
+			   rs = ps.executeQuery();
+			   
 
 				while(rs.next()){
 					RestaurantInfo  rest = new RestaurantInfo(

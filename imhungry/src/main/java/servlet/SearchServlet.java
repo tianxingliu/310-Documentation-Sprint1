@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
+import database_manager.RestaurantData;
 import info.*;
 
 import java.net.*;
@@ -96,6 +97,17 @@ public class SearchServlet extends HttpServlet {
         ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList); //Don't add here
         ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, radius, doNotShowList, favoritesList);
         ArrayList<String> urlList = getImageURLs(userSearch);
+        
+        //FIXME: test
+        RestaurantData restaurantDB = new RestaurantData();
+        restaurantDB.addToList(restaurantList.get(0), 1);
+        restaurantDB.addToList(restaurantList.get(1), 1);
+        restaurantDB.addToList(restaurantList.get(2), 1);
+        ArrayList<RestaurantInfo> testing = restaurantDB.loadRestaurant(1);
+        for(RestaurantInfo ri : testing) System.out.println(ri.name);
+//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 1);
+//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 2);
+//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 3);
 
         //return content
         if (!success){
