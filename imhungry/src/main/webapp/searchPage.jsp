@@ -37,5 +37,16 @@
     }
 </script>
 
+
+
+<script src="js/ListClient.js"></script> 
+<script>
+	/* Only for testing purpose */
+	resetLists();
+	getList("Grocery");
+</script>
+
+
+
 </body>
 </html>

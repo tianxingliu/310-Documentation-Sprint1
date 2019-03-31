@@ -26,6 +26,8 @@
 	<form action="searchPage.jsp">
    	 	<input type="submit" id = "back_search" value="Back to Search" />
 	</form>
+
+
 	
 	<div id = "container">
 		<div id = "column1">

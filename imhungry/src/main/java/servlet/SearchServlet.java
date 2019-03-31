@@ -50,7 +50,8 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		ArrayList<Info> favoritesList, toExploreList, doNotShowList, groceryList;
+		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
+		ArrayList<Info> groceryList;
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
 			favoritesList = new ArrayList<>();
 			toExploreList = new ArrayList<>();

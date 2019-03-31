@@ -50,6 +50,13 @@ button[type=submit] {
 	top:calc(20vh + 9rem);
 }
 
+.addToGrocery {
+	position: fixed;
+	margin-bottom:0;
+	right: 20vw;
+	top:calc(20vh + 12rem);
+}
+
 .dropDown {
 	position: fixed;
 	width:15vw;
