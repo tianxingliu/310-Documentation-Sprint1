@@ -11,8 +11,10 @@ public class GroceryInfo extends Info {
 	
 	@Override
 	public boolean equals(Object other) {
-		// TODO Auto-generated method stub
-		return false;
+		if(other == this) return true;
+		if(!(other instanceof GroceryInfo)) return false;
+		GroceryInfo otherGroceryInfo = (GroceryInfo) other;
+		return this.item.equals(otherGroceryInfo.item);
 	}
 
 }

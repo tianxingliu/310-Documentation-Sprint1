@@ -20,7 +20,7 @@ import com.google.gson.JsonParser;
 
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
-import database_manager.RestaurantData;
+import database_manager.RestaurantDataManager;
 import info.*;
 
 import java.net.*;
@@ -53,21 +53,30 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
+		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
+		
+		RestaurantDataManager restaurantDB = new RestaurantDataManager();
+		RecipeDataManager recipeDB = new RecipeDataManager();
+		GroceryDataManager groceryDB = new GroceryDataManager();
 		
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
 			favoritesList = new ArrayList<>();
-			toExploreList = new ArrayList<>();
+			favoritesList.addAll(restaurantDB.loadRestaurants(1));
+			favoritesList.addAll(recipeDB.loadRecipes(1));
 			doNotShowList = new ArrayList<>();
-			groceryList = new ArrayList<>();
+			doNotShowList.addAll(restaurantDB.loadRestaurants(2));
+			doNotShowList.addAll(recipeDB.loadRecipes(2));
+			toExploreList = new ArrayList<>();
+			toExploreList.addAll(restaurantDB.loadRestaurants(3));
+			toExploreList.addAll(recipeDB.loadRecipes(3));
+			groceryList = groceryDB.loadGrocery();
 			session.setAttribute("Favorites", favoritesList);
 			session.setAttribute("To Explore", toExploreList);
 			session.setAttribute("Do Not Show", doNotShowList);
 			session.setAttribute("Grocery", groceryList);
 		}
-		else
-		{
+		else {
 			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
@@ -75,11 +84,9 @@ public class SearchServlet extends HttpServlet {
 		}
 
         //From previous page, extract parameters
-        //uncomment once testing is complete
         String userSearch = request.getParameter("search");
         int numResults = Integer.parseInt(request.getParameter("number"));
-        //TODO: read radius
-        int radius = 5000;
+        int radius = Integer.parseInt(request.getParameter("radius"));  //radius in meters
 
         PrintWriter out = response.getWriter();
 
@@ -99,15 +106,7 @@ public class SearchServlet extends HttpServlet {
         ArrayList<String> urlList = getImageURLs(userSearch);
         
         //FIXME: test
-        RestaurantData restaurantDB = new RestaurantData();
-        restaurantDB.addToList(restaurantList.get(0), 1);
-        restaurantDB.addToList(restaurantList.get(1), 1);
-        restaurantDB.addToList(restaurantList.get(2), 1);
-        ArrayList<RestaurantInfo> testing = restaurantDB.loadRestaurant(1);
-        for(RestaurantInfo ri : testing) System.out.println(ri.name);
-//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 1);
-//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 2);
-//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 3);
+        
 
         //return content
         if (!success){
