@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
+import database_manager.RestaurantData;
 import info.*;
 
 import java.net.*;
@@ -53,7 +54,7 @@ public class SearchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
-		ArrayList<String> groceryList;
+		ArrayList<Info> groceryList;
 		
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
 			favoritesList = new ArrayList<>();
@@ -70,7 +71,7 @@ public class SearchServlet extends HttpServlet {
 			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
-			groceryList = (ArrayList<String>) session.getAttribute("Grocery");
+			groceryList = (ArrayList<Info>) session.getAttribute("Grocery");
 		}
 
         //From previous page, extract parameters
@@ -96,6 +97,17 @@ public class SearchServlet extends HttpServlet {
         ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList); //Don't add here
         ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, radius, doNotShowList, favoritesList);
         ArrayList<String> urlList = getImageURLs(userSearch);
+        
+        //FIXME: test
+        RestaurantData restaurantDB = new RestaurantData();
+        restaurantDB.addToList(restaurantList.get(0), 1);
+        restaurantDB.addToList(restaurantList.get(1), 1);
+        restaurantDB.addToList(restaurantList.get(2), 1);
+        ArrayList<RestaurantInfo> testing = restaurantDB.loadRestaurant(1);
+        for(RestaurantInfo ri : testing) System.out.println(ri.name);
+//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 1);
+//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 2);
+//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 3);
 
         //return content
         if (!success){
@@ -183,7 +195,7 @@ public class SearchServlet extends HttpServlet {
 			
 			JsonArray ingredientsJSON = recipeDetailJSON.get("extendedIngredients").getAsJsonArray();
 			for(int j = 0; j < ingredientsJSON.size(); j++) {
-				recipe.ingredients.add("- " + ingredientsJSON.get(j).getAsJsonObject()
+				recipe.ingredients.add(ingredientsJSON.get(j).getAsJsonObject()
 						.get("name").getAsString());
 			}
 			

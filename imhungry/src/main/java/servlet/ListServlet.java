@@ -40,13 +40,7 @@ public class ListServlet extends HttpServlet
             respWriter.println(gson.toJson(new Message("Invalid List!")));
             respWriter.close();
             return;
-        }
-//        if(listName.equals("Grocery")) {
-//        	List<String> list = (List<String>)session.getAttribute("Grocery");
-//        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
-//            respWriter.close();
-//        }
-    
+        }    
     	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
         respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
         respWriter.close();
@@ -64,6 +58,8 @@ public class ListServlet extends HttpServlet
         {
             Message reqMessage = gson.fromJson(reqBody, Message.class); //Parse outer Message object from JSON
             Message reqListAndItem = gson.fromJson((String)reqMessage.body, Message.class); //Parse inner Message object from json
+            
+           
             String listName = reqListAndItem.header; //Get name of list to modify from the inner Message
             if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery")) //Check validity
                 throw new Exception("Invalid list name.");
@@ -109,14 +105,15 @@ public class ListServlet extends HttpServlet
                 {
                     case "addItem":
 //                        
-                        if(listName.equals("Grocery")) {
+                        if(listName.equals("Grocery")) { //case for add to Grocery List
                         	RecipeInfo newItem = gson.fromJson(infoJson, infoType);
                         	ArrayList<String> ingredients = newItem.ingredients; 
                         	for(int i = 0; i < ingredients.size(); i++) {
                         		GroceryInfo newGrocery = new GroceryInfo(ingredients.get(i));
                         		boolean alreadyAdded = false;
                         		for(int j=0;j < list.size();j++) {
-                        			if(list.get(j).item.equals(ingredients.get(i))) {
+                        			GroceryInfo g = (GroceryInfo) list.get(j);
+                        			if(g.item.equals(ingredients.get(i))) {
                         				alreadyAdded = true;
                         				break;
                         			}
@@ -128,7 +125,6 @@ public class ListServlet extends HttpServlet
                         }
                         else {
                         	if(!list.contains(item)) list.add(item); //Check this is a new item for the list before adding
-//                          respWriter.println(gson.toJson(new Message("Added to list "+listName)));
                         }
                         respWriter.println(gson.toJson(new Message("Added to list "+ list)));
                         break;

@@ -169,45 +169,6 @@ public class ListServletTest {
 		assertEquals("invalid list url mistake", "google.com",subresult);
 		assertEquals("invalid list content mistake","20",subresult2);
 	}
-	
-//	@Test
-	//doPost if given a correctlist
-//	public void doPosttest1() throws ServletException, IOException {
-//		ListServlet servlet = new ListServlet();
-//		HttpServletRequest request = mock(HttpServletRequest.class);
-//		HttpServletResponse response = mock(HttpServletResponse.class);
-//		HttpSession session = mock(HttpSession.class);
-//		when(request.getSession()).thenReturn(session);
-//		List<Info> listAc = new ArrayList<Info>();
-//		List<Info> list = new ArrayList<Info>();
-//		RestaurantInfo ri = new RestaurantInfo("string", 20, "string", "string", 0, "string", 0, "string", "google.com");
-//		listAc.add(ri);
-//		when(request.getParameter("list")).thenReturn("To Explore");
-//		when(request.getSession().getAttribute("Favorites")).thenReturn(list);
-//		when(request.getSession().getAttribute("Do Not Show")).thenReturn(list);
-//		when(request.getSession().getAttribute("To Explore")).thenReturn(listAc);
-//		FileReader fr = new FileReader("src/test/resources/testinput.txt");
-//		BufferedReader br = new BufferedReader(fr);
-//		String ok = br.lines().collect(Collectors.joining(System.lineSeparator()));
-//		when(request.getReader()).thenReturn(br);
-//		System.out.println(ok);
-//		StringWriter sw = new StringWriter();
-//		PrintWriter pw = new PrintWriter(sw);
-//		when(response.getWriter()).thenReturn(pw);
-//		servlet.doPost(request, response);
-//		assertEquals(true,true);
-//		String written = sw.toString();
-//		JsonObject json = new Gson().fromJson(written, JsonObject.class);
-//		String result = json.get("header").getAsString();
-//		JsonElement jsonelement = json.get("body");
-//		JsonArray jsonarray = jsonelement.getAsJsonArray();
-//		JsonObject json2 = jsonarray.get(0).getAsJsonObject();
-//		String subresult = json2.get("url").getAsString();
-//		String subresult2 = json2.get("rating").getAsString();
-//		assertEquals("invalid list name mistake","To Explore",result);
-//		assertEquals("invalid list url mistake", "google.com",subresult);
-//		assertEquals("invalid list content mistake","20",subresult2);
-//	}
 
 	
 	

@@ -11,7 +11,7 @@
 		<form action="resultPage.jsp">
 			<input type="hidden" id="queryStringInput" name="search" value="" />
 			<input type="hidden" id="numberResultsInput" name="number" value="cache" />
-			<input type="submit" id = "back_result" value="Back to Result" />
+			<input type="submit" id = "back_result" value="Back to Results" />
 		</form>
 	
 		<form action="searchPage.jsp">
