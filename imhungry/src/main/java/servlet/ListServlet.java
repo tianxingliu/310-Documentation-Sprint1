@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+
+import database_manager.GroceryDataManager;
+import database_manager.RecipeDataManager;
+import database_manager.RestaurantDataManager;
 import info.Info;
 import info.Message;
 import info.RecipeInfo;
@@ -101,11 +105,14 @@ public class ListServlet extends HttpServlet
             	Info item = gson.fromJson(infoJson, infoType); //Parse Info object from JSON
                 List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
                 //Switch on requested action
+                RestaurantDataManager restaurantDB = new RestaurantDataManager();
+            	RecipeDataManager recipeDB = new RecipeDataManager();
                 switch(reqMessage.header)
                 {
                     case "addItem":
 //                        
                         if(listName.equals("Grocery")) { //case for add to Grocery List
+                        	GroceryDataManager groceryDB = new GroceryDataManager();
                         	RecipeInfo newItem = gson.fromJson(infoJson, infoType);
                         	ArrayList<String> ingredients = newItem.ingredients; 
                         	for(int i = 0; i < ingredients.size(); i++) {
@@ -118,29 +125,55 @@ public class ListServlet extends HttpServlet
                         				break;
                         			}
                         		}
-                        		if(!alreadyAdded) list.add(newGrocery);
+                        		if(!alreadyAdded) {
+                        			list.add(newGrocery);
+                        			groceryDB.addToList(newGrocery);
+                        		}
                         	}
-                
-       
+
                         }
                         else {
-                        	if(!list.contains(item)) list.add(item); //Check this is a new item for the list before adding
+                        	if(!list.contains(item)) {
+                        		list.add(item);
+                        		int listToAdd = 1;
+                        		if(listName.equals("Favorites")) listToAdd = 1;
+                        		else if(listName.equals("Do Not Show")) listToAdd = 2;
+                        		else if(listName.equals("To Explore")) listToAdd = 3;
+                        		if(infoType == RecipeInfo.class)
+                        			recipeDB.addToList((RecipeInfo)item, listToAdd);
+                        		else if(infoType == RestaurantInfo.class)
+                        			restaurantDB.addToList((RestaurantInfo)item, listToAdd);
+                        	}
                         }
                         respWriter.println(gson.toJson(new Message("Added to list "+ list)));
                         break;
+                        
                     case "removeItem":
                         list.remove(item);
+                        int listToRemove = 1;
+                		if(listName.equals("Favorites")) listToRemove = 1;
+                		else if(listName.equals("Do Not Show")) listToRemove = 2;
+                		else if(listName.equals("To Explore")) listToRemove = 3;
+                		if(infoType == RecipeInfo.class) {
+                			RecipeInfo itemRecipeInfo = (RecipeInfo)item;
+                			recipeDB.removeFromList(itemRecipeInfo.recipeID, listToRemove);
+                		}
+                		else if(infoType == RestaurantInfo.class) {
+                			RestaurantInfo itemRestaurantInfo = (RestaurantInfo)item;
+                			restaurantDB.removeFromList(itemRestaurantInfo.placeID, listToRemove);
+                		}
                         respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
                         break;
+                        
                     case "resetLists":
                         session.invalidate(); //Note: This is for debuggin only; the page will break if this is called and a new search is not immediately made
                         break;
+                        
                     default:
                         throw new Exception("Invalid action.");
                 }
-            
-            
-            
+
+
         } catch(Exception e) { //Handle exceptions
             e.printStackTrace();
             respWriter.println(gson.toJson(new Message("Invalid Response!\n"+e.getMessage())));

@@ -29,7 +29,7 @@
 	
 	
 	<!--Jump to Grocery Page  -->
-	<form action="grocery.jsp"">
+	<form action="grocery.jsp">
 		<input type="submit" id = "display_grocery" value="Display Grocery" />
 	</form>
 
@@ -60,7 +60,7 @@
         }
         else {
             var xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number, false);
+            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number + "&radius=" + query.radius, false);
             xhttp.send();
             var response = JSON.parse(xhttp.response);
             results = response.body.results;
