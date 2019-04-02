@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
+import info.GroceryInfo;
 import info.Info;
 import servlet.ListServlet;
 
@@ -29,12 +30,12 @@ public class GroceryDataManagerTest {
 
 	@Test
 	public void addToListTest() throws SQLException {
-		ArrayList<String> ingredients = new ArrayList<String>();
+		GroceryInfo ingredient = new GroceryInfo("");
 		GroceryDataManager gd = new GroceryDataManager();
 		final Statement statement = mock(Statement.class);
         final Connection connection = mock(Connection.class);
         when(connection.createStatement()).thenReturn(statement);
-		gd.addToList(ingredients);
+		gd.addToList(ingredient);
 		assertEquals("Exception tested","Exception tested");
 	}
 

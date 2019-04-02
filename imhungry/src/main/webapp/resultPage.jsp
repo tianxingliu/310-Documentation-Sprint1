@@ -5,7 +5,7 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
 	<meta charset="UTF-8">
-	<title>Result Page</title>
+	<title>Results Page</title>
 </head>
 <body>
 	<div id = "header">Results</div>
@@ -28,7 +28,8 @@
 	</form>
 	
 	
-	<form action="grocery.jsp"">
+	<!--Jump to Grocery Page  -->
+	<form action="grocery.jsp">
 		<input type="submit" id = "display_grocery" value="Display Grocery" />
 	</form>
 
@@ -59,7 +60,7 @@
         }
         else {
             var xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number, false);
+            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number + "&radius=" + query.radius, false);
             xhttp.send();
             var response = JSON.parse(xhttp.response);
             results = response.body.results;

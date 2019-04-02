@@ -20,9 +20,9 @@
 				</div>
 			</div>
 			<div id = hover_format1>
-				<input type = "number" name = "radius" id = "radius" value = "10" min= "1" />
+				<input type = "number" name = "radius" id = "radius" value = "2000" min= "1" />
 				<div id = "hover_text1">
-					The range for the search results defined by radius
+					Restaurant search radius
 				</div>
 			</div>
 			

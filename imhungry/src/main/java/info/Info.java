@@ -7,8 +7,7 @@ import java.io.Serializable;
 public abstract class Info implements Serializable{
 	public String name;
 	public int rating;
-	public String item;
-	
+
 	//check whether two Info objects can be treated as the same. Used for lists biases.
 	@Override
 	public abstract boolean equals(Object other);
