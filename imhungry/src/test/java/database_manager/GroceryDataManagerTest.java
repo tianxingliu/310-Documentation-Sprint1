@@ -1,8 +1,8 @@
 package database_manager;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.when;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -28,15 +28,15 @@ import servlet.ListServlet;
 
 public class GroceryDataManagerTest {
 
-	@Test
-	public void addToListTest() throws SQLException {
-		GroceryInfo ingredient = new GroceryInfo("");
-		GroceryDataManager gd = new GroceryDataManager();
-		final Statement statement = mock(Statement.class);
-        final Connection connection = mock(Connection.class);
-        when(connection.createStatement()).thenReturn(statement);
-		gd.addToList(ingredient);
-		assertEquals("Exception tested","Exception tested");
-	}
+//	@Test
+//	public void addToListTest() throws SQLException {
+//		GroceryInfo ingredient = new GroceryInfo("");
+//		GroceryDataManager gd = new GroceryDataManager();
+//		final Statement statement = mock(Statement.class);
+//        final Connection connection = mock(Connection.class);
+//        when(connection.createStatement()).thenReturn(statement);
+//		gd.addToList(ingredient);
+//		assertEquals("Exception tested","Exception tested");
+//	}
 
 }
