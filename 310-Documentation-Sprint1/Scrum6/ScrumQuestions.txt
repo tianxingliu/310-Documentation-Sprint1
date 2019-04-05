@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I have finished the radius function in the frontend and I have finished the test modifications
+2. no
+3. I will head to the meetings tomorrow
+
+Haiyu Tian:
+1. Pair programming to inspect and review the jdbc code
+2. No
+3. Finish up the “grocery list” development and testing.
+
+Pinghao Luo:
+1.finish all jdbc connection for restaurant
+2. no
+3.will work on the sprint 1 report
+
+Tianxing Liu:
+1. I fixed any remaining bugs and finished up Backlog 6, and all the functionality pretty much  works.
+2. Not really.
+3. This is the last scrum process of Sprint 1.
+
+Guancheng Qiu:
+1. I worked on grocery database.
+2. Backend and frontend connection problem due to change of class design.
+3. I'll work on recipe database.

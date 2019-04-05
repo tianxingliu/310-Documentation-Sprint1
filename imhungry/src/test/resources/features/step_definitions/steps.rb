@@ -102,4 +102,3 @@ end
 When(/^restart session$/) do
     Capybara.reset_sessions!
 end
-

@@ -1,5 +1,8 @@
 package database_manager;
 
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public abstract class DataManager {
 	
 	//TODO: put shared constants and functions here
@@ -7,4 +10,6 @@ public abstract class DataManager {
 	protected static final String LIST_NAME_DO_NOT_SHOW = "do not show";
 	protected static final String LIST_NAME_TO_EXPLORE = "to explore";
 	protected static final String JDBC_CONNECTION = "jdbc:mysql://localhost:3306/ImHungryDatabase?user=root&password=root&allowPublicKeyRetrieval=true&useSSL=false";
+	
+
 }
