@@ -92,6 +92,16 @@ button {
 	position: fixed;
 	top:calc(21vh + 9rem);
 }
+
+#sort_by_value{
+	position: fixed;
+	top:calc(21vh + 12rem);
+	width:15vw;
+	min-width: 12rem;
+	right:20vw;
+	font-size:1rem;
+}
+
 #back_result{
 	position: fixed;
 	top:calc(21vh + 6rem);
