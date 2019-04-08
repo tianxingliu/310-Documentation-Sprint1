@@ -214,15 +214,21 @@
 				}
 				//console.log(count);
 				//TODO: Clear section done, add sorting functionality 
-			}
-				
-				/* //Identify the list this page is displaying from the query string
+				//Identify the list this page is displaying from the query string
 				var listName = parseQuery(window.location.search).list;
 				listName = listName.replace(/\+/g, ' ');
 				document.getElementById("header").innerHTML = listName + " List";
 				//Request the list for this page from the servlet
 				var list = getList(listName).body;
+				
+				
+				//Sort the list with following comparator
+				list.sort((a, b) => b.rating - a.rating);
+				
+				//Update the list back to local storage
+				
 
+				
 				//Same process as on the results page to add the items to the page
 				var col1 = document.getElementById("container");
 				//Check if the list is empty first though
@@ -362,8 +368,9 @@
 	                    localStorage.setItem("listItem", JSON.stringify(list[i]));
 	                }
 	            }
-			} */
-		
+			}
+				
+				
 		
 		</script>
 	</body>
