@@ -6,6 +6,22 @@
 	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
 	<meta charset="UTF-8">
 	<title>Results Page</title>
+
+<style>
+#easyPaginate {
+width:300px;
+/* background-color: pink; */
+}
+.easyPaginateNav{
+/* background-color: pink; */
+position: relative;
+top: 200px;
+right: 350px;
+
+}
+.easyPaginateNav a {padding:5px;}
+.easyPaginateNav a.current {font-weight:bold;text-decoration:underline;}
+</style>
 </head>
 <body>
 	<div id = "header">Results</div>
@@ -34,15 +50,17 @@
 	</form>
 
 
-	
+	<div class = "sub_header1">Restaurants</div>
+	<div class = "sub_header2">Recipes</div>
 	<div id = "container">
 		<div id = "column1">
-			<div class = "sub_header">Restaurants</div>
 		</div>
 		<div id = "column2">
-			<div class = "sub_header">Recipes</div>
 		</div>
 	</div>
+
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="js/jquery.easyPaginate.js"></script>
 
     <script src="js/dropdown.js"></script>
     <script src="js/parseQueryString.js"></script>
@@ -186,6 +204,20 @@
             collage.appendChild(imgdiv);
         }
     </script>
+
+	<script>
+	$('#column1').easyPaginate({
+		paginateElement: ".item",
+	    elementsPerPage: 3,
+	    effect: 'climb'
+	});
+	$('#column2').easyPaginate({
+		paginateElement: ".item",
+	    elementsPerPage: 3,
+	    effect: 'climb'
+	});
+	
+	</script>
 
 </body>
 </html>
