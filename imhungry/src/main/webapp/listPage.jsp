@@ -31,7 +31,7 @@
 		</form>
 		
 		<form onclick ="sortAndPrint();">
-			<input type="button" id = "sort_by_value" value="Sort by Value" />
+			<input type="button" id = "sort_by_value" value="Sort by Rating" />
 		</form>
 	    
 		<div id = "header"></div>
@@ -50,7 +50,25 @@
 			listName = listName.replace(/\+/g, ' ');
 			document.getElementById("header").innerHTML = listName + " List";
 			//Request the list for this page from the servlet
-			var list = getList(listName).body;
+			var list;
+			var listToDisplay;
+			if(listName == "Favorites"){
+				listToDisplay = localStorage.getItem("favoriteListToDisplay");
+			}
+			else if (listName == "To Explore"){
+				listToDisplay = localStorage.getItem("toExploreListToDisplay");
+			}
+			else if (listName == "Do Not Show"){
+				listToDisplay = localStorage.getItem("doNotShowListToDisplay");
+			}
+			
+			
+			if(listToDisplay != ""){
+				list = JSON.parse(listToDisplay);
+			}
+			else list = getList(listName).body;
+			
+			console.log(listToDisplay);
 
 			//Same process as on the results page to add the items to the page
 			var col1 = document.getElementById("container");
@@ -227,7 +245,16 @@
 				
 				//Update the list back to local storage
 				
-
+				if(listName == "Favorites"){
+					localStorage.setItem("favoriteListToDisplay", JSON.stringify(list));
+				}
+				else if (listName == "To Explore"){
+					localStorage.setItem("toExploreListToDisplay", JSON.stringify(list));
+				}
+				else if (listName == "Do Not Show"){
+					localStorage.setItem("doNotShowListToDisplay", JSON.stringify(list));
+				}
+				
 				
 				//Same process as on the results page to add the items to the page
 				var col1 = document.getElementById("container");
