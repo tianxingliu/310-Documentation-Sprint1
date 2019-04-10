@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I kept working on the frontend problem with Haiyu
+2. None
+3. Gon keep adding the features required on asana of frontend
+
+Haiyu Tian:
+1. I start working on documentation for Sprint2
+2. None
+3. I will work on new assigned tasks if needed
+
+Pinghao Luo:
+1. I kept working on the backend jdbc code
+2. None
+3. keep adding the features required on asana of backend
+
+Tianxing Liu:
+1. I finished the functionality for backlog 7.
+2. It was kinda hard to pass the sorted list back to front-end.
+3. I will start on other backlog requirements.
+
+Guancheng Qiu:
+1. I continued on unit tests and almost finished up UI design.
+2. To integrate the previous front-end design to ours is not quite easy.
+3. I will keep on adding tests and try to finish up UI design.

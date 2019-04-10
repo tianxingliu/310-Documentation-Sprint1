@@ -259,7 +259,7 @@
 				//Same process as on the results page to add the items to the page
 				var col1 = document.getElementById("container");
 				//Check if the list is empty first though
-				if(list == null || list.length === 0) col1.innerHTML = "This list is empty. Add something to see it here!" ;
+				if(list == null || list.length === 0) col1.innerHTML = "This list is empty. Add something to see it here!";
 				else {
 	                for (var i = 0; i < list.length; i++) {
 	                    let sec1 = null;
