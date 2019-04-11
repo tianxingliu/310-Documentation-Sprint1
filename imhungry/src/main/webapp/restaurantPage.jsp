@@ -39,7 +39,6 @@
             </div>
         </form>
 
-        <!-- Fairly complicated onclick to add the item, because it not only calls the ListClient function, it updates the back to results button to force the results page to search on the Servlet again -->
         <form onclick = "addItem(document.getElementById('dropdown').value, result);">
             <div class = "addToList">
                 <button type="button" id = "addtolist">Add to List</button>
