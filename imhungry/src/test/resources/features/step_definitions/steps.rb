@@ -4,6 +4,7 @@ end
 
 When(/^I search for "([^"]*)" and expect 5 results$/) do |query|
     fill_in('search', :with => query)
+    fill_in('number', :with => 3)
 end
 
 When(/^press "([^"]*)" button$/) do |buttonName|
@@ -29,7 +30,7 @@ end
 When(/^press the "([^"]*)"$/) do |elementName|
     find('#' + elementName).click
 end
-# 
+#
 # When(/^I press "Add to grocery" button$/) do
 #     page.find('.addToGrocery', match: :first).click
 # end
