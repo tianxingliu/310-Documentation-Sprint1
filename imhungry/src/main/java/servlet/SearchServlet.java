@@ -55,11 +55,13 @@ public class SearchServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
-		BufferedReader reader = new BufferedReader(new FileReader("src/main/webapp/resources/constants.txt"));
-		MAPS_API_KEY = reader.readLine();
-		SPOONACULAR_RAPID_API_KEY = reader.readLine();
-		GOOGLE_CX_API_KEY = MAPS_API_KEY;
-		reader.close();
+		if(MAPS_API_KEY.equals("") || SPOONACULAR_RAPID_API_KEY.equals("")) {
+			BufferedReader reader = new BufferedReader(new FileReader("constants.txt"));
+			MAPS_API_KEY = reader.readLine();
+			SPOONACULAR_RAPID_API_KEY = reader.readLine();
+			GOOGLE_CX_API_KEY = MAPS_API_KEY;
+			reader.close();
+		}
 
 		RestaurantDataManager restaurantDB = new RestaurantDataManager();
 		RecipeDataManager recipeDB = new RecipeDataManager();
