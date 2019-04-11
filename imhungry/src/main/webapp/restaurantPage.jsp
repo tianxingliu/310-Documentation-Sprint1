@@ -39,9 +39,9 @@
             </div>
         </form>
 
-        <form onsubmit = "addItem(document.getElementById('dropdown').value, result); document.getElementById('numberResultsInput').value = JSON.parse(localStorage.getItem('searchResults'))[0].length; return false;">
+        <form onclick = "addItem(document.getElementById('dropdown').value, result);">
             <div class = "addToList">
-                <button type="submit" id = "addtolist">Add to List</button>
+                <button type="button" id = "addtolist">Add to List</button>
             </div>
         </form>
 
