@@ -140,8 +140,8 @@ input[type=submit] {
 	display:inline-block;
 	margin-right: 1rem;
 	margin-left: 1rem;
-	height: 2.5rem;
-	line-height: 2.5rem;
+	height: 1rem;
+	line-height: 1rem;
 }
 
 .Res_section1, .Res_section3 {
@@ -157,21 +157,21 @@ input[type=submit] {
 .Res_section5{
 	float:right;
 	width: 5rem;
-	font-size: 2rem;
+	font-size: 1rem;
 	display:flex;
 	justify-content:center;
-	align-items:center;
-	height: 2.5rem;
-	line-height: 2.5rem;
-	transform: translateY(-1.25rem);
+	align-items:right;
+	height: 1rem;
+	line-height: 1rem;
+	transform: translateY(-1rem);
 }
 
 .Rec_section1, .Rec_section2, .Rec_section3, .Rec_section4{
 	display:inline-block;
 	margin-right: 1rem;
 	margin-left: 1rem;
-	height: 2.5rem;
-	line-height: 2.5rem;
+	height: 1rem;
+	line-height: 1rem;
 }
 
 .Rec_section1, .Rec_section3 {
@@ -191,11 +191,12 @@ input[type=submit] {
 	justify-content: space-evenly;
 	font-size:1rem;
 	margin-bottom: 10vh;
+	width: 100%;
 }
 
 .item{
 	background-color: #6D6D6D;
-	margin-top:3vh;
+	margin-top:2vh;
 }
 
 
@@ -206,18 +207,28 @@ input[type=submit] {
 #column1 {
 	position: relative;
 	width:45%;
-	background-color: #f5f5f5;	
-
+	/* background-color: yellow;	 */
+	left: 50px;
 }
 
 #column2 {
 	position: relative;
 	width:45%;
-	background-color: #f5f5f5;
+	/* background-color: yellow; */
+	left: 50px;
 }
 
-.sub_header{
+.sub_header1{
 	font-size:3rem;
 	text-align: center;
-	background-color: #f5f5f5;
+	/* background-color: pink; */
+	width: 50%;
+	float: left;
+}
+.sub_header2{
+	font-size:3rem;
+	text-align: center;
+	/* background-color: blue; */
+	width: 50%;
+	float: right;
 }

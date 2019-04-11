@@ -1,0 +1,10 @@
+1. Web application must be secure and protect confidentiality of a user’s ImHungry data
+	- We will use the HTTPs protocol to implement it.
+3. Allow for pagination of results returned by the search.
+	- The results page will only show a certain amount of results each page, and buttons will be added to handle page transition.
+4. View results of prior searches by clicking on a quick access list that shows prior search terms.
+	- A new predefined list "Quick list" will be implemented and it will save all the prior search terms.
+5. User interfaces must look modern and be attractive
+	- We will use some templates for this backlog. 
+7. Reorder any of the three predetermined lists.
+	- Implement a choice for the user to view the lists as "Sorted by rating", "Sorted by distance", etc.
