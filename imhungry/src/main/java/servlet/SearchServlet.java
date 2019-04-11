@@ -1,7 +1,7 @@
 package servlet;
 
 import java.io.BufferedReader;
-
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -55,7 +55,7 @@ public class SearchServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
-		BufferedReader reader = new BufferedReader(new FileReader("/src/main/webapp/resources/constants.txt"));
+		BufferedReader reader = new BufferedReader(new FileReader("src/main/webapp/resources/constants.txt"));
 		MAPS_API_KEY = reader.readLine();
 		SPOONACULAR_RAPID_API_KEY = reader.readLine();
 		GOOGLE_CX_API_KEY = MAPS_API_KEY;
@@ -236,6 +236,12 @@ public class SearchServlet extends HttpServlet {
 				recipes.remove(i);
 			}
 		}
+		
+		//remove extra items
+		for(int i = recipes.size() - 1; i > numResults - 1; i--) {
+			recipes.remove(i);
+		}
+		
 		return recipes;
 	}
 
@@ -286,6 +292,10 @@ public class SearchServlet extends HttpServlet {
 				i++;
 				restaurants.remove(i);
 			}
+		}
+		//remove extra items
+		for(int i = restaurants.size() - 1; i > numResults - 1; i--) {
+			restaurants.remove(i);
 		}
 
     	return restaurants;
