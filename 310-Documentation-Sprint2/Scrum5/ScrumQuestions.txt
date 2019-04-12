@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I worked on the front end formats 
+2. No 
+3. Will keep on working the frontend
+
+Haiyu Tian:
+1. I worked on debugging the code 
+2. No 
+3. Will keep on working unfinished tasks
+
+Pinghao Luo:
+1. I worked on debug class for jdbc 
+2. No 
+3. Will keep on working the backend
+
+Tianxing Liu:
+1. I fixed a serious bug in which erases the results in the results page.
+2. To fix bug written by others is hard.
+3. I will start on designing "Quick Access List".
+
+Guancheng Qiu:
+1. Modified API keys, fixed bugs, designed database.
+2. None.
+3. Will keep working on UI design.
