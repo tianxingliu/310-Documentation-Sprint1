@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I didn't start doing because it's first scrum meeting
+2. no obstacle
+3. finishing the asana tasks
+
+Haiyu Tian:
+1. Research on how to use https protocol
+2. N/A
+3. Start working on the assigned task before next meeting
+
+Pinghao Luo:
+1. Do research about the secure web connection https
+2. no obstacle
+3. finishing the asana tasks
+
+Tianxing Liu:
+1. I paired with Guancheng for blackbox testing on Backlog 1.
+2. None.
+3. I will start to make blackbox testing for other backlogs.
+
+Guancheng Qiu:
+1. I was working on blackbox testing for Backlog 1.
+2. None
+3. Keep adding more tests

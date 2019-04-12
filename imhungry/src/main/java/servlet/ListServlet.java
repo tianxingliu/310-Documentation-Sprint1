@@ -77,29 +77,6 @@ public class ListServlet extends HttpServlet
             if(info.has("prepTime")) infoType = RecipeInfo.class;
             else if(info.has("placeID")) infoType = RestaurantInfo.class;
             else throw new Exception("Unknown item type.");
-
-//            if(listName.equals("Grocery")) { //adding special case for "Grocery" List
-//            	RecipeInfo item = gson.fromJson(infoJson, infoType);
-//            	ArrayList<String> ingredients = item.ingredients;
-//            	List<String> list = (List<String>)session.getAttribute("Grocery");
-//            	switch(reqMessage.header)
-//                {
-//                    case "addItem":
-////                    	System.out.println(ingredients.size());
-////                        for(int i=0;i<ingredients.size();i++) {
-////                        	System.out.println(ingredients.get(i));
-////                        	//list.add(ingredients.get(i));
-////                        }
-//                        list = (List<String>)ingredients;
-//                        for(int i=0;i<list.size();i++) {
-//                        	System.out.println(list.get(i));
-//                        	//list.add(ingredients.get(i));
-//                        }
-//                        respWriter.println(gson.toJson(new Message("Added to list "+ list)));
-//                    //TODO: add other operations if necessary
-//                }
-//            }
-            
             
             
             	Info item = gson.fromJson(infoJson, infoType); //Parse Info object from JSON
@@ -107,6 +84,7 @@ public class ListServlet extends HttpServlet
                 //Switch on requested action
                 RestaurantDataManager restaurantDB = new RestaurantDataManager();
             	RecipeDataManager recipeDB = new RecipeDataManager();
+            	System.out.println(reqMessage.header);
                 switch(reqMessage.header)
                 {
                     case "addItem":
@@ -165,10 +143,15 @@ public class ListServlet extends HttpServlet
                         respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
                         break;
                         
+                    case "updateList":
+                    	 //System.out.println("asdasdasd");
+                    	 respWriter.println(gson.toJson(new Message("Update "+listName)));
+                    	 break;
+                        
                     case "resetLists":
                         session.invalidate(); //Note: This is for debuggin only; the page will break if this is called and a new search is not immediately made
                         break;
-                        
+                       
                     default:
                         throw new Exception("Invalid action.");
                 }

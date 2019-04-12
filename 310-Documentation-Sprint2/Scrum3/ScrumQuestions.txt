@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I worked on result page css and js with Haiyu.
+2. So hard to understand open source JS.
+3. Keep up the good work.
+
+Haiyu Tian:
+1. I implemented the pagination using jquery
+2. It's hard to adjust the CSS to make sure nothing goes wrong
+3. I will add more tests on backlog 3
+
+Pinghao Luo:
+1. I continue working with backend code for storing session 
+2. no 
+3. Keep working on JDBC code
+
+Tianxing Liu:
+1. I finished blackbox testing for backlog 4 and 7 with Guancheng.
+2. None.
+3. I will start implementing functionality for backlog 7.
+
+Guancheng Qiu:
+1. I finished blackbox tests with Tianxing.
+2. Cleaning database with Cucumber could be difficult.
+3. I will add unit tests for database and modify UI mock-ups.
