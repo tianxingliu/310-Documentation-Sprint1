@@ -109,10 +109,8 @@ public class SearchServlet extends HttpServlet {
 			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
-
-
-			groceryList = (ArrayList<String>) session.getAttribute("Grocery");
-			quickAccessList = (ArrayList<History>) session.getAttribute("Quick Access");
+			groceryList = (ArrayList<Info>) session.getAttribute("Grocery");
+			quickAccessList = (ArrayList<String>) session.getAttribute("Quick Access");
 
 		}
 
