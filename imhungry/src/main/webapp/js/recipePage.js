@@ -20,6 +20,9 @@ var ingre = result.ingredients;
 var instr = result.instructions;
 var img = result.imageURL;
 
+
+console.log(result);
+
 //Fill info into corresponding HTML tags on the JSP file
 document.title = "Recipe: " + title;
 document.getElementById("title").innerHTML = title;
@@ -27,6 +30,7 @@ document.getElementById("prept2").innerHTML = pt + " minutes";
 document.getElementById("cookt2").innerHTML = ct + " minutes";
 for (i = 0; i < ingre.length; i++)
 {
+	document.getElementById("ingre2").innerHTML += "- "; //SMX insitied he changed this
     document.getElementById("ingre2").innerHTML += ingre[i];
     document.getElementById("ingre2").innerHTML += "<br />";
 }

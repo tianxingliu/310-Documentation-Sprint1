@@ -7,7 +7,7 @@ public class Message implements Serializable
 {
 	public String header;
 	public Object body;
-
+	
 	public Message(String header, Object body)
 	{
 		this.header = header;

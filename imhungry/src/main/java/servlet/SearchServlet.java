@@ -1,7 +1,7 @@
 package servlet;
 
 import java.io.BufferedReader;
-
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -20,7 +20,7 @@ import com.google.gson.JsonParser;
 
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
-import database_manager.RestaurantData;
+import database_manager.RestaurantDataManager;
 import info.*;
 
 import java.net.*;
@@ -37,13 +37,13 @@ public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final String GOOGLE_MAPS_API_PREFIX = "https://maps.googleapis.com/maps/api";
-	private static final String MAPS_API_KEY = "AIzaSyC-iVaMeUT0xoM_wNIxJPOZrvlfLQMrI1A";
+	private static String MAPS_API_KEY = "";
 	private static final String TOMMY_TROJAN_LOC = "34.0205663,-118.2876355";
 
 	private static final String SPOONACULAR_RECIPE_API_PREFIX = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes";
-	private static final String SPOONACULAR_RAPID_API_KEY = "5d400066d1msh1a0901e6bb0917dp1b2dc1jsn1dcafa5afeb5";
-	
-	private static final String GOOGLE_CX_API_KEY = "AIzaSyAH3GjzX5RNq1ObGtaJEuciQziHrakn4cM";
+	private static String SPOONACULAR_RAPID_API_KEY = "";
+
+	private static String GOOGLE_CX_API_KEY = "";
 	private static final String GOOGLE_CX_ENGINE = "001810512200125518925:d_yaufj89m8";
 	private static final int IMAGE_COLLAGE_NUM = 10;
 
@@ -53,33 +53,59 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
-		ArrayList<String> groceryList;
-		
+		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
+		ArrayList<Info> groceryList;
+		ArrayList<String> quickAccessList;
+		if(MAPS_API_KEY.equals("") || SPOONACULAR_RAPID_API_KEY.equals("")) {
+			BufferedReader reader = new BufferedReader(new FileReader("constants.txt"));
+			MAPS_API_KEY = reader.readLine();
+			SPOONACULAR_RAPID_API_KEY = reader.readLine();
+			GOOGLE_CX_API_KEY = MAPS_API_KEY;
+			reader.close();
+		}
+
+		RestaurantDataManager restaurantDB = new RestaurantDataManager();
+		RecipeDataManager recipeDB = new RecipeDataManager();
+		GroceryDataManager groceryDB = new GroceryDataManager();
+//		quickAccessList = new ArrayList<>();
+//		quickAccessList.add("dududu");
+//		
+//		session.setAttribute("Quick Access", quickAccessList);
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
+			//TODO: Connect quickAccessList to database here
 			favoritesList = new ArrayList<>();
-			toExploreList = new ArrayList<>();
+			favoritesList.addAll(restaurantDB.loadRestaurants(1));
+			favoritesList.addAll(recipeDB.loadRecipes(1));
 			doNotShowList = new ArrayList<>();
-			groceryList = new ArrayList<>();
+			doNotShowList.addAll(restaurantDB.loadRestaurants(2));
+			doNotShowList.addAll(recipeDB.loadRecipes(2));
+			toExploreList = new ArrayList<>();
+			toExploreList.addAll(restaurantDB.loadRestaurants(3));
+			toExploreList.addAll(recipeDB.loadRecipes(3));
+			groceryList = groceryDB.loadGrocery();
+			
+			quickAccessList = new ArrayList<>();
+			//quickAccessList.add("dududu");
+			
+			session.setAttribute("Quick Access", quickAccessList);
 			session.setAttribute("Favorites", favoritesList);
 			session.setAttribute("To Explore", toExploreList);
 			session.setAttribute("Do Not Show", doNotShowList);
 			session.setAttribute("Grocery", groceryList);
+			
 		}
-		else
-		{
+		else {
 			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
-			groceryList = (ArrayList<String>) session.getAttribute("Grocery");
+			groceryList = (ArrayList<Info>) session.getAttribute("Grocery");
+			quickAccessList = (ArrayList<String>) session.getAttribute("Quick Access");
 		}
 
         //From previous page, extract parameters
-        //uncomment once testing is complete
         String userSearch = request.getParameter("search");
         int numResults = Integer.parseInt(request.getParameter("number"));
-        //TODO: read radius
-        int radius = 1000;
+        int radius = Integer.parseInt(request.getParameter("radius"));  //radius in meters
 
         PrintWriter out = response.getWriter();
 
@@ -94,20 +120,9 @@ public class SearchServlet extends HttpServlet {
         }
 
         //get lists
-        ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList); //Don't add here
+        ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
         ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, radius, doNotShowList, favoritesList);
         ArrayList<String> urlList = getImageURLs(userSearch);
-        
-        //FIXME: test
-        RestaurantData restaurantDB = new RestaurantData();
-        restaurantDB.addToList(restaurantList.get(0), 1);
-        restaurantDB.addToList(restaurantList.get(1), 1);
-        restaurantDB.addToList(restaurantList.get(2), 1);
-        ArrayList<RestaurantInfo> testing = restaurantDB.loadRestaurant(1);
-        for(RestaurantInfo ri : testing) System.out.println(ri.name);
-//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 1);
-//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 2);
-//        restaurantDB.removeFromList(restaurantList.get(0).placeID, 3);
 
         //return content
         if (!success){
@@ -151,7 +166,7 @@ public class SearchServlet extends HttpServlet {
 		} catch(Exception e) {}
 		return null;
 	}
-	
+
 	//Given a String query and number of results expected, return an ArrayList of RecipeInfo. The function
 	//uses 2 Spoonacular's recipe APIs and refer to Do Not Show List and Favorites List.
 	public ArrayList<RecipeInfo> recipeSearch(String query, int numResults, List<Info> doNotShowList, List<Info> favoritesList){
@@ -170,7 +185,7 @@ public class SearchServlet extends HttpServlet {
 			//request based on the recipe's unique recipe ID
 			RecipeInfo recipe = new RecipeInfo(currentRecipe.get("title").getAsString(), 0,
 					currentRecipe.get("id").getAsInt(), 30, 30, new ArrayList<String>(), new ArrayList<String>(), "");
-			
+
 			//use recipe ID to make another request for detail information
 			String recipeDetailURL = SPOONACULAR_RECIPE_API_PREFIX + "/" + recipe.recipeID +"/information";
 			JsonObject recipeDetailJSON;
@@ -182,23 +197,23 @@ public class SearchServlet extends HttpServlet {
 			}
 			//Spoonacular Score is a score out of 100
 			recipe.rating = (int)(recipeDetailJSON.get("spoonacularScore").getAsDouble() / 100 * 5);
-			
+
 			try {
 				//not all recipes have preparation time data
 				recipe.prepTime = recipeDetailJSON.get("preparationMinutes").getAsInt();
 			} catch(Exception e) {}
-			
+
 			try {
 				//not all recipes have cook time data
 				recipe.cookTime = recipeDetailJSON.get("cookingMinutes").getAsInt();
 			} catch(Exception e) {}
-			
+
 			JsonArray ingredientsJSON = recipeDetailJSON.get("extendedIngredients").getAsJsonArray();
 			for(int j = 0; j < ingredientsJSON.size(); j++) {
-				recipe.ingredients.add("- " + ingredientsJSON.get(j).getAsJsonObject()
+				recipe.ingredients.add(ingredientsJSON.get(j).getAsJsonObject()
 						.get("name").getAsString());
 			}
-			
+
 			//Most recipe data include instructions divided into steps. When the field "analyzedInstructions"
 			//does not exist, try to obtain "steps" which is one string with all instructions.
 			JsonArray analyzedInstructions = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray();
@@ -216,7 +231,7 @@ public class SearchServlet extends HttpServlet {
             else {
 			    recipe.instructions.add("Instructions weren't found for this recipe, sorry!");
             }
-			
+
 			recipe.imageURL = recipeDetailJSON.get("image").getAsString();
 			recipes.add(recipe);
 		}
@@ -224,9 +239,9 @@ public class SearchServlet extends HttpServlet {
 		for(Info doNotShowInfo : doNotShowList) {
 			recipes.remove(doNotShowInfo);
 		}
-		
+
 		Collections.sort(recipes);  //sort RecipeInfo in ascending order based on preparation time
-		
+
 		//move recipes in Favorites List to the top
 		for(int i = recipes.size() - 1; i > 0; i--) {
 			if(favoritesList.contains(recipes.get(i))) {
@@ -235,10 +250,16 @@ public class SearchServlet extends HttpServlet {
 				recipes.remove(i);
 			}
 		}
+		
+		//remove extra items
+		for(int i = recipes.size() - 1; i > numResults - 1; i--) {
+			recipes.remove(i);
+		}
+		
 		return recipes;
 	}
-	
-	
+
+
 	//Given a String query and number of results expected, return an ArrayList of RestaurantInfo. The function
 	//uses several Google Maps APIs and refer to Do Not Show List and Favorites List.
 	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults, int radius, List<Info> doNotShowList, List<Info> favoritesList) {
@@ -249,7 +270,7 @@ public class SearchServlet extends HttpServlet {
 		//extract relevant part of the JSON response
 		JsonArray places = new JsonParser().parse(getJSONResponse(searchURL)).getAsJsonObject()
 				.get("results").getAsJsonArray();
-		
+
 		//assuming the worst possible case (all items in Do Not Show List appear) to encapsulate sufficient
 		//amount of restaurant information from the response
 		for(int i = 0; i < numResults + doNotShowList.size(); i++) {
@@ -263,7 +284,7 @@ public class SearchServlet extends HttpServlet {
 					(int)currentPlace.get("rating").getAsDouble(), currentPlace.get("place_id").getAsString(),
 					currentPlace.get("vicinity").getAsString(), priceLevel, "", 0, "No phone number available", "No website available"));
 		}
-		
+
 		//remove all items in Do Not Show List that appear in the result
 		for(Info doNotShowInfo : doNotShowList) {
 			restaurants.remove(doNotShowInfo);
@@ -272,12 +293,12 @@ public class SearchServlet extends HttpServlet {
 		while(restaurants.size() > numResults) {
 			restaurants.remove(restaurants.size() - 1);
 		}
-		
+
 		getDriveTimes(restaurants);
 		getPhoneAndURL(restaurants);
-		
+
 		Collections.sort(restaurants);  //sort RestaurantInfo in ascending order based on drive time
-		
+
 		//move restaurants in Favorites List to the top
 		for(int i = restaurants.size() - 1; i > 0; i--) {
 			if(favoritesList.contains(restaurants.get(i))) {
@@ -286,10 +307,14 @@ public class SearchServlet extends HttpServlet {
 				restaurants.remove(i);
 			}
 		}
-		
+		//remove extra items
+		for(int i = restaurants.size() - 1; i > numResults - 1; i--) {
+			restaurants.remove(i);
+		}
+
     	return restaurants;
 	}
-	
+
 	//Create a request using place_id of all RestaurantInfo and send one request to obtain all drive times.
 	public void getDriveTimes(ArrayList<RestaurantInfo> restaurants) {
 		if(restaurants.isEmpty()) return;
@@ -311,7 +336,7 @@ public class SearchServlet extends HttpServlet {
 			restaurants.get(i).driveTimeValue = durationJSON.get("value").getAsInt();
 		}
 	}
-	
+
 	//A separate request is needed to get detailed information including phone and URL.
 	public void getPhoneAndURL(ArrayList<RestaurantInfo> restaurants) {
 		for(RestaurantInfo restaurant : restaurants) {
@@ -326,12 +351,12 @@ public class SearchServlet extends HttpServlet {
 			} catch(Exception e) {}
 		}
 	}
-	
+
 	//Given a String query, return an ArrayList of String storing URLs for images to present in the collage. The
 	//function uses Google Custom Search API. The search engine is configured to search for images.
 	public ArrayList<String> getImageURLs(String query){
 		ArrayList<String> images = new ArrayList<String>();
-		
+
 		String imageSearchURL = "https://www.googleapis.com/customsearch/v1?key=" + GOOGLE_CX_API_KEY
 				+ "&num=" + IMAGE_COLLAGE_NUM + "&cx=" + GOOGLE_CX_ENGINE + "&q=food%20" + query.replaceAll("\\s+","%20")
 				+ "&alt=json&searchType=image";
@@ -342,7 +367,7 @@ public class SearchServlet extends HttpServlet {
 		for(int i = 0; i < imagesJSON.size(); i++) {
 			images.add(imagesJSON.get(i).getAsJsonObject().get("link").getAsString());
 		}
-		
+
 		return images;
 	}
 

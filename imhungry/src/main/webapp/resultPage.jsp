@@ -5,7 +5,23 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
 	<meta charset="UTF-8">
-	<title>Result Page</title>
+	<title>Results Page</title>
+
+<style>
+#easyPaginate {
+width:300px;
+/* background-color: pink; */
+}
+.easyPaginateNav{
+/* background-color: pink; */
+position: relative;
+top: 200px;
+right: 350px;
+
+}
+.easyPaginateNav a {padding:5px;}
+.easyPaginateNav a.current {font-weight:bold;text-decoration:underline;}
+</style>
 </head>
 <body>
 	<div id = "header">Results</div>
@@ -27,17 +43,28 @@
    	 	<input type="submit" id = "back_search" value="Back to Search" />
 	</form>
 	
+	
+	<!--Jump to Grocery Page  -->
+	<form action="grocery.jsp">
+		<input type="submit" id = "display_grocery" value="Display Grocery" />
+	</form>
+
+
+	<div class = "sub_header1">Restaurants</div>
+	<div class = "sub_header2">Recipes</div>
 	<div id = "container">
 		<div id = "column1">
-			<div class = "sub_header">Restaurants</div>
 		</div>
 		<div id = "column2">
-			<div class = "sub_header">Recipes</div>
 		</div>
 	</div>
 
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="js/jquery.easyPaginate.js"></script>
+
     <script src="js/dropdown.js"></script>
     <script src="js/parseQueryString.js"></script>
+    <script src="js/ListClient.js"></script>
     <script>
         var query = parseQuery(window.location.search);
         //Have to replace '+'s with ' 's before displaying name to user
@@ -52,12 +79,17 @@
         }
         else {
             var xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number, false);
+            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number + "&radius=" + query.radius, false);
             xhttp.send();
             var response = JSON.parse(xhttp.response);
             results = response.body.results;
             imageURLs = response.body.imageURLs;
         }
+        //Add the search term to quick access list
+        
+        addItem("Quick Access", query.search);
+        
+        
         //Store results in local storage
         window.localStorage.setItem("search", query.search);
         window.localStorage.setItem("searchResults", JSON.stringify(results));
@@ -178,6 +210,20 @@
             collage.appendChild(imgdiv);
         }
     </script>
+
+	<script>
+	$('#column1').easyPaginate({
+		paginateElement: ".item",
+	    elementsPerPage: 3,
+	    effect: 'climb'
+	});
+	$('#column2').easyPaginate({
+		paginateElement: ".item",
+	    elementsPerPage: 3,
+	    effect: 'climb'
+	});
+	
+	</script>
 
 </body>
 </html>

@@ -27,6 +27,7 @@
             <div class = "backToResults">
                 <input type="hidden" id="queryStringInput" name="search" value="" />
                 <input type="hidden" id="numberResultsInput" name="number" value="cache" />
+                <input type="hidden" id="radiusInput" name="radius" value="cache" />
                 <button type="submit" id = "backtoresults">Back to Results</button>
             </div>
         </form>
@@ -38,10 +39,9 @@
             </div>
         </form>
 
-        <!-- Fairly complicated onclick to add the item, because it not only calls the ListClient function, it updates the back to results button to force the results page to search on the Servlet again -->
-        <form onsubmit = "addItem(document.getElementById('dropdown').value, result); document.getElementById('numberResultsInput').value = JSON.parse(localStorage.getItem('searchResults'))[0].length; return false;">
+        <form onclick = "addItem(document.getElementById('dropdown').value, result);">
             <div class = "addToList">
-                <button type="submit" id = "addtolist">Add to List</button>
+                <button type="button" id = "addtolist">Add to List</button>
             </div>
         </form>
 
