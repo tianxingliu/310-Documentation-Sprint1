@@ -19,14 +19,28 @@
 					Number of items to show in results
 				</div>
 			</div>
+			<div id = hover_format1>
+				<input type = "number" name = "radius" id = "radius" value = "2000" min= "1" />
+				<div id = "hover_text1">
+					Restaurant search radius
+				</div>
+			</div>
 			
 			<br>
 			<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!" />
 			
 		</form>
 	</div>
+	<div id="quickAccess"></div>
+<script src="js/ListClient.js"></script>	
 <script>
     //Functions to switch emoji states
+    
+    //Initializing the "toDisplayLists"
+    localStorage.setItem("favoriteListToDisplay", "");
+    localStorage.setItem("toExploreListToDisplay", "");
+    localStorage.setItem("doNotShowListToDisplay", "");
+    
     function happyToSad()
     {
         document.getElementById("submit").src = "resources/grumpy.png";
@@ -35,6 +49,12 @@
     {
         document.getElementById("submit").src = "resources/smile.png";
     }
+    
+    var list = getList("Quick Access").body;
+    for(var i = 0;i < list.length;i++){
+    	document.getElementById("quickAccess").innerHTML += list[i];
+    }
+    
 </script>
 
 </body>

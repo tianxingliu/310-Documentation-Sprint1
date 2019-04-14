@@ -30,6 +30,14 @@ When(/^press the "([^"]*)"$/) do |elementName|
     find('#' + elementName).click
 end
 
+When(/^I press "Add to grocery" button$/) do
+    page.find('.addToGrocery', match: :first).click
+end
+
+When(/^I press "Display Grocery" bnutton$/) do
+    page.find('#display_grocery', match: :first).click
+end
+
 Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
     expect(page).to have_title pageTitle
 end
@@ -72,7 +80,25 @@ Then(/^I should see the page of To Explore List$/) do
     expect(page).to have_content('To Explore List')
 end
 
-# FIXME
+Then(/^I should see the "Display Grocery" button$/) do
+#    expect(page).to have_css('#display_grocery')
+    page.find('#display_grocery')
+end
+
+Then(/^I should see the "Add to Grocery" button$/) do
+#    expect(page).to have_css('#display_grocery')
+    page.find('.addToGrocery')
+end
+
+Then(/^I will go to the Grocery Page$/) do
+#    expect(page).to have_css('#display_grocery')
+   expect(page).to have_title("Grocery")
+end
+
+Then(/^the item will be added to the grocery list$/) do
+   expect(page).to have_content("soy sauce")
+end
+
 When(/^restart session$/) do
     Capybara.reset_sessions!
 end

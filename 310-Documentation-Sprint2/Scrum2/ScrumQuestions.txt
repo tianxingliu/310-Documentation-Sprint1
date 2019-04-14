@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I have been working on the asana tasks
+2. no
+3. I tend to finish some of the ui features by weekend
+
+Haiyu Tian:
+1. I learn how to apply new UI framework
+2. No particular
+3. I will finish the pagination before next meeting
+
+Pinghao Luo:
+1. I starting implement the java backend code for maintaining information 
+2. no
+3.I will keep working on this task for backend
+
+Tianxing Liu:
+1. I implemented some cucumber testing for pagination of results.
+2. None.
+3. I will implement more cucumber testing for other backlogs.
+
+Guancheng Qiu:
+1. I added some more blackbox tests for discussion at next programming session, and modified mockups.
+2. I had to figure out a way to test database using cucumber.
+3. I will keep modifying mockups

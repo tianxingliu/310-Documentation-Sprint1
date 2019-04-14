@@ -92,3 +92,8 @@ MANIFEST.MF
 .cache-main
 .scala_dependencies
 .worksheet
+
+# Mac garbage file
+.DS_Store
+
+constants.txt
