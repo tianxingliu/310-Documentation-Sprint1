@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,6 +49,20 @@ public class SearchServlet extends HttpServlet {
 	private static final int IMAGE_COLLAGE_NUM = 10;
 
 
+	public SearchServlet() {
+		if(MAPS_API_KEY.equals("") || SPOONACULAR_RAPID_API_KEY.equals("")) {
+			BufferedReader reader;
+			try {
+				reader = new BufferedReader(new FileReader("constants.txt"));
+			MAPS_API_KEY = reader.readLine();
+			SPOONACULAR_RAPID_API_KEY = reader.readLine();
+			GOOGLE_CX_API_KEY = MAPS_API_KEY;
+			reader.close();
+			}
+			catch (Exception e) {}
+		}
+	}
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -57,13 +72,6 @@ public class SearchServlet extends HttpServlet {
 		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
 		ArrayList<String> quickAccessList;
-		if(MAPS_API_KEY.equals("") || SPOONACULAR_RAPID_API_KEY.equals("")) {
-			BufferedReader reader = new BufferedReader(new FileReader("constants.txt"));
-			MAPS_API_KEY = reader.readLine();
-			SPOONACULAR_RAPID_API_KEY = reader.readLine();
-			GOOGLE_CX_API_KEY = MAPS_API_KEY;
-			reader.close();
-		}
 
 		RestaurantDataManager restaurantDB = new RestaurantDataManager();
 		RecipeDataManager recipeDB = new RecipeDataManager();

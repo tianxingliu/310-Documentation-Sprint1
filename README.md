@@ -1,4 +1,4 @@
-# 310-Documentation-Sprint1
+# CS310Project2
 
 Workspace Directory: imhungry
 
