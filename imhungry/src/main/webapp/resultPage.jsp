@@ -64,6 +64,7 @@ right: 350px;
 
     <script src="js/dropdown.js"></script>
     <script src="js/parseQueryString.js"></script>
+    <script src="js/ListClient.js"></script>
     <script>
         var query = parseQuery(window.location.search);
         //Have to replace '+'s with ' 's before displaying name to user
@@ -84,6 +85,11 @@ right: 350px;
             results = response.body.results;
             imageURLs = response.body.imageURLs;
         }
+        //Add the search term to quick access list
+        
+        addItem("Quick Access", query.search);
+        
+        
         //Store results in local storage
         window.localStorage.setItem("search", query.search);
         window.localStorage.setItem("searchResults", JSON.stringify(results));
