@@ -55,6 +55,7 @@ public class SearchServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
+		ArrayList<String> quickAccessList;
 		if(MAPS_API_KEY.equals("") || SPOONACULAR_RAPID_API_KEY.equals("")) {
 			BufferedReader reader = new BufferedReader(new FileReader("constants.txt"));
 			MAPS_API_KEY = reader.readLine();
@@ -66,8 +67,12 @@ public class SearchServlet extends HttpServlet {
 		RestaurantDataManager restaurantDB = new RestaurantDataManager();
 		RecipeDataManager recipeDB = new RecipeDataManager();
 		GroceryDataManager groceryDB = new GroceryDataManager();
-
+//		quickAccessList = new ArrayList<>();
+//		quickAccessList.add("dududu");
+//		
+//		session.setAttribute("Quick Access", quickAccessList);
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
+			//TODO: Connect quickAccessList to database here
 			favoritesList = new ArrayList<>();
 			favoritesList.addAll(restaurantDB.loadRestaurants(1));
 			favoritesList.addAll(recipeDB.loadRecipes(1));
@@ -78,16 +83,23 @@ public class SearchServlet extends HttpServlet {
 			toExploreList.addAll(restaurantDB.loadRestaurants(3));
 			toExploreList.addAll(recipeDB.loadRecipes(3));
 			groceryList = groceryDB.loadGrocery();
+			
+			quickAccessList = new ArrayList<>();
+			//quickAccessList.add("dududu");
+			
+			session.setAttribute("Quick Access", quickAccessList);
 			session.setAttribute("Favorites", favoritesList);
 			session.setAttribute("To Explore", toExploreList);
 			session.setAttribute("Do Not Show", doNotShowList);
 			session.setAttribute("Grocery", groceryList);
+			
 		}
 		else {
 			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
 			groceryList = (ArrayList<Info>) session.getAttribute("Grocery");
+			quickAccessList = (ArrayList<String>) session.getAttribute("Quick Access");
 		}
 
         //From previous page, extract parameters

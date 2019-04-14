@@ -13,6 +13,7 @@ import info.Message;
 import info.RecipeInfo;
 import info.RestaurantInfo;
 import info.GroceryInfo;
+import info.QuickAccess;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,12 +40,18 @@ public class ListServlet extends HttpServlet
         String listName = request.getParameter("list"); //See what list was requested
         PrintWriter respWriter = response.getWriter();
         Gson gson = new Gson();
-        if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery")) //Check if list is valid
+        if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery") && !listName.equals("Quick Access")) //Check if list is valid
         {
             respWriter.println(gson.toJson(new Message("Invalid List!")));
             respWriter.close();
             return;
-        }    
+        }
+        if(listName.equals("Quick Access")) {
+        	List<String> list = (List<String>)session.getAttribute(listName);
+        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
+            respWriter.close();
+            return;
+        }
     	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
         respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
         respWriter.close();
@@ -65,9 +72,22 @@ public class ListServlet extends HttpServlet
             
            
             String listName = reqListAndItem.header; //Get name of list to modify from the inner Message
-            if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery")) //Check validity
+            if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery") && !listName.equals("Quick Access")) //Check validity
                 throw new Exception("Invalid list name.");
             
+            
+            if(listName.equals("Quick Access")) {
+            	//TODO: Add code for other cases, only addItem for now
+            	System.out.print("Testing: ");
+            	System.out.println((String)reqListAndItem.body);
+            	List<String> list = (List<String>)session.getAttribute("Quick Access");
+            	for(int i =0;i<list.size();i++) {
+            		System.out.println(list.get(i));
+            	}
+            	list.add((String)reqListAndItem.body);
+            	respWriter.println(gson.toJson(new Message("quick access "+listName)));
+            	return;
+            }
             
             String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
 
@@ -142,12 +162,6 @@ public class ListServlet extends HttpServlet
                 		}
                         respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
                         break;
-                        
-                    case "updateList":
-                    	 //System.out.println("asdasdasd");
-                    	 respWriter.println(gson.toJson(new Message("Update "+listName)));
-                    	 break;
-                        
                     case "resetLists":
                         session.invalidate(); //Note: This is for debuggin only; the page will break if this is called and a new search is not immediately made
                         break;
