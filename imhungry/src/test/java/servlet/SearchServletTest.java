@@ -64,7 +64,7 @@ public class SearchServletTest {
 		testConfirm.add(ri);
 		servlet.getDriveTimes(testConfirm);
 		assertEquals(1,testConfirm.size());
-		assertEquals("5 min",testConfirm.get(0).driveTimeText);
+		assert(testConfirm.get(0).driveTimeText.equals("5 min"));
 	}
 	@Test
 	//getting the Restaurant arraylist API test with radius = 1000
