@@ -55,16 +55,25 @@ public class SearchServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
 		ArrayList<String> groceryList;
+		ArrayList<History> quickAccessList;
+		
+		
+		RestaurantDataManager restaurantDB = new RestaurantDataManager();
+		RecipeDataManager recipeDB = new RecipeDataManager();
+		GroceryDataManager groceryDB = new GroceryDataManager();
 		
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
 			favoritesList = new ArrayList<>();
-			toExploreList = new ArrayList<>();
+			favoritesList.addAll(restaurantDB.loadRestaurants(1));
+			favoritesList.addAll(recipeDB.loadRecipes(1));
 			doNotShowList = new ArrayList<>();
-			groceryList = new ArrayList<>();
-			session.setAttribute("Favorites", favoritesList);
-			session.setAttribute("To Explore", toExploreList);
-			session.setAttribute("Do Not Show", doNotShowList);
-			session.setAttribute("Grocery", groceryList);
+			doNotShowList.addAll(restaurantDB.loadRestaurants(2));
+			doNotShowList.addAll(recipeDB.loadRecipes(2));
+			toExploreList = new ArrayList<>();
+			toExploreList.addAll(restaurantDB.loadRestaurants(3));
+			toExploreList.addAll(recipeDB.loadRecipes(3));
+			groceryList = groceryDB.loadGrocery();
+			session.setAttribute("Quick Access", quickAccessList);
 		}
 		else
 		{
@@ -72,6 +81,7 @@ public class SearchServlet extends HttpServlet {
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
 			groceryList = (ArrayList<String>) session.getAttribute("Grocery");
+			quickAccessList = (ArrayList<History>) session.getAttribute("Quick Access");
 		}
 
         //From previous page, extract parameters
