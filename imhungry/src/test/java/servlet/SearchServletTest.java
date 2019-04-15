@@ -3,6 +3,7 @@ package servlet;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,6 +26,49 @@ import info.RecipeInfo;
 import info.RestaurantInfo;
 
 public class SearchServletTest {
+	
+	@Test
+	//doGet test 1
+	public void testServlet1() throws Exception {
+		HttpSession session = mock(HttpSession.class);
+		when(session.isNew()).thenReturn(true);
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);       
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getParameter("search")).thenReturn("burger");
+        when(request.getParameter("number")).thenReturn("1");
+        when(request.getParameter("radius")).thenReturn("5000");
+        when(request.getSession()).thenReturn(session);
+        
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new SearchServlet().doGet(request, response);
+        assertTrue(stringWriter.toString().contains("Success"));
+	}
+	
+	@Test
+	//doGet test 2
+	public void testServlet2() throws Exception {
+		HttpSession session = mock(HttpSession.class);
+		when(session.isNew()).thenReturn(false);
+		when(session.getAttribute(any(String.class))).thenReturn(new ArrayList<Info>());
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);       
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getParameter("search")).thenReturn("burger");
+        when(request.getParameter("number")).thenReturn("1");
+        when(request.getParameter("radius")).thenReturn("5000");
+        when(request.getSession()).thenReturn(session);
+        
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new SearchServlet().doGet(request, response);
+        assertTrue(stringWriter.toString().contains("Success"));
+	}
 	
 	@Test
 	//URL API value test 1
