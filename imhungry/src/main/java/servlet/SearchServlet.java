@@ -57,10 +57,10 @@ public class SearchServlet extends HttpServlet {
 			BufferedReader reader;
 			try {
 				reader = new BufferedReader(new FileReader("constants.txt"));
-			MAPS_API_KEY = reader.readLine();
-			SPOONACULAR_RAPID_API_KEY = reader.readLine();
-			GOOGLE_CX_API_KEY = MAPS_API_KEY;
-			reader.close();
+				MAPS_API_KEY = reader.readLine();
+				SPOONACULAR_RAPID_API_KEY = reader.readLine();
+				GOOGLE_CX_API_KEY = MAPS_API_KEY;
+				reader.close();
 			}
 			catch (Exception e) {}
 		}
@@ -74,30 +74,11 @@ public class SearchServlet extends HttpServlet {
 
 		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
-		ArrayList<History> quickAccessList = null;
-		if(MAPS_API_KEY.equals("") || SPOONACULAR_RAPID_API_KEY.equals("")) {
-			BufferedReader reader = new BufferedReader(new FileReader("constants.txt"));
-			MAPS_API_KEY = reader.readLine();
-			SPOONACULAR_RAPID_API_KEY = reader.readLine();
-			GOOGLE_CX_API_KEY = MAPS_API_KEY;
-			reader.close();
-		}
 
 		RestaurantDataManager restaurantDB = new RestaurantDataManager();
 		RecipeDataManager recipeDB = new RecipeDataManager();
 		GroceryDataManager groceryDB = new GroceryDataManager();
-		HistoryDataManager historyDB = new HistoryDataManager();
-//		quickAccessList = new ArrayList<>();
-//		quickAccessList.add("dududu");
-//		
-//		session.setAttribute("Quick Access", quickAccessList);
-//		quickAccessList = new ArrayList<History>();
-//		History h = History("dududu");
-//		quickAccessList.add(h);
-//		System.out.println("Asdasdasdasdasda");
-//		System.out.println(quickAccessList.get(0).query);
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
-			//TODO: Connect quickAccessList to database here
 			favoritesList = new ArrayList<>();
 			favoritesList.addAll(restaurantDB.loadRestaurants(1));
 			favoritesList.addAll(recipeDB.loadRecipes(1));
@@ -109,10 +90,6 @@ public class SearchServlet extends HttpServlet {
 			toExploreList.addAll(recipeDB.loadRecipes(3));
 			groceryList = groceryDB.loadGrocery();
 
-
-			//quickAccessList.add("dududu");
-			
-			session.setAttribute("Quick Access", quickAccessList);
 			session.setAttribute("Favorites", favoritesList);
 			session.setAttribute("To Explore", toExploreList);
 			session.setAttribute("Do Not Show", doNotShowList);
@@ -124,7 +101,6 @@ public class SearchServlet extends HttpServlet {
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
 			groceryList = (ArrayList<Info>) session.getAttribute("Grocery");
-			quickAccessList = (ArrayList<History>) session.getAttribute("Quick Access");
 
 		}
 
@@ -139,12 +115,6 @@ public class SearchServlet extends HttpServlet {
         boolean success = true;
         String errorMsg = "";
 
-        //Check for null input
-        if (userSearch == null) {
-            success = false;
-            errorMsg += "The file doesn't exist!";
-        }
-
         //get lists
         ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
         ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, radius, doNotShowList, favoritesList);
@@ -157,8 +127,6 @@ public class SearchServlet extends HttpServlet {
 
         } else {
             //create success message
-			//Cast result arrays to arrays of their parent's types
-			//This cast is potentially dangerous, but OK because we 100% know that recipe and restaurantList can also be represented as List<Info>s
             List<Info> castedRecipeList = (ArrayList<Info>)(Object)recipeList;
             List<Info> castedRestaurantList = (ArrayList<Info>)(Object)restaurantList;
             //Stick them into a 2D array
@@ -170,15 +138,6 @@ public class SearchServlet extends HttpServlet {
         }
 		out.close();
     }
-
-
-
-	private History History(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 
 	//Sends a "GET" request to the specified API URL and obtains the result as a String.
 	public static String getJSONResponse(String url) {
