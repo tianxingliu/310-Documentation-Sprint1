@@ -109,7 +109,7 @@ public class HistoryDataManager  extends DataManager {
 					rs.getInt("ID"),
 					rs.getString("hName"), 
 					rs.getInt("hNumber"),
-					rs.getInt("hRadius"));
+					rs.getInt("Radius"));
 				historyList.add(his);
 			}
 		} catch (SQLException sqle) {
