@@ -6,7 +6,7 @@ Background:
 
 Scenario: maintain information beyond just a single session
 
-	When I search for "chicken" and expect 5 results
+	When I search for "pizza" and expect 5 results
 	And press "submit" button
 	And press a restaurant
 	And select the list "Favorites"
