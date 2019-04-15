@@ -120,7 +120,6 @@ public class ListServlet extends HttpServlet
                 {
                     case "addItem":
                         if(listName.equals("Grocery")) { //case for add to Grocery List
-                        	System.out.println("here");
                         	GroceryDataManager groceryDB = new GroceryDataManager();
                         	RecipeInfo newItem = gson.fromJson(infoJson, infoType);
                         	ArrayList<String> ingredients = newItem.ingredients; 
@@ -184,8 +183,6 @@ public class ListServlet extends HttpServlet
 
         } catch(Exception e) {
             e.printStackTrace();
-            respWriter.println(gson.toJson(new Message("Invalid Response!\n"+e.getMessage())));
-            respWriter.close();
         }
         respWriter.close();
     }
