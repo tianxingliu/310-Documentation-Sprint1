@@ -77,7 +77,6 @@ public class ListServlet extends HttpServlet
     {
         HttpSession session = request.getSession();
         String reqBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator())); //Java 8 magic to collect all lines from a BufferedReadder, in this case the request.
-        System.out.println(reqBody);
         Gson gson = new Gson();
         PrintWriter respWriter = response.getWriter();
         try
