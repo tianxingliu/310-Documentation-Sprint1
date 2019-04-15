@@ -171,15 +171,6 @@ public class SearchServlet extends HttpServlet {
 		out.close();
     }
 
-
-
-	private History History(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
 	//Sends a "GET" request to the specified API URL and obtains the result as a String.
 	public static String getJSONResponse(String url) {
 		try {
