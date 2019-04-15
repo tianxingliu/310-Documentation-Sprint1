@@ -54,14 +54,14 @@ public class ListServletTest {
 	//doPost test: add a restaurant to a list
 	public void doPostTest2a() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
-		when(session.getAttribute("Favorites")).thenReturn((List<Info>)new ArrayList<Info>());
+		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		BufferedReader reader = mock(BufferedReader.class);
 		Stream<String> stream = (Stream<String>)mock(Stream.class);
 		when(reader.lines()).thenReturn(stream);
 		when(request.getReader()).thenReturn(reader);
-		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"Favorites\\\",\\\"body\\\":\\\"{\\\\\\\"placeID\\\\\\\":\\\\\\\"ChIJ7w9tDvPHwoAR1n-EuEdjF1Y\\\\\\\",\\\\\\\"address\\\\\\\":\\\\\\\"2511 S Vermont Ave, Los Angeles\\\\\\\",\\\\\\\"priceLevel\\\\\\\":\\\\\\\"$\\\\\\\",\\\\\\\"driveTimeText\\\\\\\":\\\\\\\"7 mins\\\\\\\",\\\\\\\"driveTimeValue\\\\\\\":443,\\\\\\\"phone\\\\\\\":\\\\\\\"(323) 730-1461\\\\\\\",\\\\\\\"url\\\\\\\":\\\\\\\"https://locations.jackinthebox.com/us/ca/los-angeles/2511-s-vermont-ave\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Jack in the Box\\\\\\\",\\\\\\\"rating\\\\\\\":4}\\\"}\"}");
+		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"Do Not Show\\\",\\\"body\\\":\\\"{\\\\\\\"placeID\\\\\\\":\\\\\\\"ChIJ7w9tDvPHwoAR1n-EuEdjF1Y\\\\\\\",\\\\\\\"address\\\\\\\":\\\\\\\"2511 S Vermont Ave, Los Angeles\\\\\\\",\\\\\\\"priceLevel\\\\\\\":\\\\\\\"$\\\\\\\",\\\\\\\"driveTimeText\\\\\\\":\\\\\\\"7 mins\\\\\\\",\\\\\\\"driveTimeValue\\\\\\\":443,\\\\\\\"phone\\\\\\\":\\\\\\\"(323) 730-1461\\\\\\\",\\\\\\\"url\\\\\\\":\\\\\\\"https://locations.jackinthebox.com/us/ca/los-angeles/2511-s-vermont-ave\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Jack in the Box\\\\\\\",\\\\\\\"rating\\\\\\\":4}\\\"}\"}");
 		when(request.getSession()).thenReturn(session);
 		
 		HttpServletResponse response = mock(HttpServletResponse.class);
@@ -97,8 +97,31 @@ public class ListServletTest {
 	}
 	
 	@Test
-	//doPost test: add a recipe to a list
-	public void doPostTest3a() throws IOException, ServletException {
+	//doPost test: add a restaurant to all lists
+	public void doPostTest2c1() throws IOException, ServletException {
+		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BufferedReader reader = mock(BufferedReader.class);
+		Stream<String> stream = (Stream<String>)mock(Stream.class);
+		when(reader.lines()).thenReturn(stream);
+		when(request.getReader()).thenReturn(reader);
+		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"To Explore\\\",\\\"body\\\":\\\"{\\\\\\\"placeID\\\\\\\":\\\\\\\"ChIJ7w9tEuEdjF1Y\\\\\\\",\\\\\\\"address\\\\\\\":\\\\\\\"2511 S Vermont Ave, Los Angeles\\\\\\\",\\\\\\\"priceLevel\\\\\\\":\\\\\\\"$\\\\\\\",\\\\\\\"driveTimeText\\\\\\\":\\\\\\\"7 mins\\\\\\\",\\\\\\\"driveTimeValue\\\\\\\":443,\\\\\\\"phone\\\\\\\":\\\\\\\"(323) 730-1461\\\\\\\",\\\\\\\"url\\\\\\\":\\\\\\\"https://locations.jackinthebox.com/us/ca/los-angeles/2511-s-vermont-ave\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Jack in the Box\\\\\\\",\\\\\\\"rating\\\\\\\":4}\\\"}\"}");
+		when(request.getSession()).thenReturn(session);
+		
+		HttpServletResponse response = mock(HttpServletResponse.class);
+		StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new ListServlet().doPost(request, response);
+        assertTrue(stringWriter.toString().contains("Added to list"));
+	}
+	
+	@Test
+	//doPost test: add a restaurant to all lists
+	public void doPostTest2c2() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
 		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
 		
@@ -107,7 +130,53 @@ public class ListServletTest {
 		Stream<String> stream = (Stream<String>)mock(Stream.class);
 		when(reader.lines()).thenReturn(stream);
 		when(request.getReader()).thenReturn(reader);
-		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"Do Not Show\\\",\\\"body\\\":\\\"{\\\\\\\"recipeID\\\\\\\":669071,\\\\\\\"prepTime\\\\\\\":5,\\\\\\\"cookTime\\\\\\\":16,\\\\\\\"ingredients\\\\\\\":[\\\\\\\"blueberries\\\\\\\",\\\\\\\"bread\\\\\\\",\\\\\\\"chili powder\\\\\\\",\\\\\\\"ground pepper\\\\\\\",\\\\\\\"monterey jack cheese\\\\\\\",\\\\\\\"olive oil\\\\\\\",\\\\\\\"peaches\\\\\\\",\\\\\\\"salt\\\\\\\",\\\\\\\"turkey burgers\\\\\\\"],\\\\\\\"instructions\\\\\\\":[\\\\\\\"1. Preheat grill to medium heat. Lightly brush both sides of FROZENturkey burgers with olive oil and place on grill about 4-inch above heat. Grillburgers 8 minutes on one side. Turn and grill other side 7 minutes or untildone and a meat thermometer inserted in center of burger registers 165F.\\\\\\\",\\\\\\\"2. Add cheese; cover and cook 1 minute more.Meanwhile, in a large skillet combine peaches, blueberries, and chili powder. Cook, stirring occasionally, over medium heat for 5 to 6 minutes or until heated through and juices are beginning to form.Top each piece of garlic bread with one turkey burger and some of the peach mixture. If desired, top with mint and additional chili powder.\\\\\\\"],\\\\\\\"imageURL\\\\\\\":\\\\\\\"https://spoonacular.com/recipeImages/669071-556x370.jpg\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Grilled Monterey Jack Turkey Burger with Peaches and Blueberries\\\\\\\",\\\\\\\"rating\\\\\\\":2}\\\"}\"}");
+		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"Do Not Show\\\",\\\"body\\\":\\\"{\\\\\\\"placeID\\\\\\\":\\\\\\\"ChIJ7w9tEuEdjF1Y\\\\\\\",\\\\\\\"address\\\\\\\":\\\\\\\"2511 S Vermont Ave, Los Angeles\\\\\\\",\\\\\\\"priceLevel\\\\\\\":\\\\\\\"$\\\\\\\",\\\\\\\"driveTimeText\\\\\\\":\\\\\\\"7 mins\\\\\\\",\\\\\\\"driveTimeValue\\\\\\\":443,\\\\\\\"phone\\\\\\\":\\\\\\\"(323) 730-1461\\\\\\\",\\\\\\\"url\\\\\\\":\\\\\\\"https://locations.jackinthebox.com/us/ca/los-angeles/2511-s-vermont-ave\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Jack in the Box\\\\\\\",\\\\\\\"rating\\\\\\\":4}\\\"}\"}");
+		when(request.getSession()).thenReturn(session);
+		
+		HttpServletResponse response = mock(HttpServletResponse.class);
+		StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new ListServlet().doPost(request, response);
+        assertTrue(stringWriter.toString().contains("Added to list"));
+	}
+	
+	@Test
+	//doPost test: add a restaurant to all lists
+	public void doPostTest2c3() throws IOException, ServletException {
+		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("Favorites")).thenReturn((List<Info>)new ArrayList<Info>());
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BufferedReader reader = mock(BufferedReader.class);
+		Stream<String> stream = (Stream<String>)mock(Stream.class);
+		when(reader.lines()).thenReturn(stream);
+		when(request.getReader()).thenReturn(reader);
+		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"Favorites\\\",\\\"body\\\":\\\"{\\\\\\\"placeID\\\\\\\":\\\\\\\"ChIJ7w9tEuEdjF1Y\\\\\\\",\\\\\\\"address\\\\\\\":\\\\\\\"2511 S Vermont Ave, Los Angeles\\\\\\\",\\\\\\\"priceLevel\\\\\\\":\\\\\\\"$\\\\\\\",\\\\\\\"driveTimeText\\\\\\\":\\\\\\\"7 mins\\\\\\\",\\\\\\\"driveTimeValue\\\\\\\":443,\\\\\\\"phone\\\\\\\":\\\\\\\"(323) 730-1461\\\\\\\",\\\\\\\"url\\\\\\\":\\\\\\\"https://locations.jackinthebox.com/us/ca/los-angeles/2511-s-vermont-ave\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Jack in the Box\\\\\\\",\\\\\\\"rating\\\\\\\":4}\\\"}\"}");
+		when(request.getSession()).thenReturn(session);
+		
+		HttpServletResponse response = mock(HttpServletResponse.class);
+		StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new ListServlet().doPost(request, response);
+        assertTrue(stringWriter.toString().contains("Added to list"));
+	}
+	
+	@Test
+	//doPost test: add a recipe to a list
+	public void doPostTest3a() throws IOException, ServletException {
+		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BufferedReader reader = mock(BufferedReader.class);
+		Stream<String> stream = (Stream<String>)mock(Stream.class);
+		when(reader.lines()).thenReturn(stream);
+		when(request.getReader()).thenReturn(reader);
+		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"To Explore\\\",\\\"body\\\":\\\"{\\\\\\\"recipeID\\\\\\\":669071,\\\\\\\"prepTime\\\\\\\":5,\\\\\\\"cookTime\\\\\\\":16,\\\\\\\"ingredients\\\\\\\":[\\\\\\\"blueberries\\\\\\\",\\\\\\\"bread\\\\\\\",\\\\\\\"chili powder\\\\\\\",\\\\\\\"ground pepper\\\\\\\",\\\\\\\"monterey jack cheese\\\\\\\",\\\\\\\"olive oil\\\\\\\",\\\\\\\"peaches\\\\\\\",\\\\\\\"salt\\\\\\\",\\\\\\\"turkey burgers\\\\\\\"],\\\\\\\"instructions\\\\\\\":[\\\\\\\"1. Preheat grill to medium heat. Lightly brush both sides of FROZENturkey burgers with olive oil and place on grill about 4-inch above heat. Grillburgers 8 minutes on one side. Turn and grill other side 7 minutes or untildone and a meat thermometer inserted in center of burger registers 165F.\\\\\\\",\\\\\\\"2. Add cheese; cover and cook 1 minute more.Meanwhile, in a large skillet combine peaches, blueberries, and chili powder. Cook, stirring occasionally, over medium heat for 5 to 6 minutes or until heated through and juices are beginning to form.Top each piece of garlic bread with one turkey burger and some of the peach mixture. If desired, top with mint and additional chili powder.\\\\\\\"],\\\\\\\"imageURL\\\\\\\":\\\\\\\"https://spoonacular.com/recipeImages/669071-556x370.jpg\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Grilled Monterey Jack Turkey Burger with Peaches and Blueberries\\\\\\\",\\\\\\\"rating\\\\\\\":2}\\\"}\"}");
 		when(request.getSession()).thenReturn(session);
 		
 		HttpServletResponse response = mock(HttpServletResponse.class);
@@ -131,6 +200,75 @@ public class ListServletTest {
 		when(reader.lines()).thenReturn(stream);
 		when(request.getReader()).thenReturn(reader);
 		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"Favorites\\\",\\\"body\\\":\\\"{\\\\\\\"recipeID\\\\\\\":669071,\\\\\\\"prepTime\\\\\\\":5,\\\\\\\"cookTime\\\\\\\":16,\\\\\\\"ingredients\\\\\\\":[\\\\\\\"blueberries\\\\\\\",\\\\\\\"bread\\\\\\\",\\\\\\\"chili powder\\\\\\\",\\\\\\\"ground pepper\\\\\\\",\\\\\\\"monterey jack cheese\\\\\\\",\\\\\\\"olive oil\\\\\\\",\\\\\\\"peaches\\\\\\\",\\\\\\\"salt\\\\\\\",\\\\\\\"turkey burgers\\\\\\\"],\\\\\\\"instructions\\\\\\\":[\\\\\\\"1. Preheat grill to medium heat. Lightly brush both sides of FROZENturkey burgers with olive oil and place on grill about 4-inch above heat. Grillburgers 8 minutes on one side. Turn and grill other side 7 minutes or untildone and a meat thermometer inserted in center of burger registers 165F.\\\\\\\",\\\\\\\"2. Add cheese; cover and cook 1 minute more.Meanwhile, in a large skillet combine peaches, blueberries, and chili powder. Cook, stirring occasionally, over medium heat for 5 to 6 minutes or until heated through and juices are beginning to form.Top each piece of garlic bread with one turkey burger and some of the peach mixture. If desired, top with mint and additional chili powder.\\\\\\\"],\\\\\\\"imageURL\\\\\\\":\\\\\\\"https://spoonacular.com/recipeImages/669071-556x370.jpg\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Grilled Monterey Jack Turkey Burger with Peaches and Blueberries\\\\\\\",\\\\\\\"rating\\\\\\\":2}\\\"}\"}");
+		when(request.getSession()).thenReturn(session);
+		
+		HttpServletResponse response = mock(HttpServletResponse.class);
+		StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new ListServlet().doPost(request, response);
+        assertTrue(stringWriter.toString().contains("Added to list"));
+	}
+	
+	@Test
+	//doPost test: add a recipe to all lists
+	public void doPostTest3c1() throws IOException, ServletException {
+		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("Favorites")).thenReturn((List<Info>)new ArrayList<Info>());
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BufferedReader reader = mock(BufferedReader.class);
+		Stream<String> stream = (Stream<String>)mock(Stream.class);
+		when(reader.lines()).thenReturn(stream);
+		when(request.getReader()).thenReturn(reader);
+		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"Favorites\\\",\\\"body\\\":\\\"{\\\\\\\"recipeID\\\\\\\":6629071,\\\\\\\"prepTime\\\\\\\":5,\\\\\\\"cookTime\\\\\\\":16,\\\\\\\"ingredients\\\\\\\":[\\\\\\\"blueberries\\\\\\\",\\\\\\\"bread\\\\\\\",\\\\\\\"chili powder\\\\\\\",\\\\\\\"ground pepper\\\\\\\",\\\\\\\"monterey jack cheese\\\\\\\",\\\\\\\"olive oil\\\\\\\",\\\\\\\"peaches\\\\\\\",\\\\\\\"salt\\\\\\\",\\\\\\\"turkey burgers\\\\\\\"],\\\\\\\"instructions\\\\\\\":[\\\\\\\"1. Preheat grill to medium heat. Lightly brush both sides of FROZENturkey burgers with olive oil and place on grill about 4-inch above heat. Grillburgers 8 minutes on one side. Turn and grill other side 7 minutes or untildone and a meat thermometer inserted in center of burger registers 165F.\\\\\\\",\\\\\\\"2. Add cheese; cover and cook 1 minute more.Meanwhile, in a large skillet combine peaches, blueberries, and chili powder. Cook, stirring occasionally, over medium heat for 5 to 6 minutes or until heated through and juices are beginning to form.Top each piece of garlic bread with one turkey burger and some of the peach mixture. If desired, top with mint and additional chili powder.\\\\\\\"],\\\\\\\"imageURL\\\\\\\":\\\\\\\"https://spoonacular.com/recipeImages/669071-556x370.jpg\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Grilled Monterey Jack Turkey Burger with Peaches and Blueberries\\\\\\\",\\\\\\\"rating\\\\\\\":2}\\\"}\"}");
+		when(request.getSession()).thenReturn(session);
+		
+		HttpServletResponse response = mock(HttpServletResponse.class);
+		StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new ListServlet().doPost(request, response);
+        assertTrue(stringWriter.toString().contains("Added to list"));
+	}
+	
+	@Test
+	//doPost test: add a recipe to all lists
+	public void doPostTest3c2() throws IOException, ServletException {
+		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BufferedReader reader = mock(BufferedReader.class);
+		Stream<String> stream = (Stream<String>)mock(Stream.class);
+		when(reader.lines()).thenReturn(stream);
+		when(request.getReader()).thenReturn(reader);
+		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"To Explore\\\",\\\"body\\\":\\\"{\\\\\\\"recipeID\\\\\\\":6629071,\\\\\\\"prepTime\\\\\\\":5,\\\\\\\"cookTime\\\\\\\":16,\\\\\\\"ingredients\\\\\\\":[\\\\\\\"blueberries\\\\\\\",\\\\\\\"bread\\\\\\\",\\\\\\\"chili powder\\\\\\\",\\\\\\\"ground pepper\\\\\\\",\\\\\\\"monterey jack cheese\\\\\\\",\\\\\\\"olive oil\\\\\\\",\\\\\\\"peaches\\\\\\\",\\\\\\\"salt\\\\\\\",\\\\\\\"turkey burgers\\\\\\\"],\\\\\\\"instructions\\\\\\\":[\\\\\\\"1. Preheat grill to medium heat. Lightly brush both sides of FROZENturkey burgers with olive oil and place on grill about 4-inch above heat. Grillburgers 8 minutes on one side. Turn and grill other side 7 minutes or untildone and a meat thermometer inserted in center of burger registers 165F.\\\\\\\",\\\\\\\"2. Add cheese; cover and cook 1 minute more.Meanwhile, in a large skillet combine peaches, blueberries, and chili powder. Cook, stirring occasionally, over medium heat for 5 to 6 minutes or until heated through and juices are beginning to form.Top each piece of garlic bread with one turkey burger and some of the peach mixture. If desired, top with mint and additional chili powder.\\\\\\\"],\\\\\\\"imageURL\\\\\\\":\\\\\\\"https://spoonacular.com/recipeImages/669071-556x370.jpg\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Grilled Monterey Jack Turkey Burger with Peaches and Blueberries\\\\\\\",\\\\\\\"rating\\\\\\\":2}\\\"}\"}");
+		when(request.getSession()).thenReturn(session);
+		
+		HttpServletResponse response = mock(HttpServletResponse.class);
+		StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new ListServlet().doPost(request, response);
+        assertTrue(stringWriter.toString().contains("Added to list"));
+	}
+	
+	@Test
+	//doPost test: add a recipe to all lists
+	public void doPostTest3c3() throws IOException, ServletException {
+		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BufferedReader reader = mock(BufferedReader.class);
+		Stream<String> stream = (Stream<String>)mock(Stream.class);
+		when(reader.lines()).thenReturn(stream);
+		when(request.getReader()).thenReturn(reader);
+		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"Do Not Show\\\",\\\"body\\\":\\\"{\\\\\\\"recipeID\\\\\\\":6629071,\\\\\\\"prepTime\\\\\\\":5,\\\\\\\"cookTime\\\\\\\":16,\\\\\\\"ingredients\\\\\\\":[\\\\\\\"blueberries\\\\\\\",\\\\\\\"bread\\\\\\\",\\\\\\\"chili powder\\\\\\\",\\\\\\\"ground pepper\\\\\\\",\\\\\\\"monterey jack cheese\\\\\\\",\\\\\\\"olive oil\\\\\\\",\\\\\\\"peaches\\\\\\\",\\\\\\\"salt\\\\\\\",\\\\\\\"turkey burgers\\\\\\\"],\\\\\\\"instructions\\\\\\\":[\\\\\\\"1. Preheat grill to medium heat. Lightly brush both sides of FROZENturkey burgers with olive oil and place on grill about 4-inch above heat. Grillburgers 8 minutes on one side. Turn and grill other side 7 minutes or untildone and a meat thermometer inserted in center of burger registers 165F.\\\\\\\",\\\\\\\"2. Add cheese; cover and cook 1 minute more.Meanwhile, in a large skillet combine peaches, blueberries, and chili powder. Cook, stirring occasionally, over medium heat for 5 to 6 minutes or until heated through and juices are beginning to form.Top each piece of garlic bread with one turkey burger and some of the peach mixture. If desired, top with mint and additional chili powder.\\\\\\\"],\\\\\\\"imageURL\\\\\\\":\\\\\\\"https://spoonacular.com/recipeImages/669071-556x370.jpg\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Grilled Monterey Jack Turkey Burger with Peaches and Blueberries\\\\\\\",\\\\\\\"rating\\\\\\\":2}\\\"}\"}");
 		when(request.getSession()).thenReturn(session);
 		
 		HttpServletResponse response = mock(HttpServletResponse.class);
@@ -169,14 +307,14 @@ public class ListServletTest {
 	//doPost test: remove a recipe from a list
 	public void doPostTest5a() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
-		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
+		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		BufferedReader reader = mock(BufferedReader.class);
 		Stream<String> stream = (Stream<String>)mock(Stream.class);
 		when(reader.lines()).thenReturn(stream);
 		when(request.getReader()).thenReturn(reader);
-		when(stream.collect(any())).thenReturn("{\"header\":\"removeItem\",\"body\":\"{\\\"header\\\":\\\"Do Not Show\\\",\\\"body\\\":\\\"{\\\\\\\"recipeID\\\\\\\":669071,\\\\\\\"prepTime\\\\\\\":5,\\\\\\\"cookTime\\\\\\\":16,\\\\\\\"ingredients\\\\\\\":[\\\\\\\"blueberries\\\\\\\",\\\\\\\"bread\\\\\\\",\\\\\\\"chili powder\\\\\\\",\\\\\\\"ground pepper\\\\\\\",\\\\\\\"monterey jack cheese\\\\\\\",\\\\\\\"olive oil\\\\\\\",\\\\\\\"peaches\\\\\\\",\\\\\\\"salt\\\\\\\",\\\\\\\"turkey burgers\\\\\\\"],\\\\\\\"instructions\\\\\\\":[\\\\\\\"1. Preheat grill to medium heat. Lightly brush both sides of FROZENturkey burgers with olive oil and place on grill about 4-inch above heat. Grillburgers 8 minutes on one side. Turn and grill other side 7 minutes or untildone and a meat thermometer inserted in center of burger registers 165F.\\\\\\\",\\\\\\\"2. Add cheese; cover and cook 1 minute more.Meanwhile, in a large skillet combine peaches, blueberries, and chili powder. Cook, stirring occasionally, over medium heat for 5 to 6 minutes or until heated through and juices are beginning to form.Top each piece of garlic bread with one turkey burger and some of the peach mixture. If desired, top with mint and additional chili powder.\\\\\\\"],\\\\\\\"imageURL\\\\\\\":\\\\\\\"https://spoonacular.com/recipeImages/669071-556x370.jpg\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Grilled Monterey Jack Turkey Burger with Peaches and Blueberries\\\\\\\",\\\\\\\"rating\\\\\\\":2}\\\"}\"}");
+		when(stream.collect(any())).thenReturn("{\"header\":\"removeItem\",\"body\":\"{\\\"header\\\":\\\"To Explore\\\",\\\"body\\\":\\\"{\\\\\\\"recipeID\\\\\\\":669071,\\\\\\\"prepTime\\\\\\\":5,\\\\\\\"cookTime\\\\\\\":16,\\\\\\\"ingredients\\\\\\\":[\\\\\\\"blueberries\\\\\\\",\\\\\\\"bread\\\\\\\",\\\\\\\"chili powder\\\\\\\",\\\\\\\"ground pepper\\\\\\\",\\\\\\\"monterey jack cheese\\\\\\\",\\\\\\\"olive oil\\\\\\\",\\\\\\\"peaches\\\\\\\",\\\\\\\"salt\\\\\\\",\\\\\\\"turkey burgers\\\\\\\"],\\\\\\\"instructions\\\\\\\":[\\\\\\\"1. Preheat grill to medium heat. Lightly brush both sides of FROZENturkey burgers with olive oil and place on grill about 4-inch above heat. Grillburgers 8 minutes on one side. Turn and grill other side 7 minutes or untildone and a meat thermometer inserted in center of burger registers 165F.\\\\\\\",\\\\\\\"2. Add cheese; cover and cook 1 minute more.Meanwhile, in a large skillet combine peaches, blueberries, and chili powder. Cook, stirring occasionally, over medium heat for 5 to 6 minutes or until heated through and juices are beginning to form.Top each piece of garlic bread with one turkey burger and some of the peach mixture. If desired, top with mint and additional chili powder.\\\\\\\"],\\\\\\\"imageURL\\\\\\\":\\\\\\\"https://spoonacular.com/recipeImages/669071-556x370.jpg\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Grilled Monterey Jack Turkey Burger with Peaches and Blueberries\\\\\\\",\\\\\\\"rating\\\\\\\":2}\\\"}\"}");
 		when(request.getSession()).thenReturn(session);
 		
 		HttpServletResponse response = mock(HttpServletResponse.class);
@@ -215,14 +353,14 @@ public class ListServletTest {
 	//doPost test: remove a restaurant from a list
 	public void doPostTest6a() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
-		when(session.getAttribute("Favorites")).thenReturn((List<Info>)new ArrayList<Info>());
+		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		BufferedReader reader = mock(BufferedReader.class);
 		Stream<String> stream = (Stream<String>)mock(Stream.class);
 		when(reader.lines()).thenReturn(stream);
 		when(request.getReader()).thenReturn(reader);
-		when(stream.collect(any())).thenReturn("{\"header\":\"removeItem\",\"body\":\"{\\\"header\\\":\\\"Favorites\\\",\\\"body\\\":\\\"{\\\\\\\"placeID\\\\\\\":\\\\\\\"ChIJ7w9tDvPHwoAR1n-EuEdjF1Y\\\\\\\",\\\\\\\"address\\\\\\\":\\\\\\\"2511 S Vermont Ave, Los Angeles\\\\\\\",\\\\\\\"priceLevel\\\\\\\":\\\\\\\"$\\\\\\\",\\\\\\\"driveTimeText\\\\\\\":\\\\\\\"7 mins\\\\\\\",\\\\\\\"driveTimeValue\\\\\\\":443,\\\\\\\"phone\\\\\\\":\\\\\\\"(323) 730-1461\\\\\\\",\\\\\\\"url\\\\\\\":\\\\\\\"https://locations.jackinthebox.com/us/ca/los-angeles/2511-s-vermont-ave\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Jack in the Box\\\\\\\",\\\\\\\"rating\\\\\\\":4}\\\"}\"}");
+		when(stream.collect(any())).thenReturn("{\"header\":\"removeItem\",\"body\":\"{\\\"header\\\":\\\"Do Not Show\\\",\\\"body\\\":\\\"{\\\\\\\"placeID\\\\\\\":\\\\\\\"ChIJ7w9tDvPHwoAR1n-EuEdjF1Y\\\\\\\",\\\\\\\"address\\\\\\\":\\\\\\\"2511 S Vermont Ave, Los Angeles\\\\\\\",\\\\\\\"priceLevel\\\\\\\":\\\\\\\"$\\\\\\\",\\\\\\\"driveTimeText\\\\\\\":\\\\\\\"7 mins\\\\\\\",\\\\\\\"driveTimeValue\\\\\\\":443,\\\\\\\"phone\\\\\\\":\\\\\\\"(323) 730-1461\\\\\\\",\\\\\\\"url\\\\\\\":\\\\\\\"https://locations.jackinthebox.com/us/ca/los-angeles/2511-s-vermont-ave\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Jack in the Box\\\\\\\",\\\\\\\"rating\\\\\\\":4}\\\"}\"}");
 		when(request.getSession()).thenReturn(session);
 		
 		HttpServletResponse response = mock(HttpServletResponse.class);

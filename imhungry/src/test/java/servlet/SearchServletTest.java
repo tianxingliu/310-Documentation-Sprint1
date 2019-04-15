@@ -33,7 +33,8 @@ public class SearchServletTest {
 	//doGet test 1
 	public void testServlet1() throws Exception {
 		HttpSession session = mock(HttpSession.class);
-		when(session.isNew()).thenReturn(true);
+		when(session.isNew()).thenReturn(false);
+		when(session.getAttribute(any(String.class))).thenReturn(new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -117,7 +118,7 @@ public class SearchServletTest {
 		listServlet.doPost(request4, response2);
 		
 		HttpSession session = mock(HttpSession.class);
-		when(session.isNew()).thenReturn(false);
+		when(session.isNew()).thenReturn(true);
 		when(session.getAttribute(any(String.class))).thenReturn(new ArrayList<Info>());
 		
 		//perform search
