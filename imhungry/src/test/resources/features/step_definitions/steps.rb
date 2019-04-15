@@ -4,6 +4,7 @@ end
 
 When(/^I search for "([^"]*)" and expect 5 results$/) do |query|
     fill_in('search', :with => query)
+    fill_in('number', :with => 3)
 end
 
 When(/^press "([^"]*)" button$/) do |buttonName|
@@ -156,4 +157,16 @@ end
 
 When(/^restart session$/) do
     Capybara.reset_sessions!
+end
+
+And(/^reload the page$/) do
+  visit "localhost:9090"
+end
+
+Then(/^the data still preserves$/) do
+   expect(page).to have_content("horsh")
+end
+
+Then(/^the radius input field exists$/) do
+   expect(page).to have_css(".hover")
 end
