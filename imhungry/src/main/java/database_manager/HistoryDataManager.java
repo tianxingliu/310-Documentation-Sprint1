@@ -16,26 +16,44 @@ public class HistoryDataManager  extends DataManager {
 	
 	public void addToList(History history) {
 		
-		String query = history.query;
-		int number = history.number;
-		int radius = history.radius;
-		
+		 String query = history.query;
+		 int number = history.number;
+		 int radius = history.radius;
+		 
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		Class.forName("com.mysql.jdbc.Driver"); // get driver for database
-		conn = DriverManager.getConnection(JDBC_CONNECTION);
-		ps = conn.prepareStatement("INSERT INTO History (hName,hNumber,Radius) VALUES (?,?,?);");
+		try {
+		
+			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
+			conn = DriverManager.getConnection(JDBC_CONNECTION);
+			ps = conn.prepareStatement("INSERT INTO History (hName,hNumber,Radius) VALUES (?,?,?);");
 
-		ps.setString(1, query); // set first variable in prepared statement
-		ps.setLong(2, number);
-		ps.setLong(3, radius);	
-		ps.execute();
-		System.out.println("Restaurant added to database.");
-					
-		rs.close();
-		ps.close();
-		conn.close();
+			ps.setString(1, query); // set first variable in prepared statement
+			ps.setLong(2, number);
+		    ps.setLong(3, radius);	
+		    ps.execute();
+		    System.out.println("Restaurant added to database.");
+		    
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println("sqle closing conn: " + sqle.getMessage());
+			}
+		}
 	}
 	
 	public void removeHistory(int key) {
@@ -43,17 +61,32 @@ public class HistoryDataManager  extends DataManager {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		Class.forName("com.mysql.jdbc.Driver"); // get driver for database
-		conn = DriverManager.getConnection(JDBC_CONNECTION);
-		PreparedStatement delete = conn.prepareStatement("DELETE FROM History WHERE ID = " + key );
-		delete.execute();
-		delete.close();
-		System.out.println("Restaurant removed.");
-		
-		rs.close();
-		ps.close();
-		conn.close();
-				
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
+			conn = DriverManager.getConnection(JDBC_CONNECTION);
+				PreparedStatement delete = conn.prepareStatement("DELETE FROM History WHERE ID = " + key );
+				delete.execute();
+				delete.close();
+				System.out.println("Restaurant removed.");
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println("sqle closing conn: " + sqle.getMessage());
+			}
+		}
 	}
 	
 	public ArrayList<History> loadHistory(){
@@ -63,22 +96,41 @@ public class HistoryDataManager  extends DataManager {
 		ResultSet rs = null;
 		
 		ArrayList<History> historyList = new ArrayList<History>();
-		Class.forName("com.mysql.jdbc.Driver"); // get driver for database
-		conn = DriverManager.getConnection(JDBC_CONNECTION);
-		
-		ps = conn.prepareStatement("SELECT * FROM History");
-		rs = ps.executeQuery();
-		while(rs.next()) {
-			History his = new History(
-				rs.getInt("ID"),
-				rs.getString("hName"), 
-				rs.getInt("hNumber"),
-				rs.getInt("Radius"));
-			historyList.add(his);
+		try {
+			
+			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
+			conn = DriverManager.getConnection(JDBC_CONNECTION);
+			
+
+			ps = conn.prepareStatement("SELECT * FROM History");
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				History his = new History(
+					rs.getInt("ID"),
+					rs.getString("hName"), 
+					rs.getInt("hNumber"),
+					rs.getInt("Radius"));
+				historyList.add(his);
+			}
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println("sqle closing conn: " + sqle.getMessage());
+			}
 		}
-		rs.close();
-		ps.close();
-		conn.close();
 		return historyList;
 	} 
 	
