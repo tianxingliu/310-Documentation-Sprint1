@@ -49,17 +49,14 @@ public class ListServlet extends HttpServlet
             return;
         }
         if(listName.equals("Quick Access")) {
-        		if(session.getAttribute("Quick Access") == null) {
-        			HistoryDataManager historyDB = new HistoryDataManager();
-        			//load quickAccessList from database
-        			ArrayList<History> quickAccessList = new ArrayList<History>();
-        			quickAccessList = historyDB.loadHistory();
-        			session.setAttribute("Quick Access", quickAccessList);
-        		}
-	        	List<History> historyList = (List<History>)session.getAttribute(listName);
+    			HistoryDataManager historyDB = new HistoryDataManager();
+    			//load quickAccessList from database
+    			ArrayList<History> quickAccessList = new ArrayList<History>();
+    			quickAccessList = historyDB.loadHistory();
+    			session.setAttribute("Quick Access", quickAccessList);
+    			List<History> historyList = (List<History>)session.getAttribute(listName);
 	        	List<String> list = new ArrayList<String>();
-	        	for(int i = 0;i < historyList.size();i++) {
-	        		
+	        	for(int i = 0;i < historyList.size();i++){
 	        		list.add(historyList.get(i).query);
 	        	}
 	        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
@@ -92,17 +89,13 @@ public class ListServlet extends HttpServlet
             
             if(listName.equals("Quick Access")) {
             	//TODO: Add code for other cases, only addItem for now
-		        	System.out.print("Testing: ");
-		        	System.out.println((String)reqListAndItem.body);
+//		        	System.out.print("Testing: ");
+//		        	System.out.println((String)reqListAndItem.body);
 		        	ArrayList<History> list = (ArrayList<History>)session.getAttribute("Quick Access");
-		        	for(int i =0;i<list.size();i++) {
-		        		System.out.println(list.get(i).query);
-		        	}
 		        	String s = (String)reqListAndItem.body;
 		        	History h = new History(s,0,0);
 		        	HistoryDataManager historyDB = new HistoryDataManager();
 		        	historyDB.addToList(h);
-		        	list.add(h);
 		        	respWriter.println(gson.toJson(new Message("quick access "+listName)));
 		        	return;
             }
