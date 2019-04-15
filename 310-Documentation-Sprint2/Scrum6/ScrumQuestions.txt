@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I finished looking up the designs 
+2. No 
+3. Will finish up by today
+
+Haiyu Tian:
+1. I have been working on documentation
+2. Not particular
+3. I will continue working on doc and prepare for demo
+
+Pinghao Luo:
+1. I finish classes for search history and database
+2. None.
+3. I will work on documentation
+
+Tianxing Liu:
+1. I finished the functionality for quick access list and modified some cucumber tests.
+2. No.
+3. I will make sure all version on GitHub is clear.
+
+Guancheng Qiu:
+1. I updated some tests and the UI mockup.
+2. None.
+3. I will work on the report.

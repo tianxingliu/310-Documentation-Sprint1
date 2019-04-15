@@ -32,10 +32,10 @@ CREATE TABLE Recipes(
 );
 
 CREATE TABLE History(
-    Key INT(11) PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(200) NOT NULL,
-    Number INT(11) NOT NULL,
-    Radius INT(11) NOT NULL,
+    ID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    hName VARCHAR(200),
+    hNumber INT(11) NOT NULL,
+    Radius INT(11) NOT NULL
 );
 
 CREATE TABLE GroceryList(
