@@ -1,9 +1,10 @@
-Given(/^I visit the website$/) do
+Given(/^I visit the website and database is empty$/) do
   visit "localhost:9090"
 end
 
 When(/^I search for "([^"]*)" and expect 5 results$/) do |query|
     fill_in('search', :with => query)
+    fill_in('number', :with => 3)
 end
 
 When(/^press "([^"]*)" button$/) do |buttonName|
@@ -29,14 +30,14 @@ end
 When(/^press the "([^"]*)"$/) do |elementName|
     find('#' + elementName).click
 end
-
-When(/^I press "Add to grocery" button$/) do
-    page.find('.addToGrocery', match: :first).click
-end
-
-When(/^I press "Display Grocery" bnutton$/) do
-    page.find('#display_grocery', match: :first).click
-end
+#
+# When(/^I press "Add to grocery" button$/) do
+#     page.find('.addToGrocery', match: :first).click
+# end
+#
+# When(/^I press "Display Grocery" bnutton$/) do
+#     page.find('#display_grocery', match: :first).click
+# end
 
 Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
     expect(page).to have_title pageTitle
@@ -156,4 +157,16 @@ end
 
 When(/^restart session$/) do
     Capybara.reset_sessions!
+end
+
+And(/^reload the page$/) do
+  visit "localhost:9090"
+end
+
+Then(/^the data still preserves$/) do
+   expect(page).to have_content("horsh")
+end
+
+Then(/^the radius input field exists$/) do
+   expect(page).to have_css(".hover")
 end

@@ -2,7 +2,7 @@ Feature: Search Page
 
 Background:
 
-	Given I visit the website
+	Given I visit the website and database is empty
 
 #1
 Scenario: the default page should be Search Page
@@ -14,4 +14,4 @@ Scenario: initiating the search redirects to Results Page
 
 	When I search for "chicken" and expect 5 results
 	And press "submit" button
-	Then I should see the "Result" page
+	Then I should see the "Results" page
