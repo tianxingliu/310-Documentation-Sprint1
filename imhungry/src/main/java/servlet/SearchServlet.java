@@ -68,6 +68,7 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+
 		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
 		ArrayList<String> quickAccessList;
@@ -91,6 +92,7 @@ public class SearchServlet extends HttpServlet {
 			toExploreList.addAll(restaurantDB.loadRestaurants(3));
 			toExploreList.addAll(recipeDB.loadRecipes(3));
 			groceryList = groceryDB.loadGrocery();
+
 			
 			quickAccessList = new ArrayList<>();
 			//quickAccessList.add("dududu");
@@ -101,6 +103,7 @@ public class SearchServlet extends HttpServlet {
 			session.setAttribute("Do Not Show", doNotShowList);
 			session.setAttribute("Grocery", groceryList);
 			
+
 		}
 		else {
 			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
@@ -108,6 +111,7 @@ public class SearchServlet extends HttpServlet {
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
 			groceryList = (ArrayList<Info>) session.getAttribute("Grocery");
 			quickAccessList = (ArrayList<String>) session.getAttribute("Quick Access");
+
 		}
 
         //From previous page, extract parameters
