@@ -2,7 +2,7 @@ Feature: Restaurant Page
 
 Background:
 
-	Given I visit the website
+	Given I visit the website and database is empty
 #1
 Scenario: Restaurant Page displays appropriate information
 

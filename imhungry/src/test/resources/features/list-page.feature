@@ -2,7 +2,7 @@ Feature: List Management Page
 
 Background:
 
-	Given I visit the website
+	Given I visit the website and database is empty
 #1
 #Results 7a
 Scenario: recipe items added to a list should be displayed like on Results Page
@@ -11,8 +11,8 @@ Scenario: recipe items added to a list should be displayed like on Results Page
 	And press "submit" button
 	And press a recipe
 	And select the list "Favorites"
-	And press "addtolist" button
-	And press "backtoresults" button
+	And press "Add to List" button
+	And press "Back to Results" button
 	And press "manage_list" button
 	And select the list "Favorites"
 	And press "manage_list" button
@@ -23,8 +23,8 @@ Scenario: restaurant items added to a list should be displayed like on Results P
 	And press "submit" button
 	And press a restaurant
 	And select the list "Favorites"
-	And press "addtolist" button
-	And press "backtoresults" button
+	And press "Add to List" button
+	And press "Back to Results" button
 	And select the list "Favorites"
 	And press "manage_list" button
 	Then I should see an info item
@@ -36,8 +36,8 @@ Scenario: clicking on a restaurant item redirects to the restaurant page
 	And press "submit" button
 	And press a restaurant
 	And select the list "Favorites"
-	And press "addtolist" button
-	And press "backtoresults" button
+	And press "Add to List" button
+	And press "Back to Results" button
 	And select the list "Favorites"
 	And press "Manage List" button
 	And press an info item
@@ -49,8 +49,8 @@ Scenario: clicking on a recipe item redirects to the recipe page
 	And press "submit" button
 	And press a recipe
 	And select the list "Favorites"
-	And press "addtolist" button
-	And press "backtoresults" button
+	And press "Add to List" button
+	And press "Back to Results" button
 	And select the list "Favorites"
 	And press "Manage List" button
 	And press an info item
@@ -63,8 +63,8 @@ Scenario: an item can be removed from a list
 	And press "submit" button
 	And press a recipe
 	And select the list "Favorites"
-	And press "addtolist" button
-	And press "backtoresults" button
+	And press "Add to List" button
+	And press "Back to Results" button
 	And select the list "Favorites"
 	And press "Manage List" button
 	And select the list "To Explore"
@@ -79,7 +79,7 @@ Scenario: clicking on "Return to Results Page" redirects to Results Page
 	And press "submit" button
 	And select the list "Favorites"
 	And press "Manage List" button
-	And press "Back to Result" button
+	And press "Back to Results" button
 	Then I should see the "Result" page
 
 #5
@@ -102,18 +102,3 @@ Scenario: clicking on "Manage List" redirects to the list selected
 	And select the list "To Explore"
 	And press "Manage List" button
 	Then I should see the page of To Explore List
-
-
-# Backlog 2
-Scenario: maintain information beyond just a single session
-
-	When I search for "chicken" and expect 5 results
-	And press "submit" button
-	And press a restaurant
-	And select the list "Favorites"
-	And press "addtolist" button
-	And restart session
-	And I search for "chicken" and expect 5 results
-	And select the list "Favorites"
-	And press "Manage List" button
-	Then I should see an info item

@@ -1,4 +1,4 @@
-Given(/^I visit the website$/) do
+Given(/^I visit the website and database is empty$/) do
   visit "localhost:9090"
 end
 
@@ -30,14 +30,14 @@ end
 When(/^press the "([^"]*)"$/) do |elementName|
     find('#' + elementName).click
 end
-
-When(/^I press "Add to grocery" button$/) do
-    page.find('.addToGrocery', match: :first).click
-end
-
-When(/^I press "Display Grocery" bnutton$/) do
-    page.find('#display_grocery', match: :first).click
-end
+#
+# When(/^I press "Add to grocery" button$/) do
+#     page.find('.addToGrocery', match: :first).click
+# end
+#
+# When(/^I press "Display Grocery" bnutton$/) do
+#     page.find('#display_grocery', match: :first).click
+# end
 
 Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
     expect(page).to have_title pageTitle
