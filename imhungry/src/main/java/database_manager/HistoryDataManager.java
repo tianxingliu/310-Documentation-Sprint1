@@ -27,7 +27,7 @@ public class HistoryDataManager  extends DataManager {
 		
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
-			ps = conn.prepareStatement("INSERT INTO History VALUES (?,?,?);");
+			ps = conn.prepareStatement("INSERT INTO History (hName,hNumber,Radius) VALUES (?,?,?);");
 
 			ps.setString(1, query); // set first variable in prepared statement
 			ps.setLong(2, number);
@@ -56,6 +56,7 @@ public class HistoryDataManager  extends DataManager {
 		}
 	}
 	
+	/*
 	public void removeHistory(int key) {
 		
 		Connection conn = null;
@@ -64,7 +65,7 @@ public class HistoryDataManager  extends DataManager {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
-				PreparedStatement delete = conn.prepareStatement("DELETE FROM History WHERE Key LIKE '" + key + "'");
+				PreparedStatement delete = conn.prepareStatement("DELETE FROM History WHERE ID = " + key );
 				delete.execute();
 				delete.close();
 				System.out.println("Restaurant removed.");
@@ -88,6 +89,7 @@ public class HistoryDataManager  extends DataManager {
 			}
 		}
 	}
+	*/
 	
 	public ArrayList<History> loadHistory(){
 		
@@ -106,10 +108,10 @@ public class HistoryDataManager  extends DataManager {
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				History his = new History(
-					rs.getInt("Key"),
-					rs.getString("Query"), 
-					rs.getInt("Number"),
-					rs.getInt("Rqdius"));
+					rs.getInt("ID"),
+					rs.getString("hName"), 
+					rs.getInt("hNumber"),
+					rs.getInt("Radius"));
 				historyList.add(his);
 			}
 		} catch (SQLException sqle) {
