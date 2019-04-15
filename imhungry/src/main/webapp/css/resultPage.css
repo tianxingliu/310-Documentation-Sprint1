@@ -1,11 +1,52 @@
 @charset "UTF-8";
 body{
-	font-family: Helvetica,sans-serif;
-	background-color: #f5f5f5;
+	font-family: 'Roboto', sans-serif;
+	background-color: #ff9d98;
+}
+
+#quickAccess
+{
+	font-family: 'Roboto', sans-serif;
+	background-color: lightgreen;
+	border: 5px solid lightblue;
+	position:absolute;
+	left:4%;
+	top:30%;
+	width:18%;
+}
+
+#quickAccess1
+{
+	font-family: 'Roboto', sans-serif;
+	font-family: 'Roboto', sans-serif;
+	color: white;
+	text-decoration: underline overline;
+	font-size: 1.5rem;
+}
+
+#quickAccess2
+{
+	font-family: 'Roboto', sans-serif;
+	background-color: lightblue;
+	border: 5px solid lightyellow;
+}
+
+A
+{
+	font-family: 'Roboto', sans-serif;
+	text-decoration:none;
+	font-family: 'Roboto', sans-serif;
+	color: lightyellow;
+}
+
+.easyPaginateNav
+{
+	color:white;
 }
 
 #header{
-	font-family: Helvetica,sans-serif;
+	font-family: 'Roboto', sans-serif;
+	color:white;
 	font-size: 5rem;
 	text-align: center;
 	padding-top: 5vh;
@@ -93,6 +134,7 @@ body{
 }
 
 input[type=submit] {
+	font-family: 'Roboto', sans-serif;
     background:#A8A8A8; 
     color: white;
     width:15vw;
@@ -105,24 +147,31 @@ input[type=submit] {
 }
 
 #manage_list{
+	font-family: 'Roboto', sans-serif;
 	position: absolute;
    	right:5vw;
    	top:calc(21vh + 3rem);
+   	background-color:#ffc1ab;
 }
 
 #back_search{
+	font-family: 'Roboto', sans-serif;
 	position: absolute;
    	right:5vw;
    	top:calc(21vh + 6rem);
+   	background-color:#ffc1ab;
 }
 
 #display_grocery{
+	font-family: 'Roboto', sans-serif;
 	position: absolute;
    	right:5vw;
    	top:calc(21vh + 9rem);
+   	background-color:#ffc1ab;
 }
 
 .item {
+	font-family: 'Roboto', sans-serif;
 	width: 100%;
 	height: 5rem;
 }
@@ -185,6 +234,7 @@ input[type=submit] {
 }
 
 #container{
+	font-family: 'Roboto', sans-serif;
 	margin-top:3vh;
 	display: flex;
 	align-items: center;
@@ -200,8 +250,14 @@ input[type=submit] {
 }
 
 
-.item:nth-child(odd) {background-color:#6D6D6D;}
-.item:nth-child(even) {background-color:#A8A8A8;}
+.item:nth-child(odd) {
+	background-color:#ff6868;
+	color:white;
+	}
+	
+.item:nth-child(even) {background-color:#ffc1ab;
+color:white;
+}
 
 
 #column1 {
@@ -222,6 +278,7 @@ input[type=submit] {
 	font-size:3rem;
 	text-align: center;
 	/* background-color: pink; */
+	color:white;
 	width: 50%;
 	float: left;
 }
@@ -229,6 +286,7 @@ input[type=submit] {
 	font-size:3rem;
 	text-align: center;
 	/* background-color: blue; */
+	color:white;
 	width: 50%;
 	float: right;
 }

@@ -23,12 +23,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @WebServlet(name = "ListServlet", urlPatterns = "/Lists")
 public class ListServlet extends HttpServlet
@@ -89,15 +92,12 @@ public class ListServlet extends HttpServlet
             
             if(listName.equals("Quick Access")) {
             	//TODO: Add code for other cases, only addItem for now
-//		        	System.out.print("Testing: ");
-//		        	System.out.println((String)reqListAndItem.body);
-		        	ArrayList<History> list = (ArrayList<History>)session.getAttribute("Quick Access");
-		        	String s = (String)reqListAndItem.body;
-		        	History h = new History(s,0,0);
-		        	HistoryDataManager historyDB = new HistoryDataManager();
-		        	historyDB.addToList(h);
-		        	respWriter.println(gson.toJson(new Message("quick access "+listName)));
-		        	return;
+	        	String s = (String)reqListAndItem.body;
+	        	History h = new History(s,0,0);
+	        	HistoryDataManager historyDB = new HistoryDataManager();
+	        	historyDB.addToList(h);
+	        	respWriter.println(gson.toJson(new Message("quick access "+listName)));
+	        	return;
             }
             
             String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
@@ -119,7 +119,6 @@ public class ListServlet extends HttpServlet
                 switch(reqMessage.header)
                 {
                     case "addItem":
-//                        
                         if(listName.equals("Grocery")) { //case for add to Grocery List
                         	GroceryDataManager groceryDB = new GroceryDataManager();
                         	RecipeInfo newItem = gson.fromJson(infoJson, infoType);
@@ -182,16 +181,10 @@ public class ListServlet extends HttpServlet
                 }
 
 
-        } catch(Exception e) { //Handle exceptions
+        } catch(Exception e) {
             e.printStackTrace();
-            respWriter.println(gson.toJson(new Message("Invalid Response!\n"+e.getMessage())));
-            respWriter.close();
         }
         respWriter.close();
     }
 
-	private History History(String body) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>List Management</title>
 		<link rel="stylesheet" type="text/css" href="css/listPage.css" />

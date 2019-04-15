@@ -56,6 +56,7 @@ public class HistoryDataManager  extends DataManager {
 		}
 	}
 	
+	/*
 	public void removeHistory(int key) {
 		
 		Connection conn = null;
@@ -88,6 +89,7 @@ public class HistoryDataManager  extends DataManager {
 			}
 		}
 	}
+	*/
 	
 	public ArrayList<History> loadHistory(){
 		
