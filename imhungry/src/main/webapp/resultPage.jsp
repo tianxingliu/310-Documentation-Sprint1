@@ -4,6 +4,7 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 	<meta charset="UTF-8">
 	<title>Results Page</title>
 
@@ -26,7 +27,6 @@ right: 350px;
 <body>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
-	
 	<form action="listPage.jsp">
         <div class="dropDown">
             <select id = "dropdown" name="list">
@@ -58,14 +58,17 @@ right: 350px;
 		<div id = "column2">
 		</div>
 	</div>
-
+	<div id="quickAccess">
+		<div id = "quickAccess1"></div>
+		<div id = "quickAccess2"></div>
+	</div>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="js/jquery.easyPaginate.js"></script>
-
     <script src="js/dropdown.js"></script>
     <script src="js/parseQueryString.js"></script>
     <script src="js/ListClient.js"></script>
     <script>
+   
         var query = parseQuery(window.location.search);
         //Have to replace '+'s with ' 's before displaying name to user
         document.getElementById("header").innerHTML = 'Results for ' + query.search.replace(/\+/g, ' ');
@@ -224,6 +227,7 @@ right: 350px;
 	});
 	
 	</script>
+	<script src="js/quickAccess.js"></script>
 
 </body>
 </html>
