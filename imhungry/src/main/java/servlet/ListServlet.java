@@ -1,6 +1,7 @@
 package servlet;
 
 import com.google.gson.Gson;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -8,12 +9,13 @@ import com.google.gson.JsonSyntaxException;
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
+import database_manager.HistoryDataManager;
 import info.Info;
 import info.Message;
 import info.RecipeInfo;
 import info.RestaurantInfo;
 import info.GroceryInfo;
-import info.QuickAccess;
+import info.History;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,16 +49,28 @@ public class ListServlet extends HttpServlet
             return;
         }
         if(listName.equals("Quick Access")) {
-        	List<String> list = (List<String>)session.getAttribute(listName);
-        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
-            respWriter.close();
-            return;
+        		if(session.getAttribute("Quick Access") == null) {
+        			HistoryDataManager historyDB = new HistoryDataManager();
+        			//load quickAccessList from database
+        			ArrayList<History> quickAccessList = new ArrayList<History>();
+        			quickAccessList = historyDB.loadHistory();
+        			session.setAttribute("Quick Access", quickAccessList);
+        		}
+	        	List<History> historyList = (List<History>)session.getAttribute(listName);
+	        	List<String> list = new ArrayList<String>();
+	        	for(int i = 0;i < historyList.size();i++) {
+	        		
+	        		list.add(historyList.get(i).query);
+	        	}
+	        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
+	            respWriter.close();
+	            return;
         }
-    	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
-        respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
-        respWriter.close();
-        
-    }
+	    	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
+	        respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
+	        respWriter.close();
+	        
+	    }
 
     //POST method used to add and remove items from a list
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -78,15 +92,19 @@ public class ListServlet extends HttpServlet
             
             if(listName.equals("Quick Access")) {
             	//TODO: Add code for other cases, only addItem for now
-            	System.out.print("Testing: ");
-            	System.out.println((String)reqListAndItem.body);
-            	List<String> list = (List<String>)session.getAttribute("Quick Access");
-            	for(int i =0;i<list.size();i++) {
-            		System.out.println(list.get(i));
-            	}
-            	list.add((String)reqListAndItem.body);
-            	respWriter.println(gson.toJson(new Message("quick access "+listName)));
-            	return;
+		        	System.out.print("Testing: ");
+		        	System.out.println((String)reqListAndItem.body);
+		        	ArrayList<History> list = (ArrayList<History>)session.getAttribute("Quick Access");
+		        	for(int i =0;i<list.size();i++) {
+		        		System.out.println(list.get(i).query);
+		        	}
+		        	String s = (String)reqListAndItem.body;
+		        	History h = new History(s,0,0);
+		        	HistoryDataManager historyDB = new HistoryDataManager();
+		        	historyDB.addToList(h);
+		        	list.add(h);
+		        	respWriter.println(gson.toJson(new Message("quick access "+listName)));
+		        	return;
             }
             
             String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
@@ -178,4 +196,9 @@ public class ListServlet extends HttpServlet
         }
         respWriter.close();
     }
+
+	private History History(String body) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -21,7 +21,10 @@ import com.google.gson.JsonParser;
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
+import database_manager.HistoryDataManager;
 import info.*;
+
+import info.History;
 
 import java.net.*;
 import java.io.Reader.*;
@@ -56,7 +59,7 @@ public class SearchServlet extends HttpServlet {
 
 		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
-		ArrayList<String> quickAccessList;
+		ArrayList<History> quickAccessList = null;
 		if(MAPS_API_KEY.equals("") || SPOONACULAR_RAPID_API_KEY.equals("")) {
 			BufferedReader reader = new BufferedReader(new FileReader("constants.txt"));
 			MAPS_API_KEY = reader.readLine();
@@ -68,10 +71,16 @@ public class SearchServlet extends HttpServlet {
 		RestaurantDataManager restaurantDB = new RestaurantDataManager();
 		RecipeDataManager recipeDB = new RecipeDataManager();
 		GroceryDataManager groceryDB = new GroceryDataManager();
+		HistoryDataManager historyDB = new HistoryDataManager();
 //		quickAccessList = new ArrayList<>();
 //		quickAccessList.add("dududu");
 //		
 //		session.setAttribute("Quick Access", quickAccessList);
+//		quickAccessList = new ArrayList<History>();
+//		History h = History("dududu");
+//		quickAccessList.add(h);
+//		System.out.println("Asdasdasdasdasda");
+//		System.out.println(quickAccessList.get(0).query);
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
 			//TODO: Connect quickAccessList to database here
 			favoritesList = new ArrayList<>();
@@ -85,8 +94,7 @@ public class SearchServlet extends HttpServlet {
 			toExploreList.addAll(recipeDB.loadRecipes(3));
 			groceryList = groceryDB.loadGrocery();
 
-			
-			quickAccessList = new ArrayList<>();
+
 			//quickAccessList.add("dududu");
 			
 			session.setAttribute("Quick Access", quickAccessList);
@@ -94,16 +102,13 @@ public class SearchServlet extends HttpServlet {
 			session.setAttribute("To Explore", toExploreList);
 			session.setAttribute("Do Not Show", doNotShowList);
 			session.setAttribute("Grocery", groceryList);
-			
-
 		}
 		else {
+			
 			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
-
-
-			groceryList = (ArrayList<String>) session.getAttribute("Grocery");
+			groceryList = (ArrayList<Info>) session.getAttribute("Grocery");
 			quickAccessList = (ArrayList<History>) session.getAttribute("Quick Access");
 
 		}
@@ -150,6 +155,13 @@ public class SearchServlet extends HttpServlet {
         }
 		out.close();
     }
+
+
+
+	private History History(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 
