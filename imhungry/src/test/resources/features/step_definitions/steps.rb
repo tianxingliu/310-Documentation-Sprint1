@@ -100,6 +100,73 @@ Then(/^the item will be added to the grocery list$/) do
    expect(page).to have_content("soy sauce")
 end
 
+Then(/^I should see the "Quick Access List"$/) do
+   expect(page).to have_css("#quickAccess")
+end
+
+Then(/^I should see "pizza" in the "Quick Access List"$/) do
+   expect(page).to have_content("pizza")
+end
+
+Then(/^I should see the "Next Page" button$/) do
+   expect(page).to have_css(".next")
+end
+
+Then(/^I should see the page number$/) do
+   expect(page).to have_css(".page")
+end
+
+And(/^go to next page$/) do
+   page.first('.next').click
+end
+
+And(/^go to previous page$/) do
+   page.first('.prev').click
+end
+
+Then(/^I should go to the next page$/) do
+   expect(page.first(:css, '.current')).to have_content("2")
+end
+
+Then(/^I should go back to the Previous Page$/) do
+   expect(page.first(:css, '.current')).to have_content("1")
+end
+
+
+
+Then(/^I should see the "Previous Page" button$/) do
+   expect(page).to have_css(".prev")
+end
+
+Then(/^I should see "Sort by Rating" button$/) do
+   page.find("#sort_by_value")
+end
+
+Then(/^the items will be sorted$/) do
+   page.find(".container")
+end
+
+And(/^press the second recipe$/) do
+   find('#Rec_item1').click
+end
+
+
+
+
+
+
 When(/^restart session$/) do
     Capybara.reset_sessions!
+end
+
+And(/^reload the page$/) do
+  visit "localhost:9090"
+end
+
+Then(/^the data still preserves$/) do
+   expect(page).to have_content("horsh")
+end
+
+Then(/^the radius input field exists$/) do
+   expect(page).to have_css(".hover")
 end

@@ -1,4 +1,5 @@
-# 310-Documentation-Sprint1
+# CS310Project2
+[![Build Status](https://travis-ci.com/tianxingliu/CS310Project2.svg?branch=master)](https://travis-ci.com/tianxingliu/CS310Project2)
 
 Workspace Directory: imhungry
 

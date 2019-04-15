@@ -31,6 +31,8 @@
 			
 		</form>
 	</div>
+	<div id="quickAccess"></div>
+<script src="js/ListClient.js"></script>	
 <script>
     //Functions to switch emoji states
     
@@ -47,6 +49,12 @@
     {
         document.getElementById("submit").src = "resources/smile.png";
     }
+    
+    var list = getList("Quick Access").body;
+    for(var i = 0;i < list.length;i++){
+    	document.getElementById("quickAccess").innerHTML += list[i];
+    }
+    
 </script>
 
 </body>

@@ -31,6 +31,13 @@ CREATE TABLE Recipes(
     InToExplore INT(2) NOT NULL
 );
 
+CREATE TABLE History(
+    ID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    hName VARCHAR(200),
+    hNumber INT(11) NOT NULL,
+    Radius INT(11) NOT NULL
+);
+
 CREATE TABLE GroceryList(
     GroceryID INT(11) PRIMARY KEY AUTO_INCREMENT,
     GroceryItem VARCHAR(200) NOT NULL

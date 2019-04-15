@@ -16,3 +16,10 @@ Scenario: maintain information beyond just a single session
 	And select the list "Favorites"
 	And press "Manage List" button
 	Then I should see an info item
+
+
+	
+Scenario: Data perserved after clearing the session
+	When restart session
+	And reload the page
+	Then the data still preserves
