@@ -29,3 +29,10 @@ Scenario: Item addition functionality worked
 	And press "Back to Results" button
 	And press "Display Grocery" button
 	Then the item will be added to the grocery list
+
+Scenario: Item deletetion functionality worked
+	When I search for "chicken" and expect 5 results
+	And press "submit" button
+	And press "Display Grocery" button
+	And delete an item
+	Then the item will be deleted from the grocery list
