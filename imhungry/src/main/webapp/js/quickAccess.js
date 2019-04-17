@@ -8,7 +8,9 @@ var list = getList("Quick Access").body;
     	var noun = list[i];
     	noun = noun.substring(1, noun.length-1);
     	var prefix = "■ - ";
+    	var nounToSearch = noun;
     	noun = prefix.concat(noun);
-    	document.getElementById("quickAccess2").innerHTML += "<a href = 'http://localhost:9090/resultPage.jsp?search=" + noun + "&number=5&radius=2000&submit.x=0&submit.y=0'>" + noun;
+    	console.log(nounToSearch);
+    	document.getElementById("quickAccess2").innerHTML += "<a href = 'http://localhost:9090/resultPage.jsp?search=" + nounToSearch + "&number=5&radius=2000&submit.x=0&submit.y=0'>" + noun;
     	document.getElementById("quickAccess2").innerHTML += "<br/>";
     }

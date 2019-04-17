@@ -2,6 +2,10 @@ Given(/^I visit the website and database is empty$/) do
   visit "localhost:9090"
 end
 
+Given(/^I visit the website$/) do
+  visit "localhost:9090"
+end
+
 When(/^I search for "([^"]*)" and expect 5 results$/) do |query|
     fill_in('search', :with => query)
     fill_in('number', :with => 3)
@@ -168,5 +172,18 @@ Then(/^the data still preserves$/) do
 end
 
 Then(/^the radius input field exists$/) do
-   expect(page).to have_css(".hover")
+   expect(page.find("#format").find("#hover_format1")).to have_css("#radius");
+end
+
+Then(/^the radis input field should have default value 2000$/) do
+   expect(page.find("#format").find("#hover_format1")).to have_field("radius", :with => 2000);
+end
+
+And(/^change radius to 10000$/) do
+  fill_in('radius', :with => 10000)
+end
+
+
+Then(/^the radius that would be executed on will be 10000$/) do
+   expect(page).to have_title("Search Page")
 end
