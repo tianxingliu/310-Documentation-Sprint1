@@ -1,0 +1,24 @@
+1. [20] Web application must be secure and protect confidentiality of a user’s ImHungry
+data
+	- This backlog will be implemented by a user login page which allows the user to create their personal account.
+	- We will also user https protocol.
+2. [15] Maintain information beyond just a single session
+	- We have already implemented a database with mySQL. 
+	- We will continue modify it such that each user's data is distinct from others.
+3. [20] Allow for pagination of results returned by the search.
+	- We have already implemented such requirement with a jQuery plugin.
+	- We will continue modify our implementation such that the current page is centered at the middle in front-end design.
+4. [30] View results of prior searches by clicking on a quick access list that shows prior
+search terms.
+	- We will add the photo collage for each prior search term.
+	- We will reuse our current API collage logic but on each prior search term and store them to a variable.
+5. [20] User interfaces must look modern and be attractive
+	- We have implemented most of the features.
+	- The emoji will be made larger to cover the "Feed me" text.
+6. [25] Keep track of a grocery list for selected recipes
+	- We will add a "Remove Item" logic for Grocery Items using the same logic in pre-defined list.
+7. [10] Reorder any of the three predetermined lists.
+	- We will add "up" and "down" buttons to move each item up and down in the list.
+	- The modified lists will also be stored into the database.
+8. [10] Set the radius of the restaurant search
+	 - We will change the radius unit from meter to mile to match the requirement.
