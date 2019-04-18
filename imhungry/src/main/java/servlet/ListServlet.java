@@ -90,6 +90,7 @@ public class ListServlet extends HttpServlet
                 throw new Exception("Invalid list name.");
             
             
+            
             if(listName.equals("Quick Access")) {
             	//TODO: Add code for other cases, only addItem for now
 	        	String s = (String)reqListAndItem.body;
@@ -99,9 +100,24 @@ public class ListServlet extends HttpServlet
 	        	respWriter.println(gson.toJson(new Message("quick access "+listName)));
 	        	return;
             }
+            else if (listName.equals("Grocery") && reqMessage.header.equals("removeItem")) {
+            	String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
+            	GroceryDataManager groceryDB = new GroceryDataManager();
+            	List<GroceryInfo> list = (List<GroceryInfo>)session.getAttribute(listName);
+            	
+            	for(int i = 0;i < list.size(); i ++) {
+//            		System.out.println(list.get(i).item);
+            		String s = "\"" + list.get(i).item + "\"";
+            		if(s.equals(infoJson)) {	
+            			list.remove(list.get(i));
+            			respWriter.println(gson.toJson(new Message("Remove grocery "+listName)));
+            			return;
+            		}
+            	}
+            }
             
             String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
-
+            
             //Interact with the raw JSON to determine the type of the object via unique fields
             JsonObject info = new JsonParser().parse(infoJson).getAsJsonObject();
             Type infoType;
@@ -157,20 +173,28 @@ public class ListServlet extends HttpServlet
                         break;
                         
                     case "removeItem":
-                        list.remove(item);
-                        int listToRemove = 1;
-                		if(listName.equals("Favorites")) listToRemove = 1;
-                		else if(listName.equals("Do Not Show")) listToRemove = 2;
-                		else if(listName.equals("To Explore")) listToRemove = 3;
-                		if(infoType == RecipeInfo.class) {
-                			RecipeInfo itemRecipeInfo = (RecipeInfo)item;
-                			recipeDB.removeFromList(itemRecipeInfo.recipeID, listToRemove);
-                		}
-                		else if(infoType == RestaurantInfo.class) {
-                			RestaurantInfo itemRestaurantInfo = (RestaurantInfo)item;
-                			restaurantDB.removeFromList(itemRestaurantInfo.placeID, listToRemove);
-                		}
-                        respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
+                    	if(listName.equals("Grocery")) { //case for add to Grocery List
+                        	
+                        	
+
+                        }
+                    	else {
+                            list.remove(item);
+                            int listToRemove = 1;
+                    		if(listName.equals("Favorites")) listToRemove = 1;
+                    		else if(listName.equals("Do Not Show")) listToRemove = 2;
+                    		else if(listName.equals("To Explore")) listToRemove = 3;
+                    		if(infoType == RecipeInfo.class) {
+                    			RecipeInfo itemRecipeInfo = (RecipeInfo)item;
+                    			recipeDB.removeFromList(itemRecipeInfo.recipeID, listToRemove);
+                    		}
+                    		else if(infoType == RestaurantInfo.class) {
+                    			RestaurantInfo itemRestaurantInfo = (RestaurantInfo)item;
+                    			restaurantDB.removeFromList(itemRestaurantInfo.placeID, listToRemove);
+                    		}
+                            
+                    	}
+                    	respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
                         break;
                     case "resetLists":
                         session.invalidate(); //Note: This is for debuggin only; the page will break if this is called and a new search is not immediately made

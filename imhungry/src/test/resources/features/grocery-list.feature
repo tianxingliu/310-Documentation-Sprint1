@@ -30,6 +30,13 @@ Scenario: Item addition functionality worked
 	And press "Display Grocery" button
 	Then the item will be added to the grocery list
 
+
+Scenario: Item deletetion found
+	When I search for "chicken" and expect 5 results
+	And press "submit" button
+	And press "Display Grocery" button
+	Then I should see the "Remove Item" button
+	
 Scenario: Item deletetion functionality worked
 	When I search for "chicken" and expect 5 results
 	And press "submit" button
