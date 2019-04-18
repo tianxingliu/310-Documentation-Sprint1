@@ -97,3 +97,4 @@ MANIFEST.MF
 .DS_Store
 
 env.rb
+.classpath
