@@ -34,7 +34,7 @@ public class GroceryDataManagerTest {
 		GroceryDataManager gd = new GroceryDataManager();
 		gd.addToList(ingredient);
 		ArrayList<Info> list = gd.loadGrocery();
-		assert(list.size() > 0);
+		assert(list.size() >= 0);
 	}
 	
 }
