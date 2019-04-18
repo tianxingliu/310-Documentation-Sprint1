@@ -224,7 +224,11 @@ public class SearchServlet extends HttpServlet {
 			    recipe.instructions.add("Instructions weren't found for this recipe, sorry!");
             }
 
-			recipe.imageURL = recipeDetailJSON.get("image").getAsString();
+			try {
+				recipe.imageURL = recipeDetailJSON.get("image").getAsString();
+			} catch(Exception e) {
+				recipe.imageURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1024px-No_image_3x4.svg.png";
+			}
 			recipes.add(recipe);
 		}
 		//remove all items in Do Not Show List that appear in the result
@@ -257,7 +261,7 @@ public class SearchServlet extends HttpServlet {
 	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults, int radius, List<Info> doNotShowList, List<Info> favoritesList) {
 		ArrayList<RestaurantInfo> restaurants = new ArrayList<RestaurantInfo>();
 		String searchURL = GOOGLE_MAPS_API_PREFIX + "/place/nearbysearch/json?location=" + TOMMY_TROJAN_LOC
-				+"&radius=" + radius + "&type=restaurant&keyword=" + query.replaceAll("\\s+","%20") + "&key="
+				+"&radius=" + (radius * 1609) + "&type=restaurant&keyword=" + query.replaceAll("\\s+","%20") + "&key="
 				+ MAPS_API_KEY;
 		//extract relevant part of the JSON response
 		JsonArray places = new JsonParser().parse(getJSONResponse(searchURL)).getAsJsonObject()
