@@ -24,16 +24,15 @@ import com.mysql.jdbc.Statement;
 
 import info.GroceryInfo;
 import info.Info;
-import servlet.ListServlet;
+import info.RecipeInfo;
 
-public class GroceryDataManagerTest {
+public class RecipeDataManagerTest {
 
 	@Test
-	public void addToListAndLoadGroceryTest() throws SQLException {
-		GroceryInfo ingredient = new GroceryInfo("tomato");
-		GroceryDataManager gd = new GroceryDataManager();
-		gd.addToList(ingredient);
-		ArrayList<Info> list = gd.loadGrocery();
+	public void addToListAndLoadRecipesTest() throws SQLException {
+		RecipeDataManager manager = new RecipeDataManager();
+		manager.addToList(new RecipeInfo("", 1, 1, 0, 0, new ArrayList<String>(), new ArrayList<String>(), ""), 1);
+		ArrayList<Info> list = manager.loadRecipes(1);
 		assert(list.size() >= 0);
 	}
 	

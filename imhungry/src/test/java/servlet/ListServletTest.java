@@ -97,7 +97,7 @@ public class ListServletTest {
 	}
 	
 	@Test
-	//doPost test: add a restaurant to all lists
+	//doPost test: add a restaurant to all lists part 1
 	public void doPostTest2c1() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
 		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
@@ -120,7 +120,7 @@ public class ListServletTest {
 	}
 	
 	@Test
-	//doPost test: add a restaurant to all lists
+	//doPost test: add a restaurant to all lists part 2
 	public void doPostTest2c2() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
 		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
@@ -143,7 +143,7 @@ public class ListServletTest {
 	}
 	
 	@Test
-	//doPost test: add a restaurant to all lists
+	//doPost test: add a restaurant to all lists part 3
 	public void doPostTest2c3() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
 		when(session.getAttribute("Favorites")).thenReturn((List<Info>)new ArrayList<Info>());
@@ -212,7 +212,7 @@ public class ListServletTest {
 	}
 	
 	@Test
-	//doPost test: add a recipe to all lists
+	//doPost test: add a recipe to all lists part 1
 	public void doPostTest3c1() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
 		when(session.getAttribute("Favorites")).thenReturn((List<Info>)new ArrayList<Info>());
@@ -235,7 +235,7 @@ public class ListServletTest {
 	}
 	
 	@Test
-	//doPost test: add a recipe to all lists
+	//doPost test: add a recipe to all lists part 2
 	public void doPostTest3c2() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
 		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
@@ -258,7 +258,7 @@ public class ListServletTest {
 	}
 	
 	@Test
-	//doPost test: add a recipe to all lists
+	//doPost test: add a recipe to all lists part 3
 	public void doPostTest3c3() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
 		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
@@ -393,7 +393,7 @@ public class ListServletTest {
         
         new ListServlet().doPost(request, response);
         assertTrue(stringWriter.toString().contains("Removed from list"));
-	}
+	}	
 	
 	@Test
 	//doGet test if given input is not one of the predefined lists
