@@ -4,7 +4,7 @@ Background:
 
 	Given I visit the website and database is empty
 
-Scenario: maintain information beyond just a single session
+Scenario: Predefined lists information beyond just a single session
 	When I search for "pizza" and expect 5 results
 	And press "submit" button
 	And press a restaurant
@@ -16,9 +16,27 @@ Scenario: maintain information beyond just a single session
 	And press "Manage List" button
 	Then I should see an info item
 
+Scenario: Grocery List information beyond just a single session
+	When I search for "pizza" and expect 5 results
+	And press "submit" button
+	And press a recipe
+	And press "Add to grocery" button
+	And press "Back to Results" button
+	And restart session
+	And I search for "pizza" and expect 5 results
+	And press "Display Grocery" button
+	Then I should see the grocery list item
 
-	
-Scenario: Data perserved after clearing the session
-	When restart session
-	And reload the page
-	Then the data still preserves
+Scenario: Prior search term information beyond just a single session
+	When I search for "pizza" and expect 5 results
+	And press "submit" button
+	And restart session
+	Then I should see the prior search term
+
+Scenario: User specific information
+	When I login as user A
+	And I search for "pizza" and expect 5 results
+	And press "submit" button
+	And restart session
+	And I login as user B
+	Then I should not see the prior search term by user A
