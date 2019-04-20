@@ -188,6 +188,7 @@ public class RecipeDataManager extends DataManager {
 			System.out.println("Loading recipes.");
 		   
 			while(rs.next()) {
+				System.out.println("come on");
 				String splitter = "\\|\\|\\|+";
 				ArrayList<String> ingredients = new ArrayList<>();
 				String[] ingredientsArray = rs.getString("Ingredients").split(splitter);

@@ -29,14 +29,12 @@ import servlet.ListServlet;
 public class GroceryDataManagerTest {
 
 	@Test
-	public void addToListTest() throws SQLException {
-		GroceryInfo ingredient = new GroceryInfo("");
+	public void addToListAndLoadGroceryTest() throws SQLException {
+		GroceryInfo ingredient = new GroceryInfo("tomato");
 		GroceryDataManager gd = new GroceryDataManager();
-		final Statement statement = mock(Statement.class);
-        final Connection connection = mock(Connection.class);
-        when(connection.createStatement()).thenReturn(statement);
 		gd.addToList(ingredient);
-		assertEquals("Exception tested","Exception tested");
+		ArrayList<Info> list = gd.loadGrocery();
+		assert(list.size() >= 0);
 	}
-
+	
 }

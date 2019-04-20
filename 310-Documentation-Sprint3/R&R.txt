@@ -1,0 +1,23 @@
+1. Web application must be secure and protect confidentiality of a user’s ImHungry data.
+2. Maintain information beyond just a single session.
+3. Allow for pagination of results returned by the search.
+4. View results of prior searches by clicking on a quick access list that shows prior search terms.
+5. User interfaces must look modern and be attractive.
+6. Keep track of a grocery list for selected recipes.
+7. Reorder any of the three predetermined lists.
+8. Set the radius of the restaurant search.
+
+
+
+Review:
+Need user login. Hash function on storing passwords. Using Https protocol. Need front-end login/logout functionalities.
+Need to store the reordered lists to database. Need to write tests for every single data type.
+Default - display 5. If no search results, display error messages. Center the current page number. Last and top page should be something else.
+Need a collage for quick access - inside each item there should be a minimized collage. It appears on search (not sure about format) & result page.
+UI need a bigger Emoji to cover the text.
+Need delete item functionality. Need entry to grocery list on every page.
+Reorder - means reorder the items in the same page - need to store to database.
+Radius - big bang. Unit is mile instead of meters.
+
+Retrospective:
+

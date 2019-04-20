@@ -57,10 +57,10 @@ public class SearchServlet extends HttpServlet {
 			BufferedReader reader;
 			try {
 				reader = new BufferedReader(new FileReader("constants.txt"));
-			MAPS_API_KEY = reader.readLine();
-			SPOONACULAR_RAPID_API_KEY = reader.readLine();
-			GOOGLE_CX_API_KEY = MAPS_API_KEY;
-			reader.close();
+				MAPS_API_KEY = reader.readLine();
+				SPOONACULAR_RAPID_API_KEY = reader.readLine();
+				GOOGLE_CX_API_KEY = MAPS_API_KEY;
+				reader.close();
 			}
 			catch (Exception e) {}
 		}
@@ -74,30 +74,11 @@ public class SearchServlet extends HttpServlet {
 
 		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
-		ArrayList<History> quickAccessList = null;
-		if(MAPS_API_KEY.equals("") || SPOONACULAR_RAPID_API_KEY.equals("")) {
-			BufferedReader reader = new BufferedReader(new FileReader("constants.txt"));
-			MAPS_API_KEY = reader.readLine();
-			SPOONACULAR_RAPID_API_KEY = reader.readLine();
-			GOOGLE_CX_API_KEY = MAPS_API_KEY;
-			reader.close();
-		}
 
 		RestaurantDataManager restaurantDB = new RestaurantDataManager();
 		RecipeDataManager recipeDB = new RecipeDataManager();
 		GroceryDataManager groceryDB = new GroceryDataManager();
-		HistoryDataManager historyDB = new HistoryDataManager();
-//		quickAccessList = new ArrayList<>();
-//		quickAccessList.add("dududu");
-//		
-//		session.setAttribute("Quick Access", quickAccessList);
-//		quickAccessList = new ArrayList<History>();
-//		History h = History("dududu");
-//		quickAccessList.add(h);
-//		System.out.println("Asdasdasdasdasda");
-//		System.out.println(quickAccessList.get(0).query);
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
-			//TODO: Connect quickAccessList to database here
 			favoritesList = new ArrayList<>();
 			favoritesList.addAll(restaurantDB.loadRestaurants(1));
 			favoritesList.addAll(recipeDB.loadRecipes(1));
@@ -109,10 +90,6 @@ public class SearchServlet extends HttpServlet {
 			toExploreList.addAll(recipeDB.loadRecipes(3));
 			groceryList = groceryDB.loadGrocery();
 
-
-			//quickAccessList.add("dududu");
-			
-			session.setAttribute("Quick Access", quickAccessList);
 			session.setAttribute("Favorites", favoritesList);
 			session.setAttribute("To Explore", toExploreList);
 			session.setAttribute("Do Not Show", doNotShowList);
@@ -124,7 +101,6 @@ public class SearchServlet extends HttpServlet {
 			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
 			groceryList = (ArrayList<Info>) session.getAttribute("Grocery");
-			quickAccessList = (ArrayList<History>) session.getAttribute("Quick Access");
 
 		}
 
@@ -139,12 +115,6 @@ public class SearchServlet extends HttpServlet {
         boolean success = true;
         String errorMsg = "";
 
-        //Check for null input
-        if (userSearch == null) {
-            success = false;
-            errorMsg += "The file doesn't exist!";
-        }
-
         //get lists
         ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
         ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, radius, doNotShowList, favoritesList);
@@ -157,8 +127,6 @@ public class SearchServlet extends HttpServlet {
 
         } else {
             //create success message
-			//Cast result arrays to arrays of their parent's types
-			//This cast is potentially dangerous, but OK because we 100% know that recipe and restaurantList can also be represented as List<Info>s
             List<Info> castedRecipeList = (ArrayList<Info>)(Object)recipeList;
             List<Info> castedRestaurantList = (ArrayList<Info>)(Object)restaurantList;
             //Stick them into a 2D array
@@ -256,7 +224,11 @@ public class SearchServlet extends HttpServlet {
 			    recipe.instructions.add("Instructions weren't found for this recipe, sorry!");
             }
 
-			recipe.imageURL = recipeDetailJSON.get("image").getAsString();
+			try {
+				recipe.imageURL = recipeDetailJSON.get("image").getAsString();
+			} catch(Exception e) {
+				recipe.imageURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1024px-No_image_3x4.svg.png";
+			}
 			recipes.add(recipe);
 		}
 		//remove all items in Do Not Show List that appear in the result
@@ -289,7 +261,7 @@ public class SearchServlet extends HttpServlet {
 	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults, int radius, List<Info> doNotShowList, List<Info> favoritesList) {
 		ArrayList<RestaurantInfo> restaurants = new ArrayList<RestaurantInfo>();
 		String searchURL = GOOGLE_MAPS_API_PREFIX + "/place/nearbysearch/json?location=" + TOMMY_TROJAN_LOC
-				+"&radius=" + radius + "&type=restaurant&keyword=" + query.replaceAll("\\s+","%20") + "&key="
+				+"&radius=" + (radius * 1609) + "&type=restaurant&keyword=" + query.replaceAll("\\s+","%20") + "&key="
 				+ MAPS_API_KEY;
 		//extract relevant part of the JSON response
 		JsonArray places = new JsonParser().parse(getJSONResponse(searchURL)).getAsJsonObject()

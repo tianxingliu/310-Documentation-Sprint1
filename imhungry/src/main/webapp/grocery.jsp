@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Grocery</title>
 		<link rel="stylesheet" type="text/css" href="css/listPage.css" />
@@ -34,6 +35,14 @@
 					for(var i = 0;i < list.length; i++){
 						var element = document.createElement("li");
 						element.innerHTML = list[i].item;
+						var button = document.createElement("button");
+						button.innerHTML = "Remove Item";
+						button.addEventListener ("click", function() {
+							  removeItem("Grocery", list[i].item);
+							  location.reload();
+							});
+						element.appendChild(button);
+						
 						document.getElementById("text").appendChild(element); /*  innerHTML += list[i].item; */
 						/* document.getElementById("text").innerHTML += "\n"; */ 
 					}

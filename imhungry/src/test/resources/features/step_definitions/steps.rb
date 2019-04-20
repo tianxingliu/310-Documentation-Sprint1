@@ -1,9 +1,14 @@
+Given(/^I visit the website and database is empty$/) do
+  visit "localhost:9090"
+end
+
 Given(/^I visit the website$/) do
   visit "localhost:9090"
 end
 
 When(/^I search for "([^"]*)" and expect 5 results$/) do |query|
     fill_in('search', :with => query)
+    fill_in('number', :with => 3)
 end
 
 When(/^press "([^"]*)" button$/) do |buttonName|
@@ -29,14 +34,14 @@ end
 When(/^press the "([^"]*)"$/) do |elementName|
     find('#' + elementName).click
 end
-
-When(/^I press "Add to grocery" button$/) do
-    page.find('.addToGrocery', match: :first).click
-end
-
-When(/^I press "Display Grocery" bnutton$/) do
-    page.find('#display_grocery', match: :first).click
-end
+#
+# When(/^I press "Add to grocery" button$/) do
+#     page.find('.addToGrocery', match: :first).click
+# end
+#
+# When(/^I press "Display Grocery" bnutton$/) do
+#     page.find('#display_grocery', match: :first).click
+# end
 
 Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
     expect(page).to have_title pageTitle
@@ -99,6 +104,86 @@ Then(/^the item will be added to the grocery list$/) do
    expect(page).to have_content("soy sauce")
 end
 
+Then(/^I should see the "Quick Access List"$/) do
+   expect(page).to have_css("#quickAccess")
+end
+
+Then(/^I should see "pizza" in the "Quick Access List"$/) do
+   expect(page).to have_content("pizza")
+end
+
+Then(/^I should see the "Next Page" button$/) do
+   expect(page).to have_css(".next")
+end
+
+Then(/^I should see the page number$/) do
+   expect(page).to have_css(".page")
+end
+
+And(/^go to next page$/) do
+   page.first('.next').click
+end
+
+And(/^go to previous page$/) do
+   page.first('.prev').click
+end
+
+Then(/^I should go to the next page$/) do
+   expect(page.first(:css, '.current')).to have_content("2")
+end
+
+Then(/^I should go back to the Previous Page$/) do
+   expect(page.first(:css, '.current')).to have_content("1")
+end
+
+
+
+Then(/^I should see the "Previous Page" button$/) do
+   expect(page).to have_css(".prev")
+end
+
+Then(/^I should see "Sort by Rating" button$/) do
+   page.find("#sort_by_value")
+end
+
+Then(/^the items will be sorted$/) do
+   page.find(".container")
+end
+
+And(/^press the second recipe$/) do
+   find('#Rec_item1').click
+end
+
+
+
+
+
+
 When(/^restart session$/) do
     Capybara.reset_sessions!
+end
+
+And(/^reload the page$/) do
+  visit "localhost:9090"
+end
+
+Then(/^the data still preserves$/) do
+   expect(page).to have_content("horsh")
+end
+
+Then(/^the radius input field exists$/) do
+   expect(page.find("#format").find("#hover_format1")).to have_css("#radius");
+end
+
+Then(/^the radis input field should have default value 2000$/) do
+   expect(page.find("#format").find("#hover_format1")).to have_field("radius", :with => 2000);
+end
+
+And(/^change radius to 10000$/) do
+  fill_in('radius', :with => 10000)
+end
+
+
+Then(/^the radius that would be executed on will be 10000$/) do
+   expect(page).to have_title("Search Page")
 end

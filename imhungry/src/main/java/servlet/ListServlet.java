@@ -23,12 +23,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @WebServlet(name = "ListServlet", urlPatterns = "/Lists")
 public class ListServlet extends HttpServlet
@@ -49,17 +52,14 @@ public class ListServlet extends HttpServlet
             return;
         }
         if(listName.equals("Quick Access")) {
-        		if(session.getAttribute("Quick Access") == null) {
-        			HistoryDataManager historyDB = new HistoryDataManager();
-        			//load quickAccessList from database
-        			ArrayList<History> quickAccessList = new ArrayList<History>();
-        			quickAccessList = historyDB.loadHistory();
-        			session.setAttribute("Quick Access", quickAccessList);
-        		}
-	        	List<History> historyList = (List<History>)session.getAttribute(listName);
+    			HistoryDataManager historyDB = new HistoryDataManager();
+    			//load quickAccessList from database
+    			ArrayList<History> quickAccessList = new ArrayList<History>();
+    			quickAccessList = historyDB.loadHistory();
+    			session.setAttribute("Quick Access", quickAccessList);
+    			List<History> historyList = (List<History>)session.getAttribute(listName);
 	        	List<String> list = new ArrayList<String>();
-	        	for(int i = 0;i < historyList.size();i++) {
-	        		
+	        	for(int i = 0;i < historyList.size();i++){
 	        		list.add(historyList.get(i).query);
 	        	}
 	        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
@@ -90,25 +90,34 @@ public class ListServlet extends HttpServlet
                 throw new Exception("Invalid list name.");
             
             
+            
             if(listName.equals("Quick Access")) {
             	//TODO: Add code for other cases, only addItem for now
-		        	System.out.print("Testing: ");
-		        	System.out.println((String)reqListAndItem.body);
-		        	ArrayList<History> list = (ArrayList<History>)session.getAttribute("Quick Access");
-		        	for(int i =0;i<list.size();i++) {
-		        		System.out.println(list.get(i).query);
-		        	}
-		        	String s = (String)reqListAndItem.body;
-		        	History h = new History(s,0,0);
-		        	HistoryDataManager historyDB = new HistoryDataManager();
-		        	historyDB.addToList(h);
-		        	list.add(h);
-		        	respWriter.println(gson.toJson(new Message("quick access "+listName)));
-		        	return;
+	        	String s = (String)reqListAndItem.body;
+	        	History h = new History(s,0,0);
+	        	HistoryDataManager historyDB = new HistoryDataManager();
+	        	historyDB.addToList(h);
+	        	respWriter.println(gson.toJson(new Message("quick access "+listName)));
+	        	return;
+            }
+            else if (listName.equals("Grocery") && reqMessage.header.equals("removeItem")) {
+            	String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
+            	GroceryDataManager groceryDB = new GroceryDataManager();
+            	List<GroceryInfo> list = (List<GroceryInfo>)session.getAttribute(listName);
+            	
+            	for(int i = 0;i < list.size(); i ++) {
+//            		System.out.println(list.get(i).item);
+            		String s = "\"" + list.get(i).item + "\"";
+            		if(s.equals(infoJson)) {	
+            			list.remove(list.get(i));
+            			respWriter.println(gson.toJson(new Message("Remove grocery "+listName)));
+            			return;
+            		}
+            	}
             }
             
             String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
-
+            
             //Interact with the raw JSON to determine the type of the object via unique fields
             JsonObject info = new JsonParser().parse(infoJson).getAsJsonObject();
             Type infoType;
@@ -126,7 +135,6 @@ public class ListServlet extends HttpServlet
                 switch(reqMessage.header)
                 {
                     case "addItem":
-//                        
                         if(listName.equals("Grocery")) { //case for add to Grocery List
                         	GroceryDataManager groceryDB = new GroceryDataManager();
                         	RecipeInfo newItem = gson.fromJson(infoJson, infoType);
@@ -165,20 +173,28 @@ public class ListServlet extends HttpServlet
                         break;
                         
                     case "removeItem":
-                        list.remove(item);
-                        int listToRemove = 1;
-                		if(listName.equals("Favorites")) listToRemove = 1;
-                		else if(listName.equals("Do Not Show")) listToRemove = 2;
-                		else if(listName.equals("To Explore")) listToRemove = 3;
-                		if(infoType == RecipeInfo.class) {
-                			RecipeInfo itemRecipeInfo = (RecipeInfo)item;
-                			recipeDB.removeFromList(itemRecipeInfo.recipeID, listToRemove);
-                		}
-                		else if(infoType == RestaurantInfo.class) {
-                			RestaurantInfo itemRestaurantInfo = (RestaurantInfo)item;
-                			restaurantDB.removeFromList(itemRestaurantInfo.placeID, listToRemove);
-                		}
-                        respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
+                    	if(listName.equals("Grocery")) { //case for add to Grocery List
+                        	
+                        	
+
+                        }
+                    	else {
+                            list.remove(item);
+                            int listToRemove = 1;
+                    		if(listName.equals("Favorites")) listToRemove = 1;
+                    		else if(listName.equals("Do Not Show")) listToRemove = 2;
+                    		else if(listName.equals("To Explore")) listToRemove = 3;
+                    		if(infoType == RecipeInfo.class) {
+                    			RecipeInfo itemRecipeInfo = (RecipeInfo)item;
+                    			recipeDB.removeFromList(itemRecipeInfo.recipeID, listToRemove);
+                    		}
+                    		else if(infoType == RestaurantInfo.class) {
+                    			RestaurantInfo itemRestaurantInfo = (RestaurantInfo)item;
+                    			restaurantDB.removeFromList(itemRestaurantInfo.placeID, listToRemove);
+                    		}
+                            
+                    	}
+                    	respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
                         break;
                     case "resetLists":
                         session.invalidate(); //Note: This is for debuggin only; the page will break if this is called and a new search is not immediately made
@@ -189,16 +205,10 @@ public class ListServlet extends HttpServlet
                 }
 
 
-        } catch(Exception e) { //Handle exceptions
+        } catch(Exception e) {
             e.printStackTrace();
-            respWriter.println(gson.toJson(new Message("Invalid Response!\n"+e.getMessage())));
-            respWriter.close();
         }
         respWriter.close();
     }
 
-	private History History(String body) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. i looked over the new requirements known to us and decided to work on the quick access list
+2. no
+3. i will keep on working on ui
+
+Haiyu Tian:
+1. I added all the new tasks and pair programmed with Tianxing. 
+2. No.                                       
+3. I will work on modifying pagination.
+
+Pinghao Luo:
+1. starting design databse for login 
+2. no 
+3. Keep working on database for user
+
+Tianxing Liu:
+1. I added blackbox tests and finished grocery list functionality with Haiyu.
+2. None.
+3. I will start to add more blackbox testing for other backlogs.
+
+Guancheng Qiu:
+1. Added some whitebox tests and fixed API bug.
+2. No.
+3. Will add more whitebox tests for new features。

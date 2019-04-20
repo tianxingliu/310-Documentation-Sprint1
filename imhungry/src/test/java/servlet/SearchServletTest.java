@@ -3,18 +3,22 @@ package servlet;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -25,6 +29,53 @@ import info.RecipeInfo;
 import info.RestaurantInfo;
 
 public class SearchServletTest {
+	
+	@Ignore
+	@Test
+	//doGet test 1
+	public void testServlet1() throws Exception {
+		HttpSession session = mock(HttpSession.class);
+		when(session.isNew()).thenReturn(false);
+		when(session.getAttribute(any(String.class))).thenReturn(new ArrayList<Info>());
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);       
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getParameter("search")).thenReturn("burger");
+        when(request.getParameter("number")).thenReturn("1");
+        when(request.getParameter("radius")).thenReturn("5000");
+        when(request.getSession()).thenReturn(session);
+        
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new SearchServlet().doGet(request, response);
+        assertTrue(stringWriter.toString().contains("Success"));
+	}
+	
+	@Ignore
+	@Test
+	//doGet test 2
+	public void testServlet2() throws Exception {
+		HttpSession session = mock(HttpSession.class);
+		when(session.isNew()).thenReturn(false);
+		when(session.getAttribute(any(String.class))).thenReturn(new ArrayList<Info>());
+		
+		//perform search
+		HttpServletRequest request = mock(HttpServletRequest.class);       
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getParameter("search")).thenReturn("burger");
+        when(request.getParameter("number")).thenReturn("1");
+        when(request.getParameter("radius")).thenReturn("5000");
+        when(request.getSession()).thenReturn(session);
+        
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new SearchServlet().doGet(request, response);
+        assertTrue(stringWriter.toString().contains("Success"));
+	}
 	
 	@Test
 	//URL API value test 1
@@ -66,13 +117,14 @@ public class SearchServletTest {
 		assertEquals(1,testConfirm.size());
 		assert(testConfirm.get(0).driveTimeValue > 100 && testConfirm.get(0).driveTimeValue < 600);
 	}
+	
 	@Test
 	//getting the Restaurant arraylist API test with radius = 1000
 	public void getResInfoTest1() {
 		SearchServlet servlet = new SearchServlet();
 		List<Info> empty1 = new ArrayList<Info>();
 		List<Info> empty2 = new ArrayList<Info>();
-		ArrayList<RestaurantInfo> rest = servlet.restaurantSearch("Chipotle", 10, 1000, empty1, empty2);
+		ArrayList<RestaurantInfo> rest = servlet.restaurantSearch("Chipotle", 10, 1, empty1, empty2);
 		assertEquals(1,rest.size());
 	}
 	
@@ -82,10 +134,11 @@ public class SearchServletTest {
 		SearchServlet servlet = new SearchServlet();
 		List<Info> empty1 = new ArrayList<Info>();
 		List<Info> empty2 = new ArrayList<Info>();
-		ArrayList<RestaurantInfo> rest = servlet.restaurantSearch("Chipotle", 10, 10000, empty1, empty2);
+		ArrayList<RestaurantInfo> rest = servlet.restaurantSearch("Chipotle", 10, 10, empty1, empty2);
 		assertEquals(10,rest.size());
 	}
 	
+	@Ignore
 	@Test
 	//getting the Recipe arraylist API test
 	public void getReciInfoTest() {
@@ -94,6 +147,15 @@ public class SearchServletTest {
 		List<Info> empty2 = new ArrayList<Info>();
 		ArrayList<RecipeInfo> rest = servlet.recipeSearch("beef", 1, empty1, empty2);
 		assertEquals(1,rest.size());
+	}
+	
+	@Test
+	//Test for Backlog 8
+	public void differentRadiusTest() throws Exception {
+		SearchServlet servlet = new SearchServlet();
+		ArrayList<RestaurantInfo> rest1 = servlet.restaurantSearch("fish", 10, 1, new ArrayList<Info>(), new ArrayList<Info>());
+		ArrayList<RestaurantInfo> rest2 = servlet.restaurantSearch("fish", 10, 5, new ArrayList<Info>(), new ArrayList<Info>());
+        assert(rest1.size() < rest2.size());
 	}
 	
 }
