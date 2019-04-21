@@ -14,7 +14,9 @@ CREATE TABLE Restaurants (
     Website VARCHAR(200) NOT NULL,
     InFavorites INT(2) NOT NULL,
     InDoNotShow INT(2) NOT NULL,
-    InToExplore INT(2) NOT NULL
+    InToExplore INT(2) NOT NULL,
+    User VARCHAR(50),
+    FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
 );
 
 CREATE TABLE Recipes(
@@ -28,17 +30,28 @@ CREATE TABLE Recipes(
     ImageURL VARCHAR(500) NOT NULL,
     InFavorites INT(2) NOT NULL,
     InDoNotShow INT(2) NOT NULL,
-    InToExplore INT(2) NOT NULL
+    InToExplore INT(2) NOT NULL,
+    User VARCHAR(50),
+    FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
 );
 
 CREATE TABLE History(
     ID INT(11) PRIMARY KEY AUTO_INCREMENT,
     hName VARCHAR(200),
     hNumber INT(11) NOT NULL,
-    Radius INT(11) NOT NULL
+    Radius INT(11) NOT NULL,
+    User VARCHAR(50),
+    FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
 );
 
 CREATE TABLE GroceryList(
     GroceryID INT(11) PRIMARY KEY AUTO_INCREMENT,
-    GroceryItem VARCHAR(200) NOT NULL
+    GroceryItem VARCHAR(200) NOT NULL,
+    User VARCHAR(50),
+    FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
+);
+
+CREATE TABLE Users(
+    Username VARCHAR(50) PRIMARY KEY,
+    Password VARCHAR(50) NOT NULL
 );
