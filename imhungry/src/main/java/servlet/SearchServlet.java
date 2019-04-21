@@ -278,7 +278,7 @@ public class SearchServlet extends HttpServlet {
 			} catch(Exception e) {}
 			restaurants.add(new RestaurantInfo(currentPlace.get("name").getAsString(),
 					(int)currentPlace.get("rating").getAsDouble(), currentPlace.get("place_id").getAsString(),
-					currentPlace.get("vicinity").getAsString(), priceLevel, "", 0, "No phone number available", "No website available"));
+					currentPlace.get("vicinity").getAsString(), priceLevel, "No Drive Time Available", 0, "No phone number available", "No website available"));
 		}
 
 		//remove all items in Do Not Show List that appear in the result
