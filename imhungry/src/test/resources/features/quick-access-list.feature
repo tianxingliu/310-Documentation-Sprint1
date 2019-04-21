@@ -17,3 +17,9 @@ Scenario: Search terms added to "Quick Access List"
 	And press "submit" button
 	And press "Back to Search" button
 	Then I should see "pizza" in the "Quick Access List"
+	
+Scenario: Photo Collage for each iterm in "Quick Access List"
+	When I search for "pizza" and expect 5 results
+	And press "submit" button
+	Then I should see "pizza" in the "Quick Access List"
+	And the collage for "pizza" should be placed there
