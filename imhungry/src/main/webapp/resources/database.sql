@@ -3,7 +3,8 @@ CREATE DATABASE ImHungryDatabase;
 USE ImHungryDatabase;
              
 CREATE TABLE Restaurants (
-    PlaceID VARCHAR(200) PRIMARY KEY,
+    RestaurantID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    PlaceID VARCHAR(200) NOT NULL,
     RestaurantName VARCHAR(200) NOT NULL,
     RestaurantRating INT(11) NOT NULL,
     Address VARCHAR(200) NOT NULL,
@@ -20,7 +21,8 @@ CREATE TABLE Restaurants (
 );
 
 CREATE TABLE Recipes(
-    RecipeID INT(11) PRIMARY KEY,
+    RecipeID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    SpoonID INT(11) NOT NULL,
     RecipeName VARCHAR(200) NOT NULL,
     RecipeRating INT(11) NOT NULL,
     PrepTime INT(11) NOT NULL,
@@ -37,7 +39,7 @@ CREATE TABLE Recipes(
 
 CREATE TABLE History(
     ID INT(11) PRIMARY KEY AUTO_INCREMENT,
-    hName VARCHAR(200),
+    hName VARCHAR(200) NOT NULL,
     hNumber INT(11) NOT NULL,
     Radius INT(11) NOT NULL,
     User VARCHAR(50),
