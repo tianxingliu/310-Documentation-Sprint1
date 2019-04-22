@@ -80,4 +80,32 @@ public class GroceryDataManager extends DataManager {
 		return groceryList;
 	}
 	
+	public void removeFromList(String grocery) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(JDBC_CONNECTION);
+	    	ps = conn.prepareStatement("DELETE FROM GroceryList WHERE GroceryItem LIKE ?");
+	    	ps.setString(1, grocery);
+	    	ps.execute();
+	    	System.out.println("Removed item from grocery list.");
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println("sqle closing conn: " + sqle.getMessage());
+			}
+		}
+	}
 }
