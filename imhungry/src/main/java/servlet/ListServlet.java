@@ -107,8 +107,9 @@ public class ListServlet extends HttpServlet
                 	groceryDB.removeFromList(groceryName);
                 	list.remove(new GroceryInfo(groceryName));
                 	respWriter.println(gson.toJson(new Message("Success")));
+                	return;
             	}
-            	return;
+            	
             }
             
             String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
