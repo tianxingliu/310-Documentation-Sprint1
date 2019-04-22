@@ -40,14 +40,26 @@ function getList(listName) {
 }
 
 
-////Update the list who's name is in listName
-//function updateList(listName, newList) {
-//	//TODO: where to put the updatedList
-//	//console.log("update");
-//	//meaningless "item" parameter only to match the syntax in ListServlet
-//	var request = {header: "updateList", body: JSON.stringify({header: listName, body: JSON.stringify(newList)})};
-//    var xhttp = new XMLHttpRequest();
-//    xhttp.open("POST", "/Lists", false);
-//    xhttp.send(JSON.stringify(request));
-//    var response = JSON.parse(xhttp.response); //Could check and see if request was successful
-//}
+//Move the selected item up
+function moveUp(listName, newList) {
+	//TODO: where to put the updatedList
+	//console.log("update");
+	//meaningless "item" parameter only to match the syntax in ListServlet
+	var request = {header: "moveUp", body: JSON.stringify({header: listName, body: JSON.stringify(newList)})};
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/Lists", false);
+    xhttp.send(JSON.stringify(request));
+    var response = JSON.parse(xhttp.response); //Could check and see if request was successful
+}
+
+//Move the selected item down
+function moveDown(listName, newList) {
+	//TODO: where to put the updatedList
+	//console.log("update");
+	//meaningless "item" parameter only to match the syntax in ListServlet
+	var request = {header: "moveDown", body: JSON.stringify({header: listName, body: JSON.stringify(newList)})};
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/Lists", false);
+    xhttp.send(JSON.stringify(request));
+    var response = JSON.parse(xhttp.response); //Could check and see if request was successful
+}
