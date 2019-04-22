@@ -108,7 +108,8 @@ public class ListServlet extends HttpServlet
             	for(int i = 0;i < list.size(); i ++) {
 //            		System.out.println(list.get(i).item);
             		String s = "\"" + list.get(i).item + "\"";
-            		if(s.equals(infoJson)) {	
+            		if(s.equals(infoJson)) {
+            			System.out.println(s);
             			list.remove(list.get(i));
             			respWriter.println(gson.toJson(new Message("Remove grocery "+listName)));
             			return;

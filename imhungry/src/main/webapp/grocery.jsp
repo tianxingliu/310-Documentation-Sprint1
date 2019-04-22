@@ -32,17 +32,17 @@
 				
 				if(list == null || list.length === 0) col1.innerHTML = "This list is empty. Add something to see it here!" ;
 				else{
-					for(var i = 0;i < list.length; i++){
+					for(let i = 0;i < list.length; i++){
 						var element = document.createElement("li");
-						element.innerHTML = list[i].item;
+						element.innerHTML += i + ". ";
+						element.innerHTML += list[i].item;
 						var button = document.createElement("button");
 						button.innerHTML = "Remove Item";
 						button.addEventListener ("click", function() {
 							  removeItem("Grocery", list[i].item);
 							  location.reload();
-							});
+							}, false);
 						element.appendChild(button);
-						
 						document.getElementById("text").appendChild(element); /*  innerHTML += list[i].item; */
 						/* document.getElementById("text").innerHTML += "\n"; */ 
 					}
