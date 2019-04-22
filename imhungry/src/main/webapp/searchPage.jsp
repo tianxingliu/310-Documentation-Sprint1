@@ -40,10 +40,6 @@
 <script src="js/quickAccess.js"></script>	
 <script>
     //Functions to switch emoji states
-    //Initializing the "toDisplayLists"
-    localStorage.setItem("favoriteListToDisplay", "");
-    localStorage.setItem("toExploreListToDisplay", "");
-    localStorage.setItem("doNotShowListToDisplay", "");
     function happyToSad()
     {
         document.getElementById("submit").src = "resources/grumpy.png";

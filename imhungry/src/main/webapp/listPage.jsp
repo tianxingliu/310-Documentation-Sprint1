@@ -30,10 +30,6 @@
 		<form action="searchPage.jsp">
 			<input type="submit" id = "back_search" value="Back to Search" />
 		</form>
-		
-		<form onclick ="sortAndPrint();">
-			<input type="button" id = "sort_by_value" value="Sort by Rating" />
-		</form>
 	    
 		<div id = "header"></div>
 		<div id = "container">
@@ -51,38 +47,25 @@
 			listName = listName.replace(/\+/g, ' ');
 			document.getElementById("header").innerHTML = listName + " List";
 			//Request the list for this page from the servlet
-			var list;
-			var listToDisplay;
-			if(listName == "Favorites"){
-				listToDisplay = localStorage.getItem("favoriteListToDisplay");
-			}
-			else if (listName == "To Explore"){
-				listToDisplay = localStorage.getItem("toExploreListToDisplay");
-			}
-			else if (listName == "Do Not Show"){
-				listToDisplay = localStorage.getItem("doNotShowListToDisplay");
-			}
 			
-			
-			if(listToDisplay != ""){
-				list = JSON.parse(listToDisplay);
-			}
-			else list = getList(listName).body;
-			
-			console.log(listToDisplay);
-
+			var list = getList(listName).body;
 			//Same process as on the results page to add the items to the page
+			list.sort((a, b) => a.order - b.order);
+			
 			var col1 = document.getElementById("container");
 			//Check if the list is empty first though
 			if(list == null || list.length === 0) col1.innerHTML = "This list is empty. Add something to see it here!" ;
 			else {
-                for (var i = 0; i < list.length; i++) {
+                for (let i = 0; i < list.length; i++) {
                     let sec1 = null;
                     let sec2 = null;
                     let divider = null;
                     let sec3 = null;
                     let sec4 = null;
                     let sec5 = null;
+                    //New button for move up & down
+                    let buttonUp = null;
+                    let buttonDown = null;
                     //And also check if this is a restaurant or a recipe, so the correct data is displayed
                     if (list[i].hasOwnProperty("placeID")) {
                         sec1 = document.createElement("div");
@@ -110,6 +93,8 @@
                         sec5 = document.createElement("div");
                         sec5.setAttribute("class", "item_format5");
                         sec5.innerHTML = list[i].priceLevel;
+                        
+                        
                     }
                     else {
                         sec1 = document.createElement("div");
@@ -137,7 +122,11 @@
                         sec5 = document.createElement("div");
                         sec5.setAttribute("class", "item_format5");
                         sec5.innerHTML = "   ";
+                        
+                        
                     }
+                   
+                    
                     //Build the change and remove list buttons for this item
                     let changeButton = document.createElement("button");
                     changeButton.setAttribute("id", "changeButton"+i);
@@ -178,6 +167,27 @@
                             document.getElementById("numberResultsInput").value = JSON.parse(localStorage.getItem("searchResults"))[0].length;
                         };
                     })(i);
+					
+					//"Up" button that move the selected item up 
+                    buttonUp = document.createElement("button");
+                    buttonUp.innerHTML = "↑";
+                    buttonUp.addEventListener ("click", function() {
+                   		event.stopPropagation();
+                      	event.preventDefault();
+					  	moveUp(listName, list[i].order);	
+					  	location.reload();
+					});
+                    
+                    
+                  //"Down" button that move the selected item up 
+                    buttonDown = document.createElement("button");
+                    buttonDown.innerHTML = "↓";
+                    buttonDown.addEventListener ("click", function() {
+                  		event.stopPropagation();
+                      	event.preventDefault();
+  					  	moveDown(listName, list[i].order);
+  					  	location.reload();
+  					});
 
                     //Assemble the elements onto the page as in the results page
                     let res = document.createElement("div");
@@ -194,13 +204,17 @@
                     res.appendChild(divider);
                     res.appendChild(sec3);
                     res.appendChild(sec4);
+                   
                     if (sec5 != null) res.appendChild(sec5);
                     //Do add an extra div compared to there to get the button positioning working
+ 
                     let divider2 = document.createElement("div");
                     divider2.setAttribute("class", "divider");
                     res.appendChild(divider2);
                     res.appendChild(changeButton);
                     res.appendChild(removeButton);
+                    res.appendChild(buttonUp);
+                    res.appendChild(buttonDown);
 
                     col1.appendChild(res);
                 }
@@ -210,196 +224,6 @@
                     localStorage.setItem("listItem", JSON.stringify(list[i]));
                 }
             }
-		</script>
-		
-		
-		<!-- Sort first, then print the page again    -->
-		<script>
-			function sortAndPrint(){
-				//Remove the div first
-				//console.log("RHSMEIJJ");
-				if (document.getElementById('container').innerHTML == "This list is empty. Add something to see it here!"){ //if nothing in the list
-					//console.log("Nothing to sort");
-					return;
-				}
-				var myDiv = document.getElementById('item0');
-				//console.log("Starting: " + myDiv.innterHTML);
-				var count = 0;
-				while(myDiv){
-					myDiv.parentNode.removeChild(document.getElementById('item' + count));
-					count++;
-					myDiv = document.getElementById('item' + count);
-					//console.log(myDiv.innerHTML);
-				}
-				//console.log(count);
-				//TODO: Clear section done, add sorting functionality 
-				//Identify the list this page is displaying from the query string
-				var listName = parseQuery(window.location.search).list;
-				listName = listName.replace(/\+/g, ' ');
-				document.getElementById("header").innerHTML = listName + " List";
-				//Request the list for this page from the servlet
-				var list = getList(listName).body;
-				
-				
-				//Sort the list with following comparator
-				list.sort((a, b) => b.rating - a.rating);
-				
-				//Update the list back to local storage
-				
-				if(listName == "Favorites"){
-					localStorage.setItem("favoriteListToDisplay", JSON.stringify(list));
-				}
-				else if (listName == "To Explore"){
-					localStorage.setItem("toExploreListToDisplay", JSON.stringify(list));
-				}
-				else if (listName == "Do Not Show"){
-					localStorage.setItem("doNotShowListToDisplay", JSON.stringify(list));
-				}
-				
-				
-				//Same process as on the results page to add the items to the page
-				var col1 = document.getElementById("container");
-				//Check if the list is empty first though
-				if(list == null || list.length === 0) col1.innerHTML = "This list is empty. Add something to see it here!";
-				else {
-	                for (var i = 0; i < list.length; i++) {
-	                    let sec1 = null;
-	                    let sec2 = null;
-	                    let divider = null;
-	                    let sec3 = null;
-	                    let sec4 = null;
-	                    let sec5 = null;
-	                    //And also check if this is a restaurant or a recipe, so the correct data is displayed
-	                    if (list[i].hasOwnProperty("placeID")) {
-	                        sec1 = document.createElement("div");
-	                        sec1.setAttribute("class", "item_format1");
-	                        sec1.innerHTML = list[i].name;
-
-	                        sec2 = document.createElement("div");
-	                        sec2.setAttribute("class", "item_format2");
-	                        for (let j = 0; j < 5; j++) {
-	                            if (j < list[i].rating) sec2.innerHTML += '⭐';
-	                            else sec2.innerHTML += '☆';
-	                        }
-
-	                        divider = document.createElement("div");
-	                        divider.setAttribute("class", "divider");
-
-	                        sec3 = document.createElement("div");
-	                        sec3.setAttribute("class", "item_format3");
-	                        sec3.innerHTML = list[i].driveTimeText + " away";
-
-	                        sec4 = document.createElement("div");
-	                        sec4.setAttribute("class", "item_format4");
-	                        sec4.innerHTML = list[i].address;
-
-	                        sec5 = document.createElement("div");
-	                        sec5.setAttribute("class", "item_format5");
-	                        sec5.innerHTML = list[i].priceLevel;
-	                    }
-	                    else {
-	                        sec1 = document.createElement("div");
-	                        sec1.setAttribute("class", "item_format1");
-	                        sec1.innerHTML = list[i].name;
-
-	                        sec2 = document.createElement("div");
-	                        sec2.setAttribute("class", "item_format2");
-	                        for (let j = 0; j < 5; j++) {
-	                            if (j < list[i].rating) sec2.innerHTML += '⭐';
-	                            else sec2.innerHTML += '☆';
-	                        }
-
-	                        divider = document.createElement("div");
-	                        divider.setAttribute("class", "divider");
-
-	                        sec3 = document.createElement("div");
-	                        sec3.setAttribute("class", "item_format3");
-	                        sec3.innerHTML = list[i].prepTime + " min prep time";
-
-	                        sec4 = document.createElement("div");
-	                        sec4.setAttribute("class", "item_format4");
-	                        sec4.innerHTML = list[i].cookTime + " min cook time";
-
-	                        sec5 = document.createElement("div");
-	                        sec5.setAttribute("class", "item_format5");
-	                        sec5.innerHTML = "   ";
-	                    }
-	                    //Build the change and remove list buttons for this item
-	                    let changeButton = document.createElement("button");
-	                    changeButton.setAttribute("id", "changeButton"+i);
-	                    changeButton.innerHTML = "Change List";
-	                    //Have to use a closure to get the loop index in there properly
-	                    (function(ind) {
-	                        changeButton.onclick= function(event) {
-	                            //Make sure that clicking this button doesn't also send user to the detailed page for this item
-	                            event.stopPropagation();
-	                            event.preventDefault();
-	                            //Check that a list is specified in the dropdown before doing anything
-	                            if(document.getElementById("dropdown").value !== "invalid") {
-	                                //Store this item in localStorage
-	                                setStoredItem(ind);
-	                                //Then remove from this list and add to the enw one
-	                                removeItem(listName, JSON.parse(localStorage.getItem('listItem')));
-	                                addItem(document.getElementById("dropdown").value, JSON.parse(localStorage.getItem('listItem')));
-	                                //Remove the item from the page
-	                                document.getElementById('item' + ind).parentNode.removeChild(document.getElementById('item' + ind));
-	                                //And change the back to results button so that it forces the results page to make a new search from the server
-	                                document.getElementById("numberResultsInput").value = JSON.parse(localStorage.getItem("searchResults"))[0].length;
-	                            }
-	                        }
-	                    }(i));
-						let removeButton = document.createElement("button");
-						removeButton.setAttribute("id", "removeButton"+i);
-						removeButton.innerHTML = "Remove from List";
-						//Another closure. This gave me a headache when I wrote it.
-	                    (function(ind) {
-	                        removeButton.onclick = function(event) {
-	                            //Make sure that clicking this button doesn't also send user to the detailed page for this item
-	                            event.stopPropagation();
-	                            event.preventDefault();
-	                            //Same as above, but don't check the dropdown because it doesn't matter (we always remove from the list this page is for)
-	                            setStoredItem(ind);
-	                            removeItem(listName, JSON.parse(localStorage.getItem('listItem')));
-	                            document.getElementById('item' + ind).parentNode.removeChild(document.getElementById('item' + ind));
-	                            document.getElementById("numberResultsInput").value = JSON.parse(localStorage.getItem("searchResults"))[0].length;
-	                        };
-	                    })(i);
-
-	                    //Assemble the elements onto the page as in the results page
-	                    let res = document.createElement("div");
-	                    res.setAttribute("class", "item");
-	                    res.setAttribute("id", "item" + i);
-	                    //decided which page to link to
-	                    if (list[i].hasOwnProperty("placeID"))
-	                    	res.setAttribute("onclick", "setStoredItem(" + i + ");window.location='restaurantPage.jsp?i=-1';");
-	                    else
-	                    	res.setAttribute("onclick", "setStoredItem(" + i + ");window.location='recipePage.jsp?i=-1';");
-	                    res.setAttribute("style", "cursor:pointer;");
-	                    res.appendChild(sec1);
-	                    res.appendChild(sec2);
-	                    res.appendChild(divider);
-	                    res.appendChild(sec3);
-	                    res.appendChild(sec4);
-	                    if (sec5 != null) res.appendChild(sec5);
-	                    //Do add an extra div compared to there to get the button positioning working
-	                    let divider2 = document.createElement("div");
-	                    divider2.setAttribute("class", "divider");
-	                    res.appendChild(divider2);
-	                    res.appendChild(changeButton);
-	                    res.appendChild(removeButton);
-
-	                    col1.appendChild(res);
-	                }
-
-	                //Just adds an item to local storage
-	                function setStoredItem(i) {
-	                    localStorage.setItem("listItem", JSON.stringify(list[i]));
-	                }
-	            }
-			}
-				
-				
-		
 		</script>
 	</body>
 </html>

@@ -109,7 +109,48 @@ public class ListServlet extends HttpServlet
                 	respWriter.println(gson.toJson(new Message("Success")));
                 	return;
             	}
+            }
+            //Either move the item up or down
+            if(reqMessage.header.equals("moveUp") || reqMessage.header.equals("moveDown")) {
+            	//TODO: Add connection to database
+            	List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
+            	String curr = ((String)reqListAndItem.body);
+            	int currOrder = Integer.parseInt(curr); //the current order of the selected item
+            	int toSwapOrder; //the new order of the selected item(either old order -1 or +1);
             	
+            	if(reqMessage.header.equals("moveUp")){
+            		if(currOrder == 0) {
+            			respWriter.println(gson.toJson(new Message("No need to reorder"))); //no need to move the first item up
+            			return;
+            		}
+            		else toSwapOrder = currOrder - 1;
+            	}
+            	else {
+            		if(currOrder == list.size()) {
+            			respWriter.println(gson.toJson(new Message("No need to reorder"))); //no need to move the last item up
+            			return;
+            		}
+            		toSwapOrder = currOrder + 1;
+            	}
+            	int currIndexInList = 0; 
+            	int toSwapIndexInList = 0;
+            	for(int i = 0;i<list.size();i++) {
+            		if(list.get(i).order == currOrder) {
+            			currIndexInList = i;
+            		}
+            		else if(list.get(i).order == toSwapOrder) {
+            			toSwapIndexInList = i;
+            		}
+            	}
+                //Swap the order of the two items
+            	System.out.println("Before: " + list.get(currIndexInList).name + ": " + list.get(currIndexInList).order);
+            	System.out.println("Before: " + list.get(toSwapIndexInList).name + ": " + list.get(toSwapIndexInList).order);
+            	list.get(currIndexInList).order = toSwapOrder;
+            	list.get(toSwapIndexInList).order = currOrder;
+            	System.out.println("After: " + list.get(currIndexInList).name + ": " + list.get(currIndexInList).order);
+            	System.out.println("After: " + list.get(toSwapIndexInList).name + ": " + list.get(toSwapIndexInList).order);
+            	respWriter.println(gson.toJson(new Message("Success")));
+            	return;
             }
             
             String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
@@ -155,7 +196,12 @@ public class ListServlet extends HttpServlet
                     }
                     else {
                     	if(!list.contains(item)) {
+                    		item.order = list.size(); //New added item should have the highest order(displayed at the very end)
                     		list.add(item);
+                    		System.out.println("Current order in list: ");
+                            for(int i = 0;i<list.size();i++) {
+                            	System.out.println(list.get(i).name + ", " + list.get(i).order);
+                            }
                     		int listToAdd = 1;
                     		if(listName.equals("Favorites")) listToAdd = 1;
                     		else if(listName.equals("Do Not Show")) listToAdd = 2;
@@ -170,14 +216,25 @@ public class ListServlet extends HttpServlet
                     break;
                     
                 case "removeItem":
-                	if(listName.equals("Grocery")) { //case for add to Grocery List
+                	if(listName.equals("Grocery")) { //case remove from Grocery List
                 		list.remove(item);
                 		GroceryInfo itemGroceryInfo = (GroceryInfo)item;
                     	GroceryDataManager groceryDB = new GroceryDataManager();
                     	groceryDB.removeFromList(itemGroceryInfo.item);
                     }
                 	else {
+                		int currOrder = item.order;
                         list.remove(item);
+                        for(int i = 0;i<list.size();i++) {
+                        	if(list.get(i).order > currOrder) {
+                        		list.get(i).order -= 1; //the order of all the items that placed below the deleted one should be decremented by 1
+                        	}
+                        }
+                        System.out.println("Current order in list: ");
+                        for(int i = 0;i<list.size();i++) {
+                        	System.out.println(list.get(i).name + ", " + list.get(i).order);
+                        }
+                        
                         int listToRemove = 1;
                 		if(listName.equals("Favorites")) listToRemove = 1;
                 		else if(listName.equals("Do Not Show")) listToRemove = 2;
