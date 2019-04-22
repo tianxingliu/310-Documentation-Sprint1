@@ -56,41 +56,6 @@ public class HistoryDataManager  extends DataManager {
 		}
 	}
 	
-	/*
-	public void removeHistory(int key) {
-		
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
-			conn = DriverManager.getConnection(JDBC_CONNECTION);
-				PreparedStatement delete = conn.prepareStatement("DELETE FROM History WHERE ID = " + key );
-				delete.execute();
-				delete.close();
-				System.out.println("Restaurant removed.");
-		} catch (SQLException sqle) {
-			System.out.println("sqle: " + sqle.getMessage());
-		} catch (ClassNotFoundException cnfe) {
-			System.out.println("cnfe: " + cnfe.getMessage());
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(ps != null) {
-					ps.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException sqle) {
-				System.out.println("sqle closing conn: " + sqle.getMessage());
-			}
-		}
-	}
-	*/
-	
 	public ArrayList<History> loadHistory(){
 		
 		Connection conn = null;
@@ -134,6 +99,41 @@ public class HistoryDataManager  extends DataManager {
 			}
 		}
 		return historyList;
-	} 
+	}
+	
+	/*
+	public void removeHistory(int key) {
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
+			conn = DriverManager.getConnection(JDBC_CONNECTION);
+				PreparedStatement delete = conn.prepareStatement("DELETE FROM History WHERE ID = " + key );
+				delete.execute();
+				delete.close();
+				System.out.println("Restaurant removed.");
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println("sqle closing conn: " + sqle.getMessage());
+			}
+		}
+	}
+	*/
 	
 }
