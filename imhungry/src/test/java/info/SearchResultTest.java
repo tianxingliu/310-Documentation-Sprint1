@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import Message.SearchResult;
+
 public class SearchResultTest {
 
 	@Test

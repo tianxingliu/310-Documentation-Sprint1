@@ -13,6 +13,9 @@ import info.History;
 
 public class HistoryDataManager  extends DataManager {
 
+	public HistoryDataManager(String username) {
+		super(username);
+	}
 	
 	public void addToList(History history) {
 		
@@ -27,13 +30,13 @@ public class HistoryDataManager  extends DataManager {
 		
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
-			ps = conn.prepareStatement("INSERT INTO History (hName,hNumber,Radius) VALUES (?,?,?);");
-
+			ps = conn.prepareStatement("INSERT INTO History (hName,hNumber,Radius,User) VALUES (?,?,?,?);");
 			ps.setString(1, query); // set first variable in prepared statement
 			ps.setLong(2, number);
-		    ps.setLong(3, radius);	
+		    ps.setLong(3, radius);
+		    ps.setString(4, username);
 		    ps.execute();
-		    System.out.println("Restaurant added to database.");
+		    System.out.println("History added to database.");
 		    
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
@@ -67,9 +70,7 @@ public class HistoryDataManager  extends DataManager {
 			
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
-			
-
-			ps = conn.prepareStatement("SELECT * FROM History");
+			ps = conn.prepareStatement("SELECT * FROM History WHERE User LIKE '" + username + "'");
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				History his = new History(
