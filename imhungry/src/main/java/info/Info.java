@@ -8,6 +8,7 @@ public abstract class Info implements Serializable{
 	public String name;
 	public int rating;
 	public int order = -1;
+	public String uname;
 
 	//check whether two Info objects can be treated as the same. Used for lists biases.
 	@Override
