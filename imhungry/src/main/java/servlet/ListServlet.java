@@ -11,7 +11,7 @@ import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
 import database_manager.HistoryDataManager;
 import info.Info;
-import info.Message;
+import Message.Message;
 import info.RecipeInfo;
 import info.RestaurantInfo;
 import info.GroceryInfo;
@@ -43,6 +43,9 @@ public class ListServlet extends HttpServlet
     {
         HttpSession session = request.getSession();
         String listName = request.getParameter("list"); //See what list was requested
+        
+        String username = "nero";  //TODO: get username
+        
         PrintWriter respWriter = response.getWriter();
         Gson gson = new Gson();
         if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery") && !listName.equals("Quick Access")) //Check if list is valid
@@ -52,7 +55,7 @@ public class ListServlet extends HttpServlet
             return;
         }
         if(listName.equals("Quick Access")) {
-    			HistoryDataManager historyDB = new HistoryDataManager();
+    			HistoryDataManager historyDB = new HistoryDataManager(username);
     			//load quickAccessList from database
     			ArrayList<History> quickAccessList = new ArrayList<History>();
     			quickAccessList = historyDB.loadHistory();
@@ -76,6 +79,9 @@ public class ListServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         HttpSession session = request.getSession();
+        
+        String username = "nero";  //TODO: get username
+        
         String reqBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator())); //Java 8 magic to collect all lines from a BufferedReadder, in this case the request.
         Gson gson = new Gson();
         PrintWriter respWriter = response.getWriter();
@@ -84,7 +90,7 @@ public class ListServlet extends HttpServlet
             Message reqMessage = gson.fromJson(reqBody, Message.class); //Parse outer Message object from JSON
             Message reqListAndItem = gson.fromJson((String)reqMessage.body, Message.class); //Parse inner Message object from json
             
-            String listName = reqListAndItem.header; //Get name of list to modify from the inner Message
+            String listName = reqListAndItem.header;
             if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery") && !listName.equals("Quick Access")) {
             	//Check validity
                 throw new Exception("Invalid list name.");
@@ -92,7 +98,7 @@ public class ListServlet extends HttpServlet
             if(listName.equals("Quick Access")) {
 	        	String s = (String)reqListAndItem.body;
 	        	History h = new History(s,0,0);
-	        	HistoryDataManager historyDB = new HistoryDataManager();
+	        	HistoryDataManager historyDB = new HistoryDataManager(username);
 	        	historyDB.addToList(h);
 	        	respWriter.println(gson.toJson(new Message("quick access "+listName)));
 	        	return;
@@ -102,7 +108,7 @@ public class ListServlet extends HttpServlet
             	if(reqMessage.header.equals("removeItem")) {
             		String groceryName = ((String)reqListAndItem.body).replaceAll("\"", "");
             		System.out.println(groceryName);
-                	GroceryDataManager groceryDB = new GroceryDataManager();
+                	GroceryDataManager groceryDB = new GroceryDataManager(username);
                 	List<GroceryInfo> list = (List<GroceryInfo>)session.getAttribute(listName);
                 	groceryDB.removeFromList(groceryName);
                 	list.remove(new GroceryInfo(groceryName));
@@ -110,6 +116,7 @@ public class ListServlet extends HttpServlet
                 	return;
             	}
             }
+            
             //Either move the item up or down
             if(reqMessage.header.equals("moveUp") || reqMessage.header.equals("moveDown")) {
             	//TODO: Add connection to database
@@ -167,14 +174,13 @@ public class ListServlet extends HttpServlet
         	Info item = gson.fromJson(infoJson, infoType); //Parse Info object from JSON
             List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
             //Switch on requested action
-            RestaurantDataManager restaurantDB = new RestaurantDataManager();
-        	RecipeDataManager recipeDB = new RecipeDataManager();
-        	System.out.println(reqMessage.header);
+            RestaurantDataManager restaurantDB = new RestaurantDataManager(username);
+        	RecipeDataManager recipeDB = new RecipeDataManager(username);
             switch(reqMessage.header)
             {
                 case "addItem":
                 	if(listName.equals("Grocery")) { //case for add to Grocery List
-                    	GroceryDataManager groceryDB = new GroceryDataManager();
+                    	GroceryDataManager groceryDB = new GroceryDataManager(username);
                     	RecipeInfo newItem = gson.fromJson(infoJson, infoType);
                     	ArrayList<String> ingredients = newItem.ingredients; 
                     	for(int i = 0; i < ingredients.size(); i++) {
@@ -219,7 +225,7 @@ public class ListServlet extends HttpServlet
                 	if(listName.equals("Grocery")) { //case remove from Grocery List
                 		list.remove(item);
                 		GroceryInfo itemGroceryInfo = (GroceryInfo)item;
-                    	GroceryDataManager groceryDB = new GroceryDataManager();
+                    	GroceryDataManager groceryDB = new GroceryDataManager(username);
                     	groceryDB.removeFromList(itemGroceryInfo.item);
                     }
                 	else {
@@ -241,7 +247,7 @@ public class ListServlet extends HttpServlet
                 		else if(listName.equals("To Explore")) listToRemove = 3;
                 		if(infoType == RecipeInfo.class) {
                 			RecipeInfo itemRecipeInfo = (RecipeInfo)item;
-                			recipeDB.removeFromList(itemRecipeInfo.recipeID, listToRemove);
+                			recipeDB.removeFromList(itemRecipeInfo.spoonID, listToRemove);
                 		}
                 		else if(infoType == RestaurantInfo.class) {
                 			RestaurantInfo itemRestaurantInfo = (RestaurantInfo)item;

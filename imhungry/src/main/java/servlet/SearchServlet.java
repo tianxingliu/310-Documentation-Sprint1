@@ -19,6 +19,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import Message.Message;
+import Message.SearchResult;
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
@@ -75,9 +77,11 @@ public class SearchServlet extends HttpServlet {
 		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
 
-		RestaurantDataManager restaurantDB = new RestaurantDataManager();
-		RecipeDataManager recipeDB = new RecipeDataManager();
-		GroceryDataManager groceryDB = new GroceryDataManager();
+		String username = "nero";  //TODO: get username
+		
+		RestaurantDataManager restaurantDB = new RestaurantDataManager(username);
+		RecipeDataManager recipeDB = new RecipeDataManager(username);
+		GroceryDataManager groceryDB = new GroceryDataManager(username);
 		if(session.isNew() || session.getAttribute("Favorites") == null) {
 			favoritesList = new ArrayList<>();
 			favoritesList.addAll(restaurantDB.loadRestaurants(1));
@@ -179,7 +183,7 @@ public class SearchServlet extends HttpServlet {
 					currentRecipe.get("id").getAsInt(), 30, 30, new ArrayList<String>(), new ArrayList<String>(), "");
 
 			//use recipe ID to make another request for detail information
-			String recipeDetailURL = SPOONACULAR_RECIPE_API_PREFIX + "/" + recipe.recipeID +"/information";
+			String recipeDetailURL = SPOONACULAR_RECIPE_API_PREFIX + "/" + recipe.spoonID +"/information";
 			JsonObject recipeDetailJSON;
 			//very occasionally, recipe does not have detail information and is skipped
 			try {

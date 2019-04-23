@@ -26,7 +26,7 @@ public class RecipeInfoTest {
 		RecipeInfo ri = new RecipeInfo(name,rating,recipeID,prepTime,cookTime,ingre,instr,imageURL);
 		assertEquals(name,ri.name);
 		assertEquals(rating,ri.rating);
-		assertEquals(recipeID, ri.recipeID);
+		assertEquals(recipeID, ri.spoonID);
 		assertEquals(prepTime,ri.prepTime);
 		assertEquals(cookTime,ri.cookTime);
 		assertEquals(ingre,ri.ingredients);
@@ -77,7 +77,7 @@ public class RecipeInfoTest {
 		ArrayList<String> instr2 = new ArrayList<String>();
 		RecipeInfo ri3 = new RecipeInfo("",0,recipeID,0,0,ingre1,instr2,"");
 		assertEquals("Equal() comparison error", true, ri.equals(ri3));
-		ri3.recipeID = ri.recipeID-1;
+		ri3.spoonID = ri.spoonID-1;
 		assertEquals("Equal() comparison error", false, ri.equals(ri3));
 	}
 	@Test

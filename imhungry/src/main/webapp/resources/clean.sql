@@ -6,4 +6,4 @@ DELETE FROM Recipes WHERE RecipeID >= 0;
 
 DELETE FROM History WHERE ID >= 0;
 
-DELETE FROM GroceryList WHERE GroceryID >= 0;
+DELETE FROM GroceryList WHERE GroceryItem NOT LIKE '';

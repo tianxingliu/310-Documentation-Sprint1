@@ -17,7 +17,7 @@ public class GroceryDataManagerTest {
 	@Test
 	public void addToListAndLoadGroceryTest() throws SQLException {
 		GroceryInfo ingredient = new GroceryInfo("tomato");
-		GroceryDataManager gd = new GroceryDataManager();
+		GroceryDataManager gd = new GroceryDataManager("nero");
 		gd.addToList(ingredient);
 		ArrayList<Info> list = gd.loadGrocery();
 		assert(list.size() >= 0);
@@ -25,7 +25,7 @@ public class GroceryDataManagerTest {
 	
 	@Test
 	public void removeFromListTest() throws SQLException {
-		GroceryDataManager gd = new GroceryDataManager();
+		GroceryDataManager gd = new GroceryDataManager("nero");
 		gd.removeFromList("tomato");
 		ArrayList<Info> list = gd.loadGrocery();
 		assert(list.size() == 0);

@@ -14,7 +14,7 @@ public class HistoryDataManagerTest {
 	@Test
 	public void addToListAndLoadHistoryTest() throws SQLException {
 		History search = new History("coffee", 5, 2);
-		HistoryDataManager manager = new HistoryDataManager();
+		HistoryDataManager manager = new HistoryDataManager("nero");
 		manager.addToList(search);
 		ArrayList<History> list = manager.loadHistory();
 		assert(list.size() >= 0);

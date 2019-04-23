@@ -14,16 +14,20 @@ import info.RecipeInfo;
 
 public class GroceryDataManager extends DataManager {
 	
+	public GroceryDataManager(String username) {
+		super(username);
+	}
+	
 	public void addToList(GroceryInfo ingredient) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
-			ps = conn.prepareStatement("INSERT INTO GroceryList(GroceryItem) VALUES(?);");
+			ps = conn.prepareStatement("INSERT INTO GroceryList VALUES(?,?);");
 			ps.setString(1, ingredient.item);
+			ps.setString(2, username);
 			ps.executeUpdate();
-			System.out.println("Grocery added.");
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		} catch (ClassNotFoundException cnfe) {
@@ -51,7 +55,7 @@ public class GroceryDataManager extends DataManager {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
-	    	ps = conn.prepareStatement("SELECT * FROM GroceryList");
+	    	ps = conn.prepareStatement("SELECT * FROM GroceryList WHERE User LIKE '" + username + "'");
 			rs = ps.executeQuery();
 			System.out.println("Loading grocery list.");
 			while(rs.next()) {				
@@ -87,8 +91,9 @@ public class GroceryDataManager extends DataManager {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
-	    	ps = conn.prepareStatement("DELETE FROM GroceryList WHERE GroceryItem LIKE ?");
+	    	ps = conn.prepareStatement("DELETE FROM GroceryList WHERE GroceryItem LIKE ? AND User LIKE ?");
 	    	ps.setString(1, grocery);
+	    	ps.setString(2, username);
 	    	ps.execute();
 	    	System.out.println("Removed item from grocery list.");
 		} catch (SQLException sqle) {
