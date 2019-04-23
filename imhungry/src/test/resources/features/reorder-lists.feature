@@ -2,9 +2,10 @@ Feature: Quick Access List
 
 Background:
 
-	Given I visit the website
+	Given I visit the website and database is empty
 	
 Scenario: "Move up" button found
+	
 	When I search for "pizza" and expect 5 results
 	And press "submit" button
 	And press "Manage List" button
@@ -29,7 +30,7 @@ Scenario: "Move up" button worked
 	And press "backtoresults" button
 	And select the list "Favorites"
 	And press "Manage List" button
-	And press "Move up" button 
+	And press "↑" button 
 	Then the items will be ordered
 	
 Scenario: "Move down" button worked

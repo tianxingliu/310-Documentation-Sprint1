@@ -187,3 +187,11 @@ end
 Then(/^the radius that would be executed on will be 10000$/) do
    expect(page).to have_title("Search Page")
 end
+
+Then(/^I should see "Move up" button$/) do
+   expect(page).to have_content("↑")
+end
+
+Then(/^I should see "Move down" button$/) do
+   expect(page).to have_content("↓")
+end
