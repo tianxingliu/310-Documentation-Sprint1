@@ -90,6 +90,12 @@ Then(/^I should see the "Display Grocery" button$/) do
     page.find('#display_grocery')
 end
 
+Then(/^I should see the "Remove Item" button$/) do
+#    expect(page).to have_css('#display_grocery')
+    expect(page).to have_content("Remove Item")
+end
+
+
 Then(/^I should see the "Add to Grocery" button$/) do
 #    expect(page).to have_css('#display_grocery')
     page.find('.addToGrocery')
@@ -195,3 +201,29 @@ end
 Then(/^I should see "Move down" button$/) do
    expect(page).to have_content("↓")
 end
+
+
+And(/^to press the "↑" button$/) do
+  all('div', :text => "↑")[1].click
+end
+
+And(/^to press the "↓" button$/) do
+  all('div', :text => "↑")[1].click
+end
+
+Then(/^the item will be moved up$/) do
+   expect(page).to have_content("Cajun")
+end
+
+Then(/^the item will be moved down$/) do
+   expect(page).to have_content("Cajun")
+end
+
+And(/^delete the first grocery item$/) do
+  all("button", :text => "Remove Item")[0].click
+end
+
+Then(/^the item will be deleted from the grocery list$/) do
+   expect(page).should have_no_content("brown sugur")
+end
+
