@@ -9,7 +9,12 @@ public abstract class DataManager {
 	protected static final String LIST_NAME_FAVORITES = "favorites";
 	protected static final String LIST_NAME_DO_NOT_SHOW = "do not show";
 	protected static final String LIST_NAME_TO_EXPLORE = "to explore";
-	protected static final String JDBC_CONNECTION = "jdbc:mysql://localhost:3306/ImHungryDatabase?user=root&password=sbnew123&allowPublicKeyRetrieval=true&useSSL=false";
+	protected static final String JDBC_CONNECTION = "jdbc:mysql://localhost:3306/ImHungryDatabase?user=root&password=647444574&allowPublicKeyRetrieval=true&useSSL=false";
 	
+	protected String username;
+	
+	public DataManager(String username) {
+		this.username = username;
+	}
 
 }

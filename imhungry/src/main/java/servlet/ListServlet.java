@@ -11,7 +11,7 @@ import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
 import database_manager.HistoryDataManager;
 import info.Info;
-import info.Message;
+import Message.Message;
 import info.RecipeInfo;
 import info.RestaurantInfo;
 import info.GroceryInfo;
@@ -43,6 +43,9 @@ public class ListServlet extends HttpServlet
     {
         HttpSession session = request.getSession();
         String listName = request.getParameter("list"); //See what list was requested
+        
+        String username = "nero";  //TODO: get username
+        
         PrintWriter respWriter = response.getWriter();
         Gson gson = new Gson();
         if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery") && !listName.equals("Quick Access")) //Check if list is valid
@@ -52,7 +55,7 @@ public class ListServlet extends HttpServlet
             return;
         }
         if(listName.equals("Quick Access")) {
-    			HistoryDataManager historyDB = new HistoryDataManager();
+    			HistoryDataManager historyDB = new HistoryDataManager(username);
     			//load quickAccessList from database
     			ArrayList<History> quickAccessList = new ArrayList<History>();
     			quickAccessList = historyDB.loadHistory();
@@ -65,7 +68,7 @@ public class ListServlet extends HttpServlet
 	        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
 	            respWriter.close();
 	            return;
-        }
+        	}
 	    	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
 	        respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
 	        respWriter.close();
@@ -76,6 +79,9 @@ public class ListServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         HttpSession session = request.getSession();
+        
+        String username = "nero";  //TODO: get username
+        
         String reqBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator())); //Java 8 magic to collect all lines from a BufferedReadder, in this case the request.
         Gson gson = new Gson();
         PrintWriter respWriter = response.getWriter();
@@ -84,102 +90,181 @@ public class ListServlet extends HttpServlet
             Message reqMessage = gson.fromJson(reqBody, Message.class); //Parse outer Message object from JSON
             Message reqListAndItem = gson.fromJson((String)reqMessage.body, Message.class); //Parse inner Message object from json
             
-           
-            String listName = reqListAndItem.header; //Get name of list to modify from the inner Message
-            if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery") && !listName.equals("Quick Access")) //Check validity
+            String listName = reqListAndItem.header;
+            if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show") && !listName.equals("Grocery") && !listName.equals("Quick Access")) {
+            	//Check validity
                 throw new Exception("Invalid list name.");
-            
-            
+            }
             if(listName.equals("Quick Access")) {
-            	//TODO: Add code for other cases, only addItem for now
 	        	String s = (String)reqListAndItem.body;
 	        	History h = new History(s,0,0);
-	        	HistoryDataManager historyDB = new HistoryDataManager();
+	        	HistoryDataManager historyDB = new HistoryDataManager(username);
 	        	historyDB.addToList(h);
 	        	respWriter.println(gson.toJson(new Message("quick access "+listName)));
 	        	return;
             }
+
+            if(listName.equals("Grocery")) {
+            	if(reqMessage.header.equals("removeItem")) {
+            		String groceryName = ((String)reqListAndItem.body).replaceAll("\"", "");
+            		System.out.println(groceryName);
+                	GroceryDataManager groceryDB = new GroceryDataManager(username);
+                	List<GroceryInfo> list = (List<GroceryInfo>)session.getAttribute(listName);
+                	groceryDB.removeFromList(groceryName);
+                	list.remove(new GroceryInfo(groceryName));
+                	respWriter.println(gson.toJson(new Message("Success")));
+                	return;
+            	}
+            }
+            
+            //Either move the item up or down
+            if(reqMessage.header.equals("moveUp") || reqMessage.header.equals("moveDown")) {
+            	//TODO: Add connection to database
+            	List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
+            	String curr = ((String)reqListAndItem.body);
+            	int currOrder = Integer.parseInt(curr); //the current order of the selected item
+            	int toSwapOrder; //the new order of the selected item(either old order -1 or +1);
+            	
+            	if(reqMessage.header.equals("moveUp")){
+            		if(currOrder == 0) {
+            			respWriter.println(gson.toJson(new Message("No need to reorder"))); //no need to move the first item up
+            			return;
+            		}
+            		else toSwapOrder = currOrder - 1;
+            	}
+            	else {
+            		if(currOrder == list.size()) {
+            			respWriter.println(gson.toJson(new Message("No need to reorder"))); //no need to move the last item up
+            			return;
+            		}
+            		toSwapOrder = currOrder + 1;
+            	}
+            	int currIndexInList = 0; 
+            	int toSwapIndexInList = 0;
+            	for(int i = 0;i<list.size();i++) {
+            		if(list.get(i).order == currOrder) {
+            			currIndexInList = i;
+            		}
+            		else if(list.get(i).order == toSwapOrder) {
+            			toSwapIndexInList = i;
+            		}
+            	}
+                //Swap the order of the two items
+            	System.out.println("Before: " + list.get(currIndexInList).name + ": " + list.get(currIndexInList).order);
+            	System.out.println("Before: " + list.get(toSwapIndexInList).name + ": " + list.get(toSwapIndexInList).order);
+            	list.get(currIndexInList).order = toSwapOrder;
+            	list.get(toSwapIndexInList).order = currOrder;
+            	System.out.println("After: " + list.get(currIndexInList).name + ": " + list.get(currIndexInList).order);
+            	System.out.println("After: " + list.get(toSwapIndexInList).name + ": " + list.get(toSwapIndexInList).order);
+            	respWriter.println(gson.toJson(new Message("Success")));
+            	return;
+            }
             
             String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
-
+            
             //Interact with the raw JSON to determine the type of the object via unique fields
             JsonObject info = new JsonParser().parse(infoJson).getAsJsonObject();
             Type infoType;
             if(info.has("prepTime")) infoType = RecipeInfo.class;
             else if(info.has("placeID")) infoType = RestaurantInfo.class;
+            else if(info.has("item")) infoType = GroceryInfo.class;
             else throw new Exception("Unknown item type.");
             
             
-            	Info item = gson.fromJson(infoJson, infoType); //Parse Info object from JSON
-                List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
-                //Switch on requested action
-                RestaurantDataManager restaurantDB = new RestaurantDataManager();
-            	RecipeDataManager recipeDB = new RecipeDataManager();
-            	System.out.println(reqMessage.header);
-                switch(reqMessage.header)
-                {
-                    case "addItem":
-                        if(listName.equals("Grocery")) { //case for add to Grocery List
-                        	GroceryDataManager groceryDB = new GroceryDataManager();
-                        	RecipeInfo newItem = gson.fromJson(infoJson, infoType);
-                        	ArrayList<String> ingredients = newItem.ingredients; 
-                        	for(int i = 0; i < ingredients.size(); i++) {
-                        		GroceryInfo newGrocery = new GroceryInfo(ingredients.get(i));
-                        		boolean alreadyAdded = false;
-                        		for(int j=0;j < list.size();j++) {
-                        			GroceryInfo g = (GroceryInfo) list.get(j);
-                        			if(g.item.equals(ingredients.get(i))) {
-                        				alreadyAdded = true;
-                        				break;
-                        			}
-                        		}
-                        		if(!alreadyAdded) {
-                        			list.add(newGrocery);
-                        			groceryDB.addToList(newGrocery);
-                        		}
-                        	}
+        	Info item = gson.fromJson(infoJson, infoType); //Parse Info object from JSON
+            List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
+            //Switch on requested action
+            RestaurantDataManager restaurantDB = new RestaurantDataManager(username);
+        	RecipeDataManager recipeDB = new RecipeDataManager(username);
+            switch(reqMessage.header)
+            {
+                case "addItem":
+                	if(listName.equals("Grocery")) { //case for add to Grocery List
+                    	GroceryDataManager groceryDB = new GroceryDataManager(username);
+                    	RecipeInfo newItem = gson.fromJson(infoJson, infoType);
+                    	ArrayList<String> ingredients = newItem.ingredients; 
+                    	for(int i = 0; i < ingredients.size(); i++) {
+                    		GroceryInfo newGrocery = new GroceryInfo(ingredients.get(i));
+                    		boolean alreadyAdded = false;
+                    		for(int j=0;j < list.size();j++) {
+                    			GroceryInfo g = (GroceryInfo) list.get(j);
+                    			if(g.item.equals(ingredients.get(i))) {
+                    				alreadyAdded = true;
+                    				break;
+                    			}
+                    		}
+                    		if(!alreadyAdded) {
+                    			list.add(newGrocery);
+                    			groceryDB.addToList(newGrocery);
+                    		}
+                    	}
 
-                        }
-                        else {
-                        	if(!list.contains(item)) {
-                        		list.add(item);
-                        		int listToAdd = 1;
-                        		if(listName.equals("Favorites")) listToAdd = 1;
-                        		else if(listName.equals("Do Not Show")) listToAdd = 2;
-                        		else if(listName.equals("To Explore")) listToAdd = 3;
-                        		if(infoType == RecipeInfo.class)
-                        			recipeDB.addToList((RecipeInfo)item, listToAdd);
-                        		else if(infoType == RestaurantInfo.class)
-                        			restaurantDB.addToList((RestaurantInfo)item, listToAdd);
+                    }
+                    else {
+                    	if(!list.contains(item)) {
+                    		item.order = list.size(); //New added item should have the highest order(displayed at the very end)
+                    		list.add(item);
+                    		System.out.println("Current order in list: ");
+                            for(int i = 0;i<list.size();i++) {
+                            	System.out.println(list.get(i).name + ", " + list.get(i).order);
+                            }
+                    		int listToAdd = 1;
+                    		if(listName.equals("Favorites")) listToAdd = 1;
+                    		else if(listName.equals("Do Not Show")) listToAdd = 2;
+                    		else if(listName.equals("To Explore")) listToAdd = 3;
+                    		if(infoType == RecipeInfo.class)
+                    			recipeDB.addToList((RecipeInfo)item, listToAdd);
+                    		else if(infoType == RestaurantInfo.class)
+                    			restaurantDB.addToList((RestaurantInfo)item, listToAdd);
+                    	}
+                    }
+                    respWriter.println(gson.toJson(new Message("Added to list "+ list)));
+                    break;
+                    
+                case "removeItem":
+                	if(listName.equals("Grocery")) { //case remove from Grocery List
+                		list.remove(item);
+                		GroceryInfo itemGroceryInfo = (GroceryInfo)item;
+                    	GroceryDataManager groceryDB = new GroceryDataManager(username);
+                    	groceryDB.removeFromList(itemGroceryInfo.item);
+                    }
+                	else {
+                		int currOrder = item.order;
+                        list.remove(item);
+                        for(int i = 0;i<list.size();i++) {
+                        	if(list.get(i).order > currOrder) {
+                        		list.get(i).order -= 1; //the order of all the items that placed below the deleted one should be decremented by 1
                         	}
                         }
-                        respWriter.println(gson.toJson(new Message("Added to list "+ list)));
-                        break;
+                        System.out.println("Current order in list: ");
+                        for(int i = 0;i<list.size();i++) {
+                        	System.out.println(list.get(i).name + ", " + list.get(i).order);
+                        }
                         
-                    case "removeItem":
-                        list.remove(item);
                         int listToRemove = 1;
                 		if(listName.equals("Favorites")) listToRemove = 1;
                 		else if(listName.equals("Do Not Show")) listToRemove = 2;
                 		else if(listName.equals("To Explore")) listToRemove = 3;
                 		if(infoType == RecipeInfo.class) {
                 			RecipeInfo itemRecipeInfo = (RecipeInfo)item;
-                			recipeDB.removeFromList(itemRecipeInfo.recipeID, listToRemove);
+                			recipeDB.removeFromList(itemRecipeInfo.spoonID, listToRemove);
                 		}
                 		else if(infoType == RestaurantInfo.class) {
                 			RestaurantInfo itemRestaurantInfo = (RestaurantInfo)item;
                 			restaurantDB.removeFromList(itemRestaurantInfo.placeID, listToRemove);
                 		}
-                        respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
-                        break;
-                    case "resetLists":
-                        session.invalidate(); //Note: This is for debuggin only; the page will break if this is called and a new search is not immediately made
-                        break;
-                       
-                    default:
-                        throw new Exception("Invalid action.");
-                }
-
+                        
+                	}
+                	respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
+                    break;
+                    
+                case "resetLists":
+                    session.invalidate(); //Note: This is for debuggin only; the page will break if this is called and a new search is not immediately made
+                    break;
+                   
+                default:
+                    throw new Exception("Invalid action.");
+            }
 
         } catch(Exception e) {
             e.printStackTrace();

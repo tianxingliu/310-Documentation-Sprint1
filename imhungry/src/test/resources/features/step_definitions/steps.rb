@@ -1,9 +1,14 @@
+Given(/^I visit the website and database is empty$/) do
+  visit "localhost:9090"
+end
+
 Given(/^I visit the website$/) do
   visit "localhost:9090"
 end
 
 When(/^I search for "([^"]*)" and expect 5 results$/) do |query|
     fill_in('search', :with => query)
+    fill_in('number', :with => 3)
 end
 
 When(/^press "([^"]*)" button$/) do |buttonName|
@@ -29,14 +34,14 @@ end
 When(/^press the "([^"]*)"$/) do |elementName|
     find('#' + elementName).click
 end
-
-When(/^I press "Add to grocery" button$/) do
-    page.find('.addToGrocery', match: :first).click
-end
-
-When(/^I press "Display Grocery" bnutton$/) do
-    page.find('#display_grocery', match: :first).click
-end
+#
+# When(/^I press "Add to grocery" button$/) do
+#     page.find('.addToGrocery', match: :first).click
+# end
+#
+# When(/^I press "Display Grocery" bnutton$/) do
+#     page.find('#display_grocery', match: :first).click
+# end
 
 Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
     expect(page).to have_title pageTitle
@@ -156,4 +161,29 @@ end
 
 When(/^restart session$/) do
     Capybara.reset_sessions!
+end
+
+And(/^reload the page$/) do
+  visit "localhost:9090"
+end
+
+Then(/^the data still preserves$/) do
+   expect(page).to have_content("horsh")
+end
+
+Then(/^the radius input field exists$/) do
+   expect(page.find("#format").find("#hover_format1")).to have_css("#radius");
+end
+
+Then(/^the radis input field should have default value 2000$/) do
+   expect(page.find("#format").find("#hover_format1")).to have_field("radius", :with => 2000);
+end
+
+And(/^change radius to 10000$/) do
+  fill_in('radius', :with => 10000)
+end
+
+
+Then(/^the radius that would be executed on will be 10000$/) do
+   expect(page).to have_title("Search Page")
 end

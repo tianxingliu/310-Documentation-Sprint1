@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import Message.Message;
+
 public class MessageTest {
 	@Test
 	//testing with a random string

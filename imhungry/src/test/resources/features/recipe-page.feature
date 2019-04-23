@@ -2,7 +2,7 @@ Feature: Recipe Page
 
 Background:
 
-	Given I visit the website
+	Given I visit the website and database is empty
 #1, 2, 3, 4, 5
 Scenario: Recipe Page displays appropriate information
 

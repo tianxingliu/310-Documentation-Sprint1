@@ -95,3 +95,6 @@ MANIFEST.MF
 
 # Mac garbage file
 .DS_Store
+
+env.rb
+.classpath

@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. I kept working on the quick access front end implementation 
+2. No. 
+3. I will finish the prototype by Saturday
+
+Haiyu Tian:
+1. I keep working on pagination 
+2. No 
+3. I will try to get it done by next meeting
+
+Pinghao Luo:
+1. starting design databse for login 
+2. no 
+3. Keep working on database for user
+
+Tianxing Liu:
+1. I designed more cucumber tests.
+2. None.
+3. I will start to change the reorder functionality.
+
+Guancheng Qiu:
+1. I worked on several backend modifications for user-specific data.
+2. None.
+3. Keep working.
