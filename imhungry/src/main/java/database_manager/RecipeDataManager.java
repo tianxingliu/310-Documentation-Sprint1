@@ -15,8 +15,12 @@ import info.RecipeInfo;
 
 public class RecipeDataManager extends DataManager {
 	
+	public RecipeDataManager(String username) {
+		super(username);
+	}
+	
 	public void addToList(RecipeInfo recipe, int list) {
-		int recipeID = recipe.recipeID;
+		int recipeID = recipe.spoonID;
 		String name = recipe.name;
 		int rating = recipe.rating;
 		int prepTime = recipe.prepTime;
@@ -28,6 +32,7 @@ public class RecipeDataManager extends DataManager {
 		for(String instruction : recipe.instructions)
 			instructions += instruction + "|||";
 		String imageURL = recipe.imageURL;
+		System.out.println(username);
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -35,13 +40,15 @@ public class RecipeDataManager extends DataManager {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
-			ps = conn.prepareStatement("SELECT * FROM Recipes WHERE RecipeID = " + recipeID);
+			ps = conn.prepareStatement("SELECT * FROM Recipes WHERE SpoonID = " + recipeID);
 			rs = ps.executeQuery();
 			
 			if(!rs.next()) {
 				//Recipe not in database
 				ps.close();
-				ps = conn.prepareStatement("INSERT INTO Recipes VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+				ps = conn.prepareStatement("INSERT INTO Recipes(SpoonID, RecipeName, RecipeRating, PrepTime, CookTime, "
+						+ "Ingredients, Instructions, ImageURL, InFavorites, InDoNotShow, InToExplore, User"
+						+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
 				ps.setInt(1, recipeID);
 				ps.setString(2, name);
 				ps.setInt(3, rating);
@@ -63,6 +70,7 @@ public class RecipeDataManager extends DataManager {
 				   ps.setInt(10, 0);
 				   ps.setInt(11, 1);
 			    }
+			    ps.setString(12, username);
 			    ps.execute();
 			    System.out.println("Recipe added to database.");
 			    
@@ -70,14 +78,15 @@ public class RecipeDataManager extends DataManager {
 				//Recipe already in database
 				PreparedStatement update = null;
 
+				String filter = "WHERE SpoonID = " + recipeID + " AND User LIKE '" + username + "'";
 				if(list == 1) {
-					update = conn.prepareStatement("UPDATE Recipes SET InFavorites = ? WHERE RecipeID = " + recipeID);
+					update = conn.prepareStatement("UPDATE Recipes SET InFavorites = ? " + filter);
 					update.setInt(1, 1);
 				} else if(list == 2) {
-					update = conn.prepareStatement("UPDATE Recipes SET InDoNotShow = ? WHERE RecipeID = " + recipeID);
+					update = conn.prepareStatement("UPDATE Recipes SET InDoNotShow = ? " + filter);
 					update.setInt(1, 1);
 				} else if(list == 3) {
-					update = conn.prepareStatement("UPDATE Recipes SET InToExplore = ? WHERE RecipeID = " + recipeID);
+					update = conn.prepareStatement("UPDATE Recipes SET InToExplore = ? " + filter);
 					update.setInt(1, 1);
 				}
 				update.execute();
@@ -111,32 +120,33 @@ public class RecipeDataManager extends DataManager {
 		PreparedStatement update = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		
+		String filter = "WHERE SpoonID = " + recipeID + " AND User LIKE '" + username + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
 
 			if(list == 1) {
-				update = conn.prepareStatement("UPDATE Recipes SET InFavorites = ? WHERE RecipeID =" + recipeID);
+				update = conn.prepareStatement("UPDATE Recipes SET InFavorites = ? " + filter);
 				update.setInt(1, 0);
 			} else if(list == 2) {
-				update = conn.prepareStatement("UPDATE Recipes SET InDoNotShow = ? WHERE RecipeID =" + recipeID);
+				update = conn.prepareStatement("UPDATE Recipes SET InDoNotShow = ? " + filter);
 				update.setInt(1, 0);
 			} else if(list == 3) {
-				update = conn.prepareStatement("UPDATE Recipes SET InToExplore = ? WHERE RecipeID =" + recipeID);
+				update = conn.prepareStatement("UPDATE Recipes SET InToExplore = ? " + filter);
 				update.setInt(1, 0);
 			}
 			update.execute();
 			System.out.println("Recipe removed from list but kept.");
 		
-			ps = conn.prepareStatement("SELECT InFavorites, InDoNotShow, InToExplore FROM Recipes "
-					+ "WHERE RecipeID = " + recipeID);
+			ps = conn.prepareStatement("SELECT InFavorites, InDoNotShow, InToExplore FROM Recipes " + filter);
 			rs = ps.executeQuery();
 			rs.next();
 			int currFav = rs.getInt("InFavorites");
 			int currNot = rs.getInt("InDoNotShow");
 			int currExplore = rs.getInt("InToExplore");	
 			if(currFav == 0 && currNot == 0 && currExplore == 0) {
-				PreparedStatement delete = conn.prepareStatement("DELETE FROM Recipes WHERE RecipeID = " + recipeID);
+				PreparedStatement delete = conn.prepareStatement("DELETE FROM Recipes " + filter);
 				delete.execute();
 				delete.close();
 				System.out.println("Recipe removed.");
@@ -173,22 +183,22 @@ public class RecipeDataManager extends DataManager {
 		ResultSet rs = null;
 		
 		ArrayList<Info> recipeList = new ArrayList<Info>();
+		String filter = "AND User LIKE '" + username + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
 			
 			if(list == 1) {
-		    	ps = conn.prepareStatement("SELECT * FROM Recipes WHERE InFavorites = 1");
+		    	ps = conn.prepareStatement("SELECT * FROM Recipes WHERE InFavorites = 1 " + filter);
 			} else if(list == 2) {
-				ps = conn.prepareStatement("SELECT * FROM Recipes WHERE InDoNotShow = 1");
+				ps = conn.prepareStatement("SELECT * FROM Recipes WHERE InDoNotShow = 1 " + filter);
 			} else if(list == 3) {
-				ps = conn.prepareStatement("SELECT * FROM Recipes WHERE InToExplore = 1");
+				ps = conn.prepareStatement("SELECT * FROM Recipes WHERE InToExplore = 1 " + filter);
 			}
 			rs = ps.executeQuery();
 			System.out.println("Loading recipes.");
 		   
 			while(rs.next()) {
-				System.out.println("come on");
 				String splitter = "\\|\\|\\|+";
 				ArrayList<String> ingredients = new ArrayList<>();
 				String[] ingredientsArray = rs.getString("Ingredients").split(splitter);
@@ -200,7 +210,7 @@ public class RecipeDataManager extends DataManager {
 				RecipeInfo recipeToAdd = new RecipeInfo(
 					rs.getString("RecipeName"),
 					rs.getInt("RecipeRating"),
-					rs.getInt("RecipeID"),
+					rs.getInt("SpoonID"),
 					rs.getInt("PrepTime"),
 					rs.getInt("CookTime"),
 					ingredients,

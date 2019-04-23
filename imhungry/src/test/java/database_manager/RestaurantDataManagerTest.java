@@ -12,7 +12,7 @@ public class RestaurantDataManagerTest {
 	
 	@Test
 	public void addToListAndLoadRestaurantTest() throws SQLException {
-		RestaurantDataManager manager = new RestaurantDataManager();
+		RestaurantDataManager manager = new RestaurantDataManager("nero");
 		manager.addToList(new RestaurantInfo("KFC", 5, "test1", "", 2, "", 0, "", ""), 1);
 		ArrayList<Info> list = manager.loadRestaurants(1);
 		assert(list.size() >= 0);

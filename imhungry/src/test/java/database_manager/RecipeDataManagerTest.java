@@ -16,7 +16,7 @@ public class RecipeDataManagerTest {
 
 	@Test
 	public void addToListAndLoadRecipesTest() throws SQLException {
-		RecipeDataManager manager = new RecipeDataManager();
+		RecipeDataManager manager = new RecipeDataManager("nero");
 		manager.addToList(new RecipeInfo("", 1, 1, 0, 0, new ArrayList<String>(), new ArrayList<String>(), ""), 1);
 		ArrayList<Info> list = manager.loadRecipes(1);
 		assert(list.size() >= 0);

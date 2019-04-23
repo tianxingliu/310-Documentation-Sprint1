@@ -218,12 +218,20 @@ right: 350px;
 	$('#column1').easyPaginate({
 		paginateElement: ".item",
 	    elementsPerPage: 3,
-	    effect: 'climb'
+	    effect: 'climb',
+	   	nextButtonText : "next",
+	   	prevButtonText: "prev",
+	   	firstButtonText: "first",
+	   	lastButtonText: "last"
 	});
 	$('#column2').easyPaginate({
 		paginateElement: ".item",
 	    elementsPerPage: 3,
-	    effect: 'climb'
+	    effect: 'climb',
+	    nextButtonText : "next",
+	    prevButtonText: "prev",
+	    firstButtonText: "first",
+	   	lastButtonText: "last"
 	});
 	
 	</script>

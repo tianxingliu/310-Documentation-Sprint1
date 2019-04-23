@@ -24,4 +24,13 @@ public class History {
 		this.number = number;
 		this.radius = radius;
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if(other == this) return true;
+		if(!(other instanceof History)) return false;
+		History otherHistory = (History) other;
+		return this.query.equals(otherHistory.query) && this.key == otherHistory.key && this.number == otherHistory.number &&
+				this.radius == otherHistory.radius;
+	}
 }

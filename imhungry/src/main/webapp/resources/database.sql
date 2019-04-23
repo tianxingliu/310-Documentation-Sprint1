@@ -1,7 +1,14 @@
 DROP DATABASE IF EXISTS ImHungryDatabase;
 CREATE DATABASE ImHungryDatabase;
 USE ImHungryDatabase;
-             
+
+CREATE TABLE Users(
+    Username VARCHAR(50) PRIMARY KEY,
+    Password VARCHAR(50) NOT NULL
+);
+
+INSERT INTO Users VALUES('nero', 'domusaurea');
+
 CREATE TABLE Restaurants (
     RestaurantID INT(11) PRIMARY KEY AUTO_INCREMENT,
     PlaceID VARCHAR(200) NOT NULL,
@@ -16,7 +23,7 @@ CREATE TABLE Restaurants (
     InFavorites INT(2) NOT NULL,
     InDoNotShow INT(2) NOT NULL,
     InToExplore INT(2) NOT NULL,
-    User VARCHAR(50),
+    User VARCHAR(50) NOT NULL,
     FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
 );
 
@@ -33,7 +40,7 @@ CREATE TABLE Recipes(
     InFavorites INT(2) NOT NULL,
     InDoNotShow INT(2) NOT NULL,
     InToExplore INT(2) NOT NULL,
-    User VARCHAR(50),
+    User VARCHAR(50) NOT NULL,
     FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
 );
 
@@ -42,18 +49,12 @@ CREATE TABLE History(
     hName VARCHAR(200) NOT NULL,
     hNumber INT(11) NOT NULL,
     Radius INT(11) NOT NULL,
-    User VARCHAR(50),
+    User VARCHAR(50) NOT NULL,
     FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
 );
 
 CREATE TABLE GroceryList(
-    GroceryID INT(11) PRIMARY KEY AUTO_INCREMENT,
-    GroceryItem VARCHAR(200) NOT NULL,
-    User VARCHAR(50),
+    GroceryItem VARCHAR(200) PRIMARY KEY,
+    User VARCHAR(50) NOT NULL,
     FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
-);
-
-CREATE TABLE Users(
-    Username VARCHAR(50) PRIMARY KEY,
-    Password VARCHAR(50) NOT NULL
 );
