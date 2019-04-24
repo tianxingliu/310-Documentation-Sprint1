@@ -19,8 +19,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import Message.Message;
-import Message.SearchResult;
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
@@ -28,6 +26,8 @@ import database_manager.HistoryDataManager;
 import info.*;
 
 import info.History;
+import message.Message;
+import message.SearchResult;
 
 import java.net.*;
 import java.io.Reader.*;

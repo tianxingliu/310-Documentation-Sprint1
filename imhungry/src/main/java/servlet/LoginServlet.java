@@ -22,15 +22,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import Message.Message;
-import Message.SearchResult;
-import User.User;
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
 import database_manager.HistoryDataManager;
 import database_manager.UserDataManager;
 import info.*;
+import message.Message;
+import message.SearchResult;
+import user.User;
 
 import java.net.*;
 import java.io.Reader.*;
