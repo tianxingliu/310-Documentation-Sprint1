@@ -155,8 +155,7 @@ public class SearchServletTest {
 		SearchServlet servlet = new SearchServlet();
 		ArrayList<RestaurantInfo> rest1 = servlet.restaurantSearch("fish", 10, 1, new ArrayList<Info>(), new ArrayList<Info>());
 		ArrayList<RestaurantInfo> rest2 = servlet.restaurantSearch("fish", 10, 5, new ArrayList<Info>(), new ArrayList<Info>());
-        System.out.println(rest1.size());
-		assert(rest1.size() < rest2.size());
+        assert(rest1.size() < rest2.size());
 	}
 	
 }
