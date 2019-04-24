@@ -55,25 +55,25 @@ public class ListServlet extends HttpServlet
             return;
         }
         if(listName.equals("Quick Access")) {
-    			HistoryDataManager historyDB = new HistoryDataManager(username);
-    			//load quickAccessList from database
-    			ArrayList<History> quickAccessList = new ArrayList<History>();
-    			quickAccessList = historyDB.loadHistory();
-    			session.setAttribute("Quick Access", quickAccessList);
-    			List<History> historyList = (List<History>)session.getAttribute(listName);
-	        	List<String> list = new ArrayList<String>();
-	        	for(int i = 0;i < historyList.size();i++){
-	        		list.add(historyList.get(i).query);
-	        	}
-	        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
-	            respWriter.close();
-	            return;
+			HistoryDataManager historyDB = new HistoryDataManager(username);
+			//load quickAccessList from database
+			ArrayList<History> quickAccessList = new ArrayList<History>();
+			quickAccessList = historyDB.loadHistory();
+			session.setAttribute("Quick Access", quickAccessList);
+			List<History> historyList = (List<History>)session.getAttribute(listName);
+        	List<String> list = new ArrayList<String>();
+        	for(int i = 0;i < historyList.size();i++){
+        		list.add(historyList.get(i).query);
         	}
-	    	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
-	        respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
-	        respWriter.close();
+        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
+            respWriter.close();
+            return;
+    	}
+    	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
+        respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
+        respWriter.close();
 	        
-	    }
+    }
 
     //POST method used to add and remove items from a list
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -97,10 +97,22 @@ public class ListServlet extends HttpServlet
             }
             if(listName.equals("Quick Access")) {
 	        	String s = (String)reqListAndItem.body;
-	        	History h = new History(s,0,0);
-	        	HistoryDataManager historyDB = new HistoryDataManager(username);
-	        	historyDB.addToList(h);
-	        	respWriter.println(gson.toJson(new Message("quick access "+listName)));
+	        	List<History> historyList = (List<History>)session.getAttribute(listName);
+	        	//Prevent adding the search term to list
+	        	List<String> checkList = new ArrayList<String>();
+	        	System.out.println(historyList.size());
+	        	for(int i = 0;i<historyList.size();i++) {
+	        		checkList.add(historyList.get(i).query);
+	        	}
+	        	//If the item is not in the list or the list is empty
+	        	if(!checkList.contains(s) || historyList.size() == 0) {
+		        	History h = new History(s,0,0);
+		        	HistoryDataManager historyDB = new HistoryDataManager(username);
+		        	historyDB.addToList(h);
+		        	respWriter.println(gson.toJson(new Message("Search term successfully added "+listName)));
+		        	return;
+	        	}
+	        	respWriter.println(gson.toJson(new Message("Search term already added "+listName)));
 	        	return;
             }
 
