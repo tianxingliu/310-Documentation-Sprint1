@@ -9,7 +9,6 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 	public int driveTimeValue;  //drive time expressed in seconds, used for comparison and sorting
 	public String phone;
 	public String url;
-	public String uname;
 	
 	public RestaurantInfo(String name, int rating, String placeID, String address, int price, String driveTimeText,
 			int driveTimeValue, String phone, String url) {

@@ -252,10 +252,10 @@ public class SearchServlet extends HttpServlet {
 		}
 		
 		//remove extra items
-		for(int i = recipes.size() - 1; i > numResults - 1; i--) {
-			recipes.remove(i);
+		while(recipes.size() > numResults) {
+			recipes.remove(recipes.size() - 1);
 		}
-		
+
 		return recipes;
 	}
 
@@ -289,11 +289,7 @@ public class SearchServlet extends HttpServlet {
 		for(Info doNotShowInfo : doNotShowList) {
 			restaurants.remove(doNotShowInfo);
 		}
-		//remove extra items
-		while(restaurants.size() > numResults) {
-			restaurants.remove(restaurants.size() - 1);
-		}
-
+		
 		getDriveTimes(restaurants);
 		getPhoneAndURL(restaurants);
 
@@ -307,11 +303,12 @@ public class SearchServlet extends HttpServlet {
 				restaurants.remove(i);
 			}
 		}
-		//remove extra items
-		for(int i = restaurants.size() - 1; i > numResults - 1; i--) {
-			restaurants.remove(i);
-		}
 
+		//remove extra items
+		while(restaurants.size() > numResults) {
+			restaurants.remove(restaurants.size() - 1);
+		}
+		
     	return restaurants;
 	}
 

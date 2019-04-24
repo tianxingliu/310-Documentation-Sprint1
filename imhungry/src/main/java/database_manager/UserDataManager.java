@@ -8,7 +8,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import info.User;
+
+import User.User;
 import info.GroceryInfo;
 
 public class UserDataManager extends DataManager {
