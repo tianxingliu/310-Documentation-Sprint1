@@ -24,6 +24,7 @@ import com.google.gson.JsonParser;
 
 import Message.Message;
 import Message.SearchResult;
+import User.User;
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
