@@ -32,6 +32,7 @@ public class ListServletTest {
 	//doPost test: add a search query to Quick Access list
 	public void doPostTest1() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("Quick Access")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		BufferedReader reader = mock(BufferedReader.class);
@@ -47,7 +48,7 @@ public class ListServletTest {
         when(response.getWriter()).thenReturn(writer);
         
         new ListServlet().doPost(request, response);
-        assertTrue(stringWriter.toString().contains("quick access"));
+        assertTrue(stringWriter.toString().contains("Search term"));
 	}
 	
 	@Test

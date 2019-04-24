@@ -9,8 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import User.User;
 import info.GroceryInfo;
+import user.User;
 
 public class UserDataManager extends DataManager {
 	
