@@ -50,7 +50,7 @@ public class SearchServlet extends HttpServlet {
 	private static String SPOONACULAR_RAPID_API_KEY = "";
 
 	private static String GOOGLE_CX_API_KEY = "";
-	private static final String GOOGLE_CX_ENGINE = "001810512200125518925:d_yaufj89m8";
+	private static final String GOOGLE_CX_ENGINE = "006259848917093276777:-embwltvk-s";
 	private static final int IMAGE_COLLAGE_NUM = 10;
 
 
