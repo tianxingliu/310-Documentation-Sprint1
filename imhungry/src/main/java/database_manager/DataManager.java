@@ -13,6 +13,7 @@ public abstract class DataManager {
 	
 	protected String username;
 	
+	//each DataManager is specific to one user
 	public DataManager(String username) {
 		this.username = username;
 	}
