@@ -7,6 +7,7 @@ public class History {
 	 public int key;
 	 public int number;
 	 public int radius;
+	 public String uname;
 	 
 	public History(String query) {
 		this.query = query;
