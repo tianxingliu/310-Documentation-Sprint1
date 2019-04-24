@@ -227,3 +227,12 @@ Then(/^the item will be deleted from the grocery list$/) do
    expect(page).should have_no_content("brown sugur")
 end
 
+Then(/^I should see the grocery list item$/) do
+   expect(page).to have_content("pizza")
+end
+
+Then(/^I should see the prior search term$/) do
+   expect(page).to have_content("cat")
+end
+
+
