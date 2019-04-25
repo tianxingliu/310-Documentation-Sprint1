@@ -6,8 +6,8 @@
 <link rel="icon" 
       type="image/png" 
       href="/somewhere/myicon.png" />
-	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
 	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 	<meta charset="UTF-8">
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -16,25 +16,12 @@
 	<title>Results Page</title>
 
 <style>
-#easyPaginate {
-width:300px;
-/* background-color: pink; */
-}
-.easyPaginateNav{
-/* background-color: pink; */
-position: relative;
-top: 200px;
-right: 350px;
-
-}
 
 .pagination{
-	position: relative;
+	position: absolute;
 	top: 360px;
 	left: 30%;
 }
-.easyPaginateNav a {padding:5px;}
-.easyPaginateNav a.current {font-weight:bold;text-decoration:underline;}
 </style>
 </head>
 <body>
