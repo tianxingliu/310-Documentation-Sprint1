@@ -26,8 +26,8 @@ import database_manager.HistoryDataManager;
 import info.*;
 
 import info.History;
-import Message.Message;
-import Message.SearchResult;
+import message.Message;
+import message.SearchResult;
 
 import java.net.*;
 import java.io.Reader.*;

@@ -28,9 +28,9 @@ import database_manager.RestaurantDataManager;
 import database_manager.HistoryDataManager;
 import database_manager.UserDataManager;
 import info.*;
-import Message.Message;
-import Message.SearchResult;
-import User.User;
+import message.Message;
+import message.SearchResult;
+import user.User;
 
 import java.net.*;
 import java.io.Reader.*;
