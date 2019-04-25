@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import info.GroceryInfo;
-import User.User;
+import user.User;
 
 public class UserDataManager extends DataManager {
 	
