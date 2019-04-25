@@ -12,7 +12,7 @@ body{
 	position:absolute;
 	left:0%;
 	top:125%;
-	width:100%;
+	width:99%;
 	text-align: center;
 }
 
@@ -29,61 +29,29 @@ body{
 	position:absolute;
 	left:4%;
 	top:130%;
+	width: 90%;
+	height:160px;
 	color: white;
 	font-family: 'Roboto', sans-serif;
 	background-color: lightblue;
 	border: 2px solid lightyellow;
+	overflow: scroll;
+	overflow-x:scroll;
+	white-space: nowrap;
 }
 
-#quickAccess3
-{
-	position:absolute;
-	left:20%;
-	top:130%;
-	color: white;
-	font-family: 'Roboto', sans-serif;
-	background-color: lightblue;
-	border: 2px solid lightyellow;
+#quickAccess2 a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding-bottom:1%;
+  padding-left: 15%;
+  padding-right: 15%;
+  text-decoration: none;
 }
-#quickAccess4
-{
-	position:absolute;
-	left:36%;
-	top:130%;
-	color: white;
-	font-family: 'Roboto', sans-serif;
-	background-color: lightblue;
-	border: 2px solid lightyellow;
-}
-#quickAccess5
-{
-	position:absolute;
-	left:52%;
-	top:130%;
-	color: white;
-	font-family: 'Roboto', sans-serif;
-	background-color: lightblue;
-	border: 2px solid lightyellow;
-}
-#quickAccess6
-{
-	position:absolute;
-	left:68%;
-	top:130%;
-	color: white;
-	font-family: 'Roboto', sans-serif;
-	background-color: lightblue;
-	border: 2px solid lightyellow;
-}
-#quickAccess7
-{
-	position:absolute;
-	left:84%;
-	top:130%;
-	color: white;
-	font-family: 'Roboto', sans-serif;
-	background-color: lightblue;
-	border: 2px solid lightyellow;
+
+#quickAccess2 a:hover {
+	background-color:lightgreen;
 }
 
 
@@ -127,6 +95,19 @@ A
 }
 
 .imageDiv img{
+	max-height:100%;
+	align-items:center;
+}
+
+.imageDivq{
+	position:absolute;
+	top:0;
+	left:0;
+	height:35vh;
+	width:35vw;
+}
+
+.imageDivq img{
 	max-height:100%;
 	align-items:center;
 }
