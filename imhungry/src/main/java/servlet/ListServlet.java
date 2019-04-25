@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -55,17 +56,22 @@ public class ListServlet extends HttpServlet
             return;
         }
         if(listName.equals("Quick Access")) {
-			HistoryDataManager historyDB = new HistoryDataManager(username);
-			//load quickAccessList from database
-			ArrayList<History> quickAccessList = new ArrayList<History>();
-			quickAccessList = historyDB.loadHistory();
-			session.setAttribute("Quick Access", quickAccessList);
-			List<History> historyList = (List<History>)session.getAttribute(listName);
-        	List<String> list = new ArrayList<String>();
-        	for(int i = 0;i < historyList.size();i++){
-        		list.add(historyList.get(i).query);
+        	HistoryDataManager historyDB = new HistoryDataManager(username);
+        	ArrayList<History> quickAccessList = new ArrayList<History>();
+        	if(session.getAttribute("Quick Access") == null) { //the first time we set this list
+        		//load quickAccessList from database
+    			quickAccessList = historyDB.loadHistory();
+    			session.setAttribute("Quick Access", quickAccessList);
         	}
-        	respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
+        	else {
+        		quickAccessList = (ArrayList<History>)session.getAttribute("Quick Access");
+        	}
+			List<History> historyList = quickAccessList;
+        	List<String> listToDisplay = new ArrayList<String>();
+        	for(int i = 0;i < historyList.size();i++){
+        		listToDisplay.add(historyList.get(i).query); //add it to the head
+        	}
+        	respWriter.println(gson.toJson(new Message(listName,listToDisplay))); //convert to JSON before sending it to the response
             respWriter.close();
             return;
     	}
@@ -109,8 +115,22 @@ public class ListServlet extends HttpServlet
 		        	History h = new History(s,0,0);
 		        	HistoryDataManager historyDB = new HistoryDataManager(username);
 		        	historyDB.addToList(h);
+		        	historyList.add(0, h);
 		        	respWriter.println(gson.toJson(new Message("Search term successfully added "+listName)));
 		        	return;
+	        	}
+	        	else {
+	        		if(checkList.size() > 1) { //if the checkList has more than 1 item (then we can swap the currently item to the front)
+	        			int index = 0;
+	        			for(index = 0;index < checkList.size();index++) {
+	    	        		if(checkList.get(index).equals(s)) {
+	    	        			break;
+	    	        		}
+	    	        	}
+	        			if(index != 0) { //the index is not the head
+	        				Collections.swap(historyList, index, 0); //swap the values
+	        			}
+	        		}
 	        	}
 	        	respWriter.println(gson.toJson(new Message("Search term already added "+listName)));
 	        	return;
