@@ -100,15 +100,16 @@ button {
 	background-color:#ffc1ab;
 }
 
-#sort_by_value{
-	position: fixed;
-	top:calc(21vh + 12rem);
-	background-color:#ffc1ab;
-}
-
 #back_result{
 	position: fixed;
 	top:calc(21vh + 6rem);
+	background-color:#ffc1ab;
+}
+
+#display_grocery{
+	position: fixed;
+	
+	top:calc(21vh + 12rem);
 	background-color:#ffc1ab;
 }
 

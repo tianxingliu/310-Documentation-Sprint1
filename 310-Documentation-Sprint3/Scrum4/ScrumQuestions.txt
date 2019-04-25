@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. been working on the quick access
+2. no
+3. will keep up the good work
+
+Haiyu Tian:
+1. I debug for pagination.            
+2. No.                                         
+3. I will keep working on unfinished tasks.
+
+Pinghao Luo:
+1. Adding function for login with visitor 
+2. no 
+3. keep working with adding function for login with visitor
+
+Tianxing Liu:
+1. I added entries to groceryList page elsewhere in the front-end.
+2. None.
+3. I will modify the corresponding tests for that.
+
+Guancheng Qiu:
+1. I was working on the report.
+2. None.
+3. I'll keep working on the report and modify unit tests.
