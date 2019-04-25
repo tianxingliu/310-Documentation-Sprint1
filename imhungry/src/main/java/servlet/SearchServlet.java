@@ -19,8 +19,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import Message.Message;
-import Message.SearchResult;
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
@@ -28,6 +26,8 @@ import database_manager.HistoryDataManager;
 import info.*;
 
 import info.History;
+import message.Message;
+import message.SearchResult;
 
 import java.net.*;
 import java.io.Reader.*;
@@ -50,7 +50,7 @@ public class SearchServlet extends HttpServlet {
 	private static String SPOONACULAR_RAPID_API_KEY = "";
 
 	private static String GOOGLE_CX_API_KEY = "";
-	private static final String GOOGLE_CX_ENGINE = "001810512200125518925:d_yaufj89m8";
+	private static final String GOOGLE_CX_ENGINE = "006259848917093276777:-embwltvk-s";
 	private static final int IMAGE_COLLAGE_NUM = 10;
 
 
@@ -252,10 +252,10 @@ public class SearchServlet extends HttpServlet {
 		}
 		
 		//remove extra items
-		for(int i = recipes.size() - 1; i > numResults - 1; i--) {
-			recipes.remove(i);
+		while(recipes.size() > numResults) {
+			recipes.remove(recipes.size() - 1);
 		}
-		
+
 		return recipes;
 	}
 
@@ -289,11 +289,7 @@ public class SearchServlet extends HttpServlet {
 		for(Info doNotShowInfo : doNotShowList) {
 			restaurants.remove(doNotShowInfo);
 		}
-		//remove extra items
-		while(restaurants.size() > numResults) {
-			restaurants.remove(restaurants.size() - 1);
-		}
-
+		
 		getDriveTimes(restaurants);
 		getPhoneAndURL(restaurants);
 
@@ -307,11 +303,12 @@ public class SearchServlet extends HttpServlet {
 				restaurants.remove(i);
 			}
 		}
-		//remove extra items
-		for(int i = restaurants.size() - 1; i > numResults - 1; i--) {
-			restaurants.remove(i);
-		}
 
+		//remove extra items
+		while(restaurants.size() > numResults) {
+			restaurants.remove(restaurants.size() - 1);
+		}
+		
     	return restaurants;
 	}
 

@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. working on quick access
+2. none
+3. keep working on quick access & list
+
+Haiyu Tian:
+1. I adjust some issues with pagination.                                 
+2. No.                                          
+3. I will work on whatever is unfinished.
+
+Pinghao Luo:
+1. Changing funcitons after adding user login
+2. None.
+3. Keep working on adding functionality for user login
+
+Tianxing Liu:
+1. I fixed a bug in delete grocery item and added functionality for reorder lists.
+2. None.
+3. I will start to change the blackbox tests.
+
+Guancheng Qiu:
+1. Added user functionalities in backend.
+2. None.
+3. Will implement database updates of order change of list items

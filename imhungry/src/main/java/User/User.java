@@ -1,7 +1,4 @@
-package info;
-import java.math.BigInteger; 
-import java.security.MessageDigest; 
-import java.security.NoSuchAlgorithmException; 
+package user;
 
 public class User {
 	public String password;
