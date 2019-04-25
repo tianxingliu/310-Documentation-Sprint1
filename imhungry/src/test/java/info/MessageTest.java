@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import message.Message;
+import Message.Message;
 
 public class MessageTest {
 	@Test

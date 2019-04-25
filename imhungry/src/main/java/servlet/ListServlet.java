@@ -13,7 +13,7 @@ import database_manager.HistoryDataManager;
 import info.Info;
 import info.RecipeInfo;
 import info.RestaurantInfo;
-import message.Message;
+import Message.Message;
 import info.GroceryInfo;
 import info.History;
 

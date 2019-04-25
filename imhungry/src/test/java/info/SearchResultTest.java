@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import message.SearchResult;
+import Message.SearchResult;
 
 public class SearchResultTest {
 
