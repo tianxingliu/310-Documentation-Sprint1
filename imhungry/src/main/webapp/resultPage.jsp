@@ -2,10 +2,17 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
+<head profile="http://www.w3.org/2005/10/profile">
+<link rel="icon" 
+      type="image/png" 
+      href="/somewhere/myicon.png" />
 	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+	<link rel="shortcut icon" href="">
 	<title>Results Page</title>
 
 <style>
@@ -19,6 +26,12 @@ position: relative;
 top: 200px;
 right: 350px;
 
+}
+
+.pagination{
+	position: relative;
+	top: 360px;
+	left: 30%;
 }
 .easyPaginateNav a {padding:5px;}
 .easyPaginateNav a.current {font-weight:bold;text-decoration:underline;}
@@ -73,6 +86,7 @@ right: 350px;
     <script src="js/dropdown.js"></script>
     <script src="js/parseQueryString.js"></script>
     <script src="js/ListClient.js"></script>
+    <script src="js/jquery.twbsPagination.js"></script>
     <script>
    
         var query = parseQuery(window.location.search);
@@ -104,93 +118,6 @@ right: 350px;
         window.localStorage.setItem("searchResults", JSON.stringify(results));
         window.localStorage.setItem("imageURLs", JSON.stringify(imageURLs));
 
-        //First, populate restaurant results
-        var col1 = document.getElementById("column1");
-        for(let i = 0; i < results[0].length; i++) {
-            //Create each sub section for the entry and populate it with data and attributes
-            let sec1 = document.createElement("div");
-            sec1.setAttribute("class", "Res_section1");
-            sec1.innerHTML = results[0][i].name;
-
-            let sec2 = document.createElement("div");
-            sec2.setAttribute("class", "Res_section2");
-            for(let j = 0; j < 5; j++) {
-                if(j < results[0][i].rating) sec2.innerHTML += '⭐';
-                else sec2.innerHTML += '☆';
-            }
-
-            let divider = document.createElement("div");
-            divider.setAttribute("class", "divider");
-
-            let sec3 = document.createElement("div");
-            sec3.setAttribute("class", "Res_section3");
-            sec3.innerHTML = results[0][i].driveTimeText + " away";
-
-            let sec4 = document.createElement("div");
-            sec4.setAttribute("class", "Res_section4");
-            sec4.innerHTML = results[0][i].address;
-
-            let sec5 = document.createElement("div");
-            sec5.setAttribute("class", "Res_section5");
-            sec5.innerHTML = results[0][i].priceLevel;
-
-            //Create the actual entry element and set the previous subsections to be its children
-            let res = document.createElement("div");
-            res.setAttribute("class","item");
-            res.setAttribute("id","Res_item" + i);
-            //Sets the onclick so that you can navigate to the proper detailed page.
-            res.setAttribute("onclick","window.location='restaurantPage.jsp?i="+i+"'");
-            res.setAttribute("style","cursor:pointer;");
-            res.appendChild(sec1);
-            res.appendChild(sec2);
-            res.appendChild(divider);
-            res.appendChild(sec3);
-            res.appendChild(sec4);
-            res.appendChild(sec5);
-
-            //Add the entry to the proper place on the page
-            col1.appendChild(res);
-        }
-
-        //Same process as above, but for recipe results
-        var col2 = document.getElementById("column2");
-        for(let i = 0; i < results[1].length; i++) {
-            let sec1 = document.createElement("div");
-            sec1.setAttribute("class", "Rec_section1");
-            sec1.innerHTML = results[1][i].name;
-
-            let sec2 = document.createElement("div");
-            sec2.setAttribute("class", "Rec_section2");
-            for(let j = 0; j < 5; j++) {
-                if(j < results[1][i].rating) sec2.innerHTML += '⭐';
-                else sec2.innerHTML += '☆';
-            }
-
-            let divider = document.createElement("div");
-            divider.setAttribute("class", "divider");
-
-            let sec3 = document.createElement("div");
-            sec3.setAttribute("class", "Rec_section3");
-            sec3.innerHTML = results[1][i].prepTime + " min prep time";
-
-            let sec4 = document.createElement("div");
-            sec4.setAttribute("class", "Rec_section4");
-            sec4.innerHTML = results[1][i].cookTime + " min cook time";
-
-            let res = document.createElement("div");
-            res.setAttribute("class","item");
-            res.setAttribute("id","Rec_item" + i);
-            res.setAttribute("onclick","window.location='recipePage.jsp?i="+i+"'");
-            res.setAttribute("style","cursor:pointer;");
-            res.appendChild(sec1);
-            res.appendChild(sec2);
-            res.appendChild(divider);
-            res.appendChild(sec3);
-            res.appendChild(sec4);
-
-            col2.appendChild(res);
-        }
-
         //Assemble the collage
         var collage = document.getElementById("collage");
         for(let i = 0; i < imageURLs.length; i++) {
@@ -221,24 +148,195 @@ right: 350px;
     </script>
 
 	<script>
-	$('#column1').easyPaginate({
-		paginateElement: ".item",
-	    elementsPerPage: 3,
-	    effect: 'climb',
-	   	nextButtonText : "next",
-	   	prevButtonText: "prev",
-	   	firstButtonText: "first",
-	   	lastButtonText: "last"
-	});
-	$('#column2').easyPaginate({
-		paginateElement: ".item",
-	    elementsPerPage: 3,
-	    effect: 'climb',
-	    nextButtonText : "next",
-	    prevButtonText: "prev",
-	    firstButtonText: "first",
-	   	lastButtonText: "last"
-	});
+	
+	    $(function () {
+	        window.pagObj = $('#column1').twbsPagination({
+	            totalPages: Math.ceil(results[0].length/3),
+	            visiblePages: 5,
+	            onPageClick: function (event, page) {
+	                console.info(page + ' 1(from options)');
+	                
+	              //First, populate restaurant results
+		            var col1 = document.getElementById("column1");
+	              
+	                var pageNum = Math.ceil(results[0].length/3);
+		          	
+		          	var integerPart = 3;
+		          	var decimalPart = results[0].length % 3;
+		          	var counter = 0;
+		          	
+		          	if(counter == 0){
+		          		
+		          		console.log("Removal got called.");
+		            	$('#column1 .Res_section1').remove();
+		            	$('#column1 .Res_section2').remove();
+		            	$('#column1 .divider').remove();
+		            	$('#column1 .Res_section3').remove();
+		            	$('#column1 .Res_section4').remove();
+		            	$('#column1 .Res_section5').remove();
+		            	$('#column1 .item').remove(); 
+	            	}
+		          	
+		            for(let i = (page-1)*integerPart; i < results[0].length; i++) {
+		            	
+		            	console.log("page number:" + page);
+		            	
+		            	console.log("I am here.");
+		            	
+		            	counter++;
+		            	
+		                //Create each sub section for the entry and populate it with data and attributes
+		                let sec1 = document.createElement("div");
+		                sec1.setAttribute("class", "Res_section1");
+		                sec1.innerHTML = results[0][i].name;
+
+		                let sec2 = document.createElement("div");
+		                sec2.setAttribute("class", "Res_section2");
+		                for(let j = 0; j < 5; j++) {
+		                    if(j < results[0][i].rating) sec2.innerHTML += '⭐';
+		                    else sec2.innerHTML += '☆';
+		                }
+
+		                let divider = document.createElement("div");
+		                divider.setAttribute("class", "divider");
+
+		                let sec3 = document.createElement("div");
+		                sec3.setAttribute("class", "Res_section3");
+		                sec3.innerHTML = results[0][i].driveTimeText + " away";
+
+		                let sec4 = document.createElement("div");
+		                sec4.setAttribute("class", "Res_section4");
+		                sec4.innerHTML = results[0][i].address;
+
+		                let sec5 = document.createElement("div");
+		                sec5.setAttribute("class", "Res_section5");
+		                sec5.innerHTML = results[0][i].priceLevel;
+
+		                //Create the actual entry element and set the previous subsections to be its children
+		                let res = document.createElement("div");
+		                res.setAttribute("class","item");
+		                res.setAttribute("id","Res_item" + i);
+		                //Sets the onclick so that you can navigate to the proper detailed page.
+		                res.setAttribute("onclick","window.location='restaurantPage.jsp?i="+i+"'");
+		                res.setAttribute("style","cursor:pointer;");
+		                res.appendChild(sec1);
+		                res.appendChild(sec2);
+		                res.appendChild(divider);
+		                res.appendChild(sec3);
+		                res.appendChild(sec4);
+		                res.appendChild(sec5);
+
+		                //Add the entry to the proper place on the page
+		                col1.appendChild(res);
+		                
+		                if(counter == integerPart)
+		            		break;
+		                /* if(decimalPart != 0 && page = pageNum && counter == decimalPart)
+		                	break; */
+		            }
+	            }
+	        }).on('page', function (event, page) {
+	            console.info(page + ' (from event listening)');
+	            
+	        
+	        });
+	    });
+	
+	
+	</script>
+	<script>
+	
+    $(function () {
+        window.pagObj = $('#column2').twbsPagination({
+            totalPages: Math.ceil(results[1].length/3),
+            visiblePages: 5,
+            onPageClick: function (event, page) {
+                console.info(page + ' 2(from options)');
+                
+              //First, populate restaurant results
+	            var col2 = document.getElementById("column2");
+              
+                var pageNum = Math.ceil(results[1].length/3);
+	          	
+	          	var integerPart = 3;
+	          	//var decimalPart = results[1].length % 3;
+	          	var counter2 = 0;
+	          	
+	          	if(counter2 == 0){
+	          		
+	          		console.log("Removal2 got called.");
+	            	$('#column2 .Res_section1').remove();
+	            	$('#column2 .Res_section2').remove();
+	            	$('#column2 .divider').remove();
+	            	$('#column2 .Res_section3').remove();
+	            	$('#column2 .Res_section4').remove();
+	            	/* $('#column2 .Res_section5').remove(); */
+	            	$('#column2 .item').remove(); 
+            	}
+	          	
+	          	console.log("results[1].length" + results[1].length);
+	          	
+	            for(let i = (page-1)*integerPart; i < results[1].length; i++) {
+	            	
+	            	console.log("I am here2.");
+	            	console.log("i-value: " + i);
+	            	
+	            	counter2++;
+	            	
+	            	//Same process as above, but for recipe results
+	                /* var col2 = document.getElementById("column2"); */
+	                /* for(let i = 0; i < results[1].length; i++) { */
+	                    let sec1 = document.createElement("div");
+	                    sec1.setAttribute("class", "Rec_section1");
+	                    sec1.innerHTML = results[1][i].name;
+
+	                    let sec2 = document.createElement("div");
+	                    sec2.setAttribute("class", "Rec_section2");
+	                    for(let j = 0; j < 5; j++) {
+	                        if(j < results[1][i].rating) sec2.innerHTML += '⭐';
+	                        else sec2.innerHTML += '☆';
+	                    }
+
+	                    let divider = document.createElement("div");
+	                    divider.setAttribute("class", "divider");
+
+	                    let sec3 = document.createElement("div");
+	                    sec3.setAttribute("class", "Rec_section3");
+	                    sec3.innerHTML = results[1][i].prepTime + " min prep time";
+
+	                    let sec4 = document.createElement("div");
+	                    sec4.setAttribute("class", "Rec_section4");
+	                    sec4.innerHTML = results[1][i].cookTime + " min cook time";
+
+	                    let res = document.createElement("div");
+	                    res.setAttribute("class","item");
+	                    res.setAttribute("id","Rec_item" + i);
+	                    res.setAttribute("onclick","window.location='recipePage.jsp?i="+i+"'");
+	                    res.setAttribute("style","cursor:pointer;");
+	                    res.appendChild(sec1);
+	                    res.appendChild(sec2);
+	                    res.appendChild(divider);
+	                    res.appendChild(sec3);
+	                    res.appendChild(sec4);
+
+	                    col2.appendChild(res);
+	                    
+	                    if(counter2 == 3){
+	                    	console.log("I should break");
+		            		break;
+	                    }
+	            }
+            }
+        }).on('page', function (event, page) {
+            console.info(page + ' (from event listening)');
+            
+        
+        });
+    });
+	
+	
+	
+	
 	
 	</script>
 	<script src="js/quickAccess.js"></script>
