@@ -27,6 +27,21 @@
 		}
 	</style>
 	<body>
+	<script>
+		//login check
+		var check = "<%=session.getAttribute("log")%>"
+		if (check != "login")
+	    {
+	    	//console.log("JJ");
+			location.href='login.jsp';
+	    }
+		</script>
+	<div id = "log">
+		<input type= "button" onclick="logoutfunc()" id = "buttonlogin" value="Logout" />
+	</div>
+	<form name = "fakeform" action = "LoginServlet" method = "POST" id = "logoutForm">
+			<input type = "text" id = "login3" name = "logoutformSIGNAL" value = "logoutformSIGNAL">
+		</form>
 		<div class = "textinfo">
 			<p id="title"></p>
 			<div class = "address">
@@ -83,5 +98,15 @@
         <script src="js/ListClient.js"></script>
         <script src="js/parseQueryString.js"></script>
 		<script src="js/restaurantPage.js"></script>
+		<script>
+		function logoutfunc()
+	    {
+	    	location.href='searchPage.jsp';
+	    	document.getElementById('logoutForm').submit();
+	    }
+		
+		// if not login, go to sign in
+		</script>
+		
 	</body>
 </html>

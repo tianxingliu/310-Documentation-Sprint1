@@ -31,6 +31,7 @@ public class LoginServletTest {
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         when(request.getParameter("username")).thenReturn("nero");
         when(request.getParameter("pw")).thenReturn("domusaurea");
+        when(request.getParameter("logoutformSIGNAL")).thenReturn("");
         Mockito.doNothing().when(request).setAttribute(any(), any());
 
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -59,6 +60,7 @@ public class LoginServletTest {
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         when(request.getParameter("username")).thenReturn("julius");
         when(request.getParameter("pw")).thenReturn("domusaurea");
+        when(request.getParameter("logoutformSIGNAL")).thenReturn("");
         Mockito.doNothing().when(request).setAttribute(any(), any());
 
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -87,6 +89,7 @@ public class LoginServletTest {
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         when(request.getParameter("username")).thenReturn("");
         when(request.getParameter("pw")).thenReturn("domusaurea");
+        when(request.getParameter("logoutformSIGNAL")).thenReturn("");
         Mockito.doNothing().when(request).setAttribute(any(), any());
 
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -115,6 +118,7 @@ public class LoginServletTest {
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         when(request.getParameter("username")).thenReturn("nero");
         when(request.getParameter("pw")).thenReturn("");
+        when(request.getParameter("logoutformSIGNAL")).thenReturn("");
         Mockito.doNothing().when(request).setAttribute(any(), any());
 
         HttpServletResponse response = mock(HttpServletResponse.class);

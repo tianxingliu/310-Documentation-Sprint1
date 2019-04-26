@@ -37,6 +37,16 @@
 			<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!" />
 			
 		</form>
+		<form name = "fakeform" action = "LoginServlet" method = "POST" id = "logoutForm">
+			<input type = "text" id = "login3" name = "logoutformSIGNAL" value = "logoutformSIGNAL">
+		</form>
+	</div>
+	<div id = "nlog">
+		<input type= "button" onclick="location.href='login.jsp';" id = "buttonlogin" value="Login" />
+		<input type= "button" onclick="location.href='signup.jsp';" id = "buttonlogin" value="Sign Up" />
+	</div>
+	<div id = "log">
+		<input type= "button" onclick="logoutfunc()" id = "buttonlogin" value="Logout" />
 	</div>
 	
 	
@@ -57,6 +67,34 @@
     {
         document.getElementById("submit").src = "resources/smile.png";
     }
+    // login function
+    function logoutfunc()
+    {
+    	location.href='searchPage.jsp';
+    	document.getElementById('logoutForm').submit();
+    }
+    
+    //login check
+    var check = "logout";
+    var check = "<%=session.getAttribute("log")%>"
+    //alert(check);
+    if (check == "login")
+    {
+    	//console.log("JJ");
+    	var nlog = document.getElementById("nlog");
+    	nlog.setAttribute("style","visibility:hidden;");
+    	var log = document.getElementById("log");
+    	log.setAttribute("style","visibility:visible;");
+    }
+    else
+    {
+    	//console.log("KK");
+    	var nlog = document.getElementById("nlog");
+    	nlog.setAttribute("style","visibility:visible;");
+    	var log = document.getElementById("log");
+    	log.setAttribute("style","visibility:hidden;");
+    }
+    
 </script>
 
 </body>

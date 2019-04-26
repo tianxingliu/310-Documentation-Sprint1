@@ -25,6 +25,21 @@
 </style>
 </head>
 <body>
+<script>
+		//login check
+		var check = "<%=session.getAttribute("log")%>"
+		if (check != "login")
+	    {
+	    	//console.log("JJ");
+			location.href='login.jsp';
+	    }
+		</script>
+<div id = "log">
+		<input type= "button" onclick="logoutfunc()" id = "buttonlogin" value="Logout" />
+	</div>
+	<form name = "fakeform" action = "LoginServlet" method = "POST" id = "logoutForm">
+			<input type = "text" id = "login3" name = "logoutformSIGNAL" value = "logoutformSIGNAL">
+		</form>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	<form action="listPage.jsp">
@@ -72,8 +87,14 @@
    
         var query = parseQuery(window.location.search);
         
+        var goToHell = query.search;
+        goToHell += ",";
+        goToHell += query.number;
+        goToHell += ",";
+        goToHell += query.radius;
+        
         //Add the search term to quick access list
-        addItem("Quick Access", query.search);
+        addItem("Quick Access", goToHell);
         
         //Have to replace '+'s with ' 's before displaying name to user
         document.getElementById("header").innerHTML = 'Results for ' + query.search.replace(/\+/g, ' ');
@@ -429,7 +450,11 @@
 	
 	
 	
-	
+    function logoutfunc()
+    {
+    	location.href='searchPage.jsp';
+    	document.getElementById('logoutForm').submit();
+    }
 	
 	</script>
 	<script src="js/quickAccess.js"></script>

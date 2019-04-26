@@ -9,6 +9,15 @@
 		<link rel="stylesheet" type="text/css" href="css/listPage.css" />
 	</head>
 	<body>
+	<script>
+		//login check
+		var check = "<%=session.getAttribute("log")%>"
+		if (check != "login")
+	    {
+	    	//console.log("JJ");
+			location.href='login.jsp';
+	    }
+		</script>
 		<form action="resultPage.jsp">
 			<input type="hidden" id="queryStringInput" name="search" value="" />
 			<input type="hidden" id="numberResultsInput" name="number" value="cache" />
@@ -17,6 +26,13 @@
 	
 		<form action="searchPage.jsp">
 			<input type="submit" id = "back_search" value="Back to Search" />
+		</form>
+		
+		<div id = "log">
+			<input type= "button" onclick="logoutfunc()" id = "buttonlogin" value="Logout" />
+		</div>
+		<form name = "fakeform" action = "LoginServlet" method = "POST" id = "logoutForm">
+			<input type = "text" id = "login3" name = "logoutformSIGNAL" value = "logoutformSIGNAL">
 		</form>
 	    
 		<div id = "header"></div>
@@ -48,7 +64,11 @@
 					}
 				}
 				
-				
+				function logoutfunc()
+			    {
+			    	location.href='searchPage.jsp';
+			    	document.getElementById('logoutForm').submit();
+			    }
 			</script>
 		</div>
 
