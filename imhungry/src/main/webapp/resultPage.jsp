@@ -72,8 +72,14 @@
    
         var query = parseQuery(window.location.search);
         
+        var goToHell = query.search;
+        goToHell += ",";
+        goToHell += query.number;
+        goToHell += ",";
+        goToHell += query.radius;
+        
         //Add the search term to quick access list
-        addItem("Quick Access", query.search);
+        addItem("Quick Access", goToHell);
         
         //Have to replace '+'s with ' 's before displaying name to user
         document.getElementById("header").innerHTML = 'Results for ' + query.search.replace(/\+/g, ' ');

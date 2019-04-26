@@ -103,16 +103,24 @@ public class ListServlet extends HttpServlet
             }
             if(listName.equals("Quick Access")) {
 	        	String s = (String)reqListAndItem.body;
+	        	s = s.replaceAll("\"", "");
+	        	String[] parts = s.split(",");
+	        	System.out.println(s);
+	        	s = parts[0];
+	        	int numResults = Integer.parseInt(parts[1]);
+	        	int radius = Integer.parseInt(parts[2]);
+	        	
+	        	
 	        	List<History> historyList = (List<History>)session.getAttribute(listName);
 	        	//Prevent adding the search term to list
 	        	List<String> checkList = new ArrayList<String>();
-	        	System.out.println(historyList.size());
+	        	//System.out.println(historyList.size());
 	        	for(int i = 0;i<historyList.size();i++) {
 	        		checkList.add(historyList.get(i).query);
 	        	}
 	        	//If the item is not in the list or the list is empty
 	        	if(!checkList.contains(s) || historyList.size() == 0) {
-		        	History h = new History(s,0,0);
+		        	History h = new History(s,numResults,radius);
 		        	HistoryDataManager historyDB = new HistoryDataManager(username);
 		        	historyDB.addToList(h);
 		        	historyList.add(0, h);

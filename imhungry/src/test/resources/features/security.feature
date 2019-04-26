@@ -13,14 +13,17 @@ Scenario: the software prevents SQL injection
 
 
 Scenario: user login button exists
-	Then I should see a "login" button
+	Then I should see a "Login" button
+	
+Scenario: user sign-up button exists
+	Then I should see a "Sign Up" button
 
 Scenario: user login button worked
-	When I clicked on the "login" button
+	When I clicked on the "Login" button
 	Then I will be directed to the login-page
 
 Scenario: login page error message displaced
-	When I clicked on the "login" button
+	When I clicked on the "Login" button
 	And click "log-in"
 	Then error message will show-up
 

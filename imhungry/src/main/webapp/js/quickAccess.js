@@ -5,7 +5,7 @@ var list = getList("Quick Access").body;
     	var quickAccessItem = document.createElement("div");
     	quickAccessItem.setAttribute("class", "quickAccessItem");
     	var itemString = document.createElement("div");
-    	itemString.innerHTML += "<a href = 'http://localhost:9090/resultPage.jsp?search=" + list[i] + "&number=5&radius=2000&submit.x=0&submit.y=0'>" + list[i];
+    	itemString.innerHTML += "<a href = 'http://localhost:9090/resultPage.jsp?search=" + list[i] + "&number=5&radius=5&submit.x=0&submit.y=0'>" + list[i];
     	itemString.innerHTML += "&nbsp";
     	itemString.setAttribute("class", "quickAccessText");
     	quickAccessItem.appendChild(itemString);
