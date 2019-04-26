@@ -16,8 +16,8 @@ public class UserDataManagerTest {
 	@Ignore
 	@Test
 	public void addUserAndCheckTest() throws SQLException {
-		UserDataManager manager = new UserDataManager("nero");
-		manager.addUser(new User("nero", "domusaurea"));
-		assertEquals(manager.checkPassword("nero", "domusaurea"), 1);
+		UserDataManager manager = new UserDataManager("cleopatra");
+		manager.addUser(new User("cleopatra", "egypt"));
+		assertEquals(manager.checkPassword("cleopatra", "egypt"), 1);
 	}
 }

@@ -29,7 +29,12 @@ public class SearchServletTest {
 	public void testServlet1() throws Exception {
 		HttpSession session = mock(HttpSession.class);
 		when(session.isNew()).thenReturn(false);
-		when(session.getAttribute(any(String.class))).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("username")).thenReturn("nero");
+		when(session.getAttribute("Favorites")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("To Explore")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Do Not Show")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Grocery")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Quick Access")).thenReturn(new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -52,7 +57,12 @@ public class SearchServletTest {
 	public void testServlet2() throws Exception {
 		HttpSession session = mock(HttpSession.class);
 		when(session.isNew()).thenReturn(false);
-		when(session.getAttribute(any(String.class))).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("username")).thenReturn("nero");
+		when(session.getAttribute("Favorites")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("To Explore")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Do Not Show")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Grocery")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Quick Access")).thenReturn(new ArrayList<Info>());
 		
 		//perform search
 		HttpServletRequest request = mock(HttpServletRequest.class);       

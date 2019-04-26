@@ -1,6 +1,7 @@
 package info;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -19,5 +20,7 @@ public class HistoryTest {
 		assertEquals("chicken", h3.query);
 		assertEquals(1, h3.number);
 		assertEquals(2000, h3.radius);
+		History h4 = new History("chicken", 1, 2000);
+		assertTrue(h2.equals(h4));
 	}
 }

@@ -3,6 +3,7 @@ package servlet;
 import java.io.FileNotFoundException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import database_manager.HistoryDataManager;
 import database_manager.UserDataManager;
+import info.History;
 
 
 
@@ -50,6 +53,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("To Explore", null);
 			session.setAttribute("Do Not Show", null);
 			session.setAttribute("Grocery", null);
+			session.setAttribute("Quick Access", null);
 			RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
 			dispatch.forward(request, response);
 			return;
@@ -84,7 +88,13 @@ public class LoginServlet extends HttpServlet {
 				response.setContentType("text/html"); // what's this for?
 		        session.setAttribute("log","login");
 		        session.setAttribute("username", username);
-			}
+	        	
+		        HistoryDataManager historyDB = new HistoryDataManager(username);
+	        	ArrayList<History> quickAccessList;
+        		//load quickAccessList from database
+    			quickAccessList = historyDB.loadHistory();
+    			session.setAttribute("Quick Access", quickAccessList);
+        	}
 		}
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
 		dispatch.forward(request, response);

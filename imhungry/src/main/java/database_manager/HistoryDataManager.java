@@ -67,7 +67,6 @@ public class HistoryDataManager  extends DataManager {
 		
 		ArrayList<History> historyList = new ArrayList<History>();
 		try {
-			
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
 			ps = conn.prepareStatement("SELECT * FROM History WHERE User LIKE '" + username + "'");
@@ -80,6 +79,7 @@ public class HistoryDataManager  extends DataManager {
 					rs.getInt("Radius"));
 				historyList.add(his);
 			}
+			System.out.println("Search history loaded.");
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		} catch (ClassNotFoundException cnfe) {
