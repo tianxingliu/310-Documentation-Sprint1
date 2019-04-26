@@ -6,11 +6,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>I'm Hungry</title>
 <link rel="stylesheet" type="text/css" href="css/searchPage.css" />
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <div id = "header">I'm Hungry </div>
 <div class = "b">
-	<form name = "myform" action = "loginv" method = "GET">
+	<form name = "myform" action = "LoginServlet" method = "GET">
 	<div class = "loginform" id ="login" >
 			Username 
 			<br>
@@ -22,7 +23,11 @@
 			<br>
 			<input type = "password" id = "login2" name = "pw" value =${param.pw!=null? param.pw : ''}>
 			<span style="color: red;font-weight:bold">${perror!=null? perror : ''}</span><br />
-			<input type = "button" id = "image" name="image" value ="Login" />
+			<div id = "but">
+			<br>
+			<input type = "submit" id = "buttonlogin" name="login" value ="Login" />
+			<input type= "button" onclick="location.href='signup.jsp';" id = "buttonlogin" value="Register" />
+			</div>
 			</div>
 			</form>
 </div>

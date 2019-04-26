@@ -6,11 +6,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>I'm Hungry</title>
 <link rel="stylesheet" type="text/css" href="css/searchPage.css" />
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <div id = "header">I'm Hungry </div>
 <div class = "b">
-	<form name = "myform" action = "signupv" method = "GET">
+	<form name = "myform" action = "SignupServlet" method = "GET">
 			<div class = "signupform" id ="signup" >
 			Username<br><input type = "text" id ="signup1" name = "username" value =${param.username!=null? param.username : ''}> 
 			<span style="color: red;font-weight:bold">${uerror!=null? uerror : ''}</span><br />
@@ -22,7 +23,8 @@
 			Image URL <br><input type = "text" id ="signup3" name = "imageurl" value =${param.imageurl!=null? param.imageurl : ''}>
 			<span style="color: red;font-weight:bold">${ierror!=null? ierror : ''}</span><br />
 			<br>
-			<input type = "button" id = "image" name="submit" value ="Sign Up"/>
+			<input type= "button" onclick="location.href='login.jsp';" id = "buttonlogin" value="Back To Login" />
+			<input type = "submit" id = "buttonlogin" name="submit" value ="Sign Up"/>
 			</div>
 			</form>
 </div>

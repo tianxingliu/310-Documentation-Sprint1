@@ -25,7 +25,6 @@ right: 350px;
 </style>
 </head>
 <body>
-	<div class = "quickAccessArea"></div>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	<form action="listPage.jsp">
