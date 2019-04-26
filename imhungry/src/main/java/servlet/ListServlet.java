@@ -55,7 +55,7 @@ public class ListServlet extends HttpServlet
         }
         if(listName.equals("Quick Access")) {
         	HistoryDataManager historyDB = new HistoryDataManager(username);
-        	ArrayList<History> quickAccessList = new ArrayList<History>();
+        	ArrayList<History> quickAccessList;
         	if(session.getAttribute("Quick Access") == null) { //the first time we set this list
         		//load quickAccessList from database
     			quickAccessList = historyDB.loadHistory();

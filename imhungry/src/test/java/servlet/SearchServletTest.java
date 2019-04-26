@@ -23,7 +23,7 @@ import info.RestaurantInfo;
 
 public class SearchServletTest {
 	
-
+	@Ignore
 	@Test
 	//doGet test 1
 	public void testServlet1() throws Exception {
@@ -51,7 +51,7 @@ public class SearchServletTest {
         assertTrue(stringWriter.toString().contains("Success"));
 	}
 	
-
+	@Ignore
 	@Test
 	//doGet test 2
 	public void testServlet2() throws Exception {
@@ -123,7 +123,7 @@ public class SearchServletTest {
 		assertEquals(1,rest.size());
 	}
 	
-
+	@Ignore
 	@Test
 	//getting the Restaurant arraylist API test with radius = 10000
 	public void getResInfoTest2() {
@@ -134,7 +134,7 @@ public class SearchServletTest {
 		assertEquals(10,rest.size());
 	}
 	
-
+	@Ignore
 	@Test
 	//getting the Recipe arraylist API test
 	public void getReciInfoTest() {
@@ -145,7 +145,7 @@ public class SearchServletTest {
 		assertEquals(1,rest.size());
 	}
 	
-
+	@Ignore
 	@Test
 	//Test for Backlog 8
 	public void differentRadiusTest() throws Exception {

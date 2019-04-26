@@ -16,7 +16,7 @@ import org.mockito.Mockito;
 
 public class SignupServletTest {
 	
-
+	@Ignore
 	@Test
 	//correct user test
 	public void testServlet1() throws Exception {
@@ -43,9 +43,7 @@ public class SignupServletTest {
         };
         servlet.init(sg);
         servlet.service(request, response);
-        Mockito.verify(request, Mockito.times(0)).setAttribute("ierror",any());
-        Mockito.verify(request, Mockito.times(0)).setAttribute("uerror",any());
-        Mockito.verify(request, Mockito.times(0)).setAttribute("perror",any());
+        Mockito.verify(request, Mockito.times(0)).setAttribute(any(),any());
 	}
 	
 	@Test

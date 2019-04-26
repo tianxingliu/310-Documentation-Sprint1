@@ -22,7 +22,7 @@ import org.mockito.Mockito;
 
 public class LoginServletTest {
 	
-
+	@Ignore
 	@Test
 	//correct user test
 	public void testServlet1() throws Exception {
