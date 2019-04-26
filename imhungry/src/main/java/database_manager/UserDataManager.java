@@ -24,10 +24,10 @@ public class UserDataManager extends DataManager {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
-			ps = conn.prepareStatement("INSERT INTO GroceryList VALUES(?,?);");
+			ps = conn.prepareStatement("INSERT INTO Users VALUES(?,?);");
 			ps.setString(1, u.uname);
 			ps.setString(2, getSHA(u.password));
-			ps.executeUpdate();
+		    ps.execute();
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		} catch (ClassNotFoundException cnfe) {
@@ -46,23 +46,31 @@ public class UserDataManager extends DataManager {
 		}
 	}
 	
-	public Boolean checkPassword(String username,String password) {
+	public int checkPassword(String username,String password) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String filter = "WHERE Username LIKE '" + username;
+		String filter = "WHERE Username LIKE '" + username + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
 			
-			ps = conn.prepareStatement("SELECT u.Username, u.Password FROM User u " + filter);
+			ps = conn.prepareStatement("SELECT u.Username, u.Password FROM Users u " + filter);
 			rs = ps.executeQuery();
-			rs.next();
-			String DatabasePassword = rs.getString("Password");
-			if(DatabasePassword == getSHA(password)) {
-				return true;
+			
+			if(rs.next()) {
+				String DatabasePassword = rs.getString("Password");
+				String HashPassword =  getSHA(password);
+				System.out.println(HashPassword);
+				System.out.println(DatabasePassword);
+			
+				if(HashPassword.equals(DatabasePassword)) {
+					return 1;
+				}else {
+					return 0;
+				}
 			}else {
-				return false;
+				return 2;
 			}
 
 		} catch (SQLException sqle) {
@@ -81,7 +89,7 @@ public class UserDataManager extends DataManager {
 				System.out.println("sqle closing conn: " + sqle.getMessage());
 			}
 		}
-		return false;
+		return 0;
 	}
 	
     public static String getSHA(String input) 
