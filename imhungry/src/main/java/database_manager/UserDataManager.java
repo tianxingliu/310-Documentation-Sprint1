@@ -83,7 +83,7 @@ public class UserDataManager extends DataManager {
 				System.out.println("sqle closing conn: " + sqle.getMessage());
 			}
 		}
-		return false;
+		return 0;
 	}
 	
     public static String getSHA(String input) 
