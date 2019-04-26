@@ -4,12 +4,12 @@ import com.google.gson.Gson;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
 import database_manager.HistoryDataManager;
+import database_manager.OrderDataManager;
 import info.Info;
 import info.RecipeInfo;
 import info.RestaurantInfo;
@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @WebServlet(name = "ListServlet", urlPatterns = "/Lists")
 public class ListServlet extends HttpServlet
@@ -45,7 +43,7 @@ public class ListServlet extends HttpServlet
         HttpSession session = request.getSession();
         String listName = request.getParameter("list"); //See what list was requested
         
-        String username = "nero";  //TODO: get username
+        String username = (String)session.getAttribute("username");
         
         PrintWriter respWriter = response.getWriter();
         Gson gson = new Gson();
@@ -57,7 +55,7 @@ public class ListServlet extends HttpServlet
         }
         if(listName.equals("Quick Access")) {
         	HistoryDataManager historyDB = new HistoryDataManager(username);
-        	ArrayList<History> quickAccessList = new ArrayList<History>();
+        	ArrayList<History> quickAccessList;
         	if(session.getAttribute("Quick Access") == null) { //the first time we set this list
         		//load quickAccessList from database
     			quickAccessList = historyDB.loadHistory();
@@ -78,7 +76,6 @@ public class ListServlet extends HttpServlet
     	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
         respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
         respWriter.close();
-	        
     }
 
     //POST method used to add and remove items from a list
@@ -86,7 +83,7 @@ public class ListServlet extends HttpServlet
     {
         HttpSession session = request.getSession();
         
-        String username = "nero";  //TODO: get username
+        String username = (String)session.getAttribute("username"); 
         
         String reqBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator())); //Java 8 magic to collect all lines from a BufferedReadder, in this case the request.
         Gson gson = new Gson();
@@ -106,18 +103,20 @@ public class ListServlet extends HttpServlet
 	        	System.out.println(s);
 	        	s = s.replaceAll("\"", "");
 	        	String[] parts = s.split(",");
+	        	if(parts[1].equals("cache") || parts[2].equals("cache")) {
+	        		respWriter.println(gson.toJson(new Message("Returned from other pages "+listName)));
+		        	return;
+	        	}
 	        	System.out.println(s);
 	        	s = parts[0];
 	        	int numResults = Integer.parseInt(parts[1]);
 	        	int radius = Integer.parseInt(parts[2]);
 	        	
-	        	
-	        	
 	        	List<History> historyList = (List<History>)session.getAttribute(listName);
 	        	//Prevent adding the search term to list
 	        	List<String> checkList = new ArrayList<String>();
 	        	//System.out.println(historyList.size());
-	        	for(int i = 0;i<historyList.size();i++) {
+	        	for(int i = 0;i < historyList.size();i++) {
 	        		checkList.add(historyList.get(i).query);
 	        	}
 	        	//If the item is not in the list or the list is empty
@@ -161,7 +160,6 @@ public class ListServlet extends HttpServlet
             
             //Either move the item up or down
             if(reqMessage.header.equals("moveUp") || reqMessage.header.equals("moveDown")) {
-            	//TODO: Add connection to database
             	List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
             	String curr = ((String)reqListAndItem.body);
             	int currOrder = Integer.parseInt(curr); //the current order of the selected item
@@ -183,7 +181,7 @@ public class ListServlet extends HttpServlet
             	}
             	int currIndexInList = 0; 
             	int toSwapIndexInList = 0;
-            	for(int i = 0;i<list.size();i++) {
+            	for(int i = 0;i < list.size();i++) {
             		if(list.get(i).order == currOrder) {
             			currIndexInList = i;
             		}
@@ -198,6 +196,9 @@ public class ListServlet extends HttpServlet
             	list.get(toSwapIndexInList).order = currOrder;
             	System.out.println("After: " + list.get(currIndexInList).name + ": " + list.get(currIndexInList).order);
             	System.out.println("After: " + list.get(toSwapIndexInList).name + ": " + list.get(toSwapIndexInList).order);
+            	OrderDataManager odm = new OrderDataManager(username);
+            	odm.setOrder(list.get(currIndexInList));
+            	odm.setOrder(list.get(toSwapIndexInList));
             	respWriter.println(gson.toJson(new Message("Success")));
             	return;
             }
@@ -244,12 +245,19 @@ public class ListServlet extends HttpServlet
                     }
                     else {
                     	if(!list.contains(item)) {
-                    		item.order = list.size(); //New added item should have the highest order(displayed at the very end)
+                    		int maxOrder = 0;
+                    		for(int i = 0; i < list.size(); i++) {
+                    			int currentOrder = list.get(i).order;
+                    			if(currentOrder > maxOrder) maxOrder = currentOrder;
+                    		}
+                    		item.order = maxOrder + 1;
                     		list.add(item);
+                    		
                     		System.out.println("Current order in list: ");
                             for(int i = 0;i<list.size();i++) {
                             	System.out.println(list.get(i).name + ", " + list.get(i).order);
                             }
+                            
                     		int listToAdd = 1;
                     		if(listName.equals("Favorites")) listToAdd = 1;
                     		else if(listName.equals("Do Not Show")) listToAdd = 2;

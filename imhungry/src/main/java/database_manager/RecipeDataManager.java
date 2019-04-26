@@ -20,7 +20,7 @@ public class RecipeDataManager extends DataManager {
 	}
 	
 	public void addToList(RecipeInfo recipe, int list) {
-		int recipeID = recipe.spoonID;
+		int spoonID = recipe.spoonID;
 		String name = recipe.name;
 		int rating = recipe.rating;
 		int prepTime = recipe.prepTime;
@@ -39,16 +39,16 @@ public class RecipeDataManager extends DataManager {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
-			ps = conn.prepareStatement("SELECT * FROM Recipes WHERE SpoonID = " + recipeID);
+			ps = conn.prepareStatement("SELECT * FROM Recipes WHERE SpoonID = " + spoonID);
 			rs = ps.executeQuery();
 			
 			if(!rs.next()) {
 				//Recipe not in database
 				ps.close();
 				ps = conn.prepareStatement("INSERT INTO Recipes(SpoonID, RecipeName, RecipeRating, PrepTime, CookTime, "
-						+ "Ingredients, Instructions, ImageURL, InFavorites, InDoNotShow, InToExplore, User"
-						+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
-				ps.setInt(1, recipeID);
+						+ "Ingredients, Instructions, ImageURL, InFavorites, InDoNotShow, InToExplore, User, Seq"
+						+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);");
+				ps.setInt(1, spoonID);
 				ps.setString(2, name);
 				ps.setInt(3, rating);
 				ps.setInt(4, prepTime); 
@@ -70,6 +70,7 @@ public class RecipeDataManager extends DataManager {
 				   ps.setInt(11, 1);
 			    }
 			    ps.setString(12, username);
+			    ps.setInt(13, recipe.order);
 			    ps.execute();
 			    System.out.println("Recipe added to database.");
 			    
@@ -77,7 +78,7 @@ public class RecipeDataManager extends DataManager {
 				//Recipe already in database
 				PreparedStatement update = null;
 
-				String filter = "WHERE SpoonID = " + recipeID + " AND User LIKE '" + username + "'";
+				String filter = "WHERE SpoonID = " + spoonID + " AND User LIKE '" + username + "'";
 				if(list == 1) {
 					update = conn.prepareStatement("UPDATE Recipes SET InFavorites = ? " + filter);
 					update.setInt(1, 1);
@@ -215,7 +216,7 @@ public class RecipeDataManager extends DataManager {
 					ingredients,
 					instructions,
 					rs.getString("ImageURL"));
-				
+				recipeToAdd.order = rs.getInt("Seq");
 				recipeList.add(recipeToAdd);
 			}
 		} catch (SQLException sqle) {

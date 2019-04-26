@@ -1,10 +1,22 @@
 Given(/^I visit the website and database is empty$/) do
   visit "localhost:9090"
+  page.first("#buttonlogin").click
+  fill_in('username', :with => 'nero')
+  fill_in('pw', :with => 'domusaurea')
+  page.first("#buttonlogin").click
 end
 
 Given(/^I visit the website$/) do
   visit "localhost:9090"
 end
+
+And(/^login as "([^"]*)" and "([^"]*)"$/) do |username, password|
+    fill_in('username', :with => username)
+    fill_in('pw', :with => password)
+    page.first("#buttonlogin").click
+end
+
+
 
 When(/^I search for "([^"]*)" and expect "([^"]*)" results$/) do |query, num|
     fill_in('search', :with => query)
@@ -163,6 +175,10 @@ end
 
 And(/^reload the page$/) do
   visit "localhost:9090"
+  page.first("#buttonlogin").click
+  fill_in('username', :with => 'nero')
+  fill_in('pw', :with => 'domusaurea')
+  page.first("#buttonlogin").click
 end
 
 Then(/^the data still preserves$/) do
@@ -220,7 +236,7 @@ Then(/^I should see the grocery list item$/) do
 end
 
 Then(/^I should see the prior search term$/) do
-   expect(page).to have_content("cat")
+   expect(page).to have_content("Quick Access")
 end
 
 Then(/^the radius input field should have value "([^"]*)"/) do |radius|
@@ -235,16 +251,37 @@ And(/^the collage for "([^"]*)" should be placed there/) do |query|
   expect(page).to have_css(".quickAccessItem")
 end
 
-Then(/^there will be less results than the using default radius/) do
-  expect(page.first('.pagination')).to have_no_content("4")
-end
-
-
 Then(/^I should see a "Login" button/) do
-  expect(page).to have_content("Login")
+  expect(page).to have_button('Login')
 end
 
 Then(/^I should see a "Sign Up" button/) do
-  expect(page).to have_content("Sign Up")
+#  expect(all("#buttonlogin")[1]).has_value("Sign Up")
+  expect(page).to have_button('Sign Up')
 end
+
+Then(/^I should not see a grocery item/) do
+  expect(page).to have_content("empty")
+end
+
+Then(/^I should see an error message/) do
+  expect(page).to have_content("Username or Password wrong")
+end
+
+And(/^Sign Up as "([^"]*)" with "([^"]*)"/) do |username, password|
+  fill_in('username', :with => username)
+  fill_in('pw', :with => password)
+  fill_in('pw2', :with => password)
+  page.first("#buttonlogin").click
+end
+
+Then(/^I should not see the prior search term "([^"]*)" by user A/) do |searchTerm|
+  expect(page).to have_no_content(searchTerm)
+end
+
+When(/^press a previous search terms/) do
+  click_on("■ - pizza")
+end
+
+
 

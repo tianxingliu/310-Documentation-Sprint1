@@ -2,7 +2,7 @@ Feature: Pagination of Results
 
 Background:
 
-	Given I visit the website
+	Given I visit the website and database is empty
 	
 Scenario: "Next Page" button found
 	When I search for "pizza" and expect "5" results

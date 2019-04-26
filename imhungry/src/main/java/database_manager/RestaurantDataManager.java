@@ -43,8 +43,8 @@ public class RestaurantDataManager  extends DataManager {
 				//Restaurant first added
 				ps.close();
 				ps = conn.prepareStatement("INSERT INTO Restaurants (PlaceID,RestaurantName,RestaurantRating,Address,Price,"
-			   		+ "DriveTimeText,DriveTimeValue,Phone,Website,InFavorites,InDoNotShow,InToExplore, User) "
-			   		+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);");
+			   		+ "DriveTimeText,DriveTimeValue,Phone,Website,InFavorites,InDoNotShow,InToExplore, User, Seq) "
+			   		+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 				ps.setString(1, placeID); // set first variable in prepared statement
 				ps.setString(2, name);
 				ps.setLong(3, rating);
@@ -68,6 +68,7 @@ public class RestaurantDataManager  extends DataManager {
 				   ps.setLong(12, 1);
 			    }
 			    ps.setString(13, username);
+			    ps.setInt(14, restaurant.order);
 			    ps.execute();
 			    System.out.println("Restaurant added to database.");
 			} else {
@@ -203,7 +204,7 @@ public class RestaurantDataManager  extends DataManager {
 					rs.getInt("DriveTimeValue"), 
 					rs.getString("Phone"), 
 					rs.getString("Website"));
-				
+				rest.order = rs.getInt("Seq");
 				restaurantList.add(rest);
 			}
 		} catch (SQLException sqle) {
@@ -227,6 +228,5 @@ public class RestaurantDataManager  extends DataManager {
 		}
 		return restaurantList;
 	} 
-	
 	
 }
