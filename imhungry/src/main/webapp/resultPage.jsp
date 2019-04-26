@@ -71,15 +71,19 @@
     <script>
    
         var query = parseQuery(window.location.search);
+        
+        //Add the search term to quick access list
+        addItem("Quick Access", query.search);
+        
         //Have to replace '+'s with ' 's before displaying name to user
         document.getElementById("header").innerHTML = 'Results for ' + query.search.replace(/\+/g, ' ');
         var results;
-        var imageURLs;
+        var urlMap;
         //To reduce server overhead and improve performance, the page will only search from the server if it was arrived at from the search page
         //or if a list was modified on the last page. Otherwise, it'll load the results from localStorage (much faster).
         if(query.number == "cache") {
             results = JSON.parse(localStorage.getItem("searchResults"));
-            imageURLs = JSON.parse(localStorage.getItem("imageURLs"));
+            urlMap = JSON.parse(localStorage.getItem("urlMap"));
         }
         else {
             var xhttp = new XMLHttpRequest();
@@ -87,28 +91,28 @@
             xhttp.send();
             var response = JSON.parse(xhttp.response);
             results = response.body.results;
-            imageURLs = response.body.imageURLs;
-        }
-        //Add the search term to quick access list
-        
-        addItem("Quick Access", query.search);
-        
+            urlMap = response.body.imageURLs;
+        }        
         
         //Store results in local storage
         window.localStorage.setItem("search", query.search);
         window.localStorage.setItem("searchResults", JSON.stringify(results));
-        window.localStorage.setItem("imageURLs", JSON.stringify(imageURLs));
+        window.localStorage.setItem("urlMap", JSON.stringify(urlMap));
+        
+        console.log(urlMap);
 
         //Assemble the collage
         var collage = document.getElementById("collage");
-        for(let i = 0; i < imageURLs.length; i++) {
+        var mainCollage = urlMap[0];
+        console.log(mainCollage);
+        for(let i = 0; i < mainCollage.length; i++) {
             //Create a div to hold this image
             let imgdiv = document.createElement("div");
             imgdiv.setAttribute("class", "imageDiv");
             imgdiv.setAttribute("id", "image"+i);
             //Create the img element
             let img = document.createElement("img");
-            img.setAttribute("src", imageURLs[i]);
+            img.setAttribute("src", mainCollage[i]);
             img.setAttribute("class", "image");
             //Add the img to the div
             imgdiv.appendChild(img);
