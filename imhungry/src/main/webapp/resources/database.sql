@@ -7,8 +7,6 @@ CREATE TABLE Users(
     Password VARCHAR(500) NOT NULL
 );
 
-INSERT INTO Users VALUES('nero', 'domusaurea');
-
 CREATE TABLE Restaurants (
     RestaurantID INT(11) PRIMARY KEY AUTO_INCREMENT,
     PlaceID VARCHAR(200) NOT NULL,
