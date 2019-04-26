@@ -46,7 +46,7 @@ public class SignupServlet extends HttpServlet {
 		if (username.equals("") || pw.equals("") || pw2.equals("")) {
 		if (username.equals(""))
 		{
-			next = "/signup.jsp";
+			next = "/signup.jsp"; //NEW
 			request.setAttribute("uerror", "No Username Entered");
 			//System.out.println("U empty");
 		}
