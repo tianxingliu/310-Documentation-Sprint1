@@ -1,0 +1,29 @@
+Scrum Three Question (Individual answer):
+What have you accomplished since the last meeting?
+Are there any obstacles in the way of meeting your goal?
+What will you accomplish before the next meeting?
+
+Minxuan Song:
+1. i have been working on uis and frontend
+2. no
+3. will finish login check
+
+Haiyu Tian:
+1. I finish final adjustment on pagination.                            
+2. No.                                     
+3. I will do the final check before submission.
+
+Pinghao Luo:
+1.I finish login system and register
+2. no
+3. Checking some edge
+
+Tianxing Liu:
+1. I implemented the quick access list requirement and tried to align all the versions.
+2. None.
+3. I will prepare for demo.
+
+Guancheng Qiu:
+1. I improved unit tests.
+2. None.
+3. I will work on report.
