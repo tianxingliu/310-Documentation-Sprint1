@@ -39,10 +39,11 @@ public class SignupServlet extends HttpServlet {
 		String next = "";
 		String username = request.getParameter("username");
 		String pw = request.getParameter("pw");
-		String imgurl = request.getParameter("imageurl");
+		String pw2 = request.getParameter("pw2");
 		username = username.trim();
 		pw = pw.trim();
-		if (username.equals("") || pw.equals("") || imgurl.equals("")) {
+		pw2 = pw2.trim();
+		if (username.equals("") || pw.equals("") || pw2.equals("")) {
 		if (username.equals(""))
 		{
 			next = "/signup.jsp";
@@ -55,7 +56,7 @@ public class SignupServlet extends HttpServlet {
 			request.setAttribute("perror", "No Password Entered");
 			//System.out.println("P empty");
 		}
-		if (imgurl.equals(""))
+		if (pw2.equals(""))
 		{
 			next = "/signup.jsp";
 			request.setAttribute("ierror", "No ImageURL Entered");
@@ -64,15 +65,22 @@ public class SignupServlet extends HttpServlet {
 		}
 		else
 		{
-			int check =0; // do database verification right now, if username is already registered, don't do it
-			if (check == 1)
+			if (!pw.equals(pw2))
 			{
 				next = "/signup.jsp";
-				request.setAttribute("uerror", "Username Taken");
+				request.setAttribute("ierror", "Password Didn't Match");
 			}
-			else //verification passed, add to database, go back to sign up
+			else
 			{
-				next = "/signup.jsp";
+				int check = 0; // do database verification right now, if username is already registered, don't
+								// do it
+				if (check == 1) {
+					next = "/signup.jsp";
+					request.setAttribute("uerror", "Username Taken");
+				} else // verification passed, add to database, go back to sign up
+				{
+					next = "/signup.jsp";
+				}
 			}
 		}
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);

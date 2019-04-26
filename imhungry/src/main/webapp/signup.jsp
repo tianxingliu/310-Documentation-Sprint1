@@ -20,7 +20,7 @@
 			Password<br> <input type = "password" id ="signup2" name = "pw" value =${param.pw!=null? param.pw : ''}>
 			<span style="color: red;font-weight:bold">${perror!=null? perror : ''}</span><br />
 			<br>
-			Image URL <br><input type = "text" id ="signup3" name = "imageurl" value =${param.imageurl!=null? param.imageurl : ''}>
+			Re-enter Password <br><input type = "password" id ="signup3" name = "pw2" value =${param.imageurl!=null? param.imageurl : ''}>
 			<span style="color: red;font-weight:bold">${ierror!=null? ierror : ''}</span><br />
 			<br>
 			<input type= "button" onclick="location.href='login.jsp';" id = "buttonlogin" value="Back To Login" />
