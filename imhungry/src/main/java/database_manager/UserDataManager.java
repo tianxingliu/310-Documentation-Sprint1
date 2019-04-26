@@ -14,7 +14,7 @@ import user.User;
 
 public class UserDataManager extends DataManager {
 	
-	public  UserDataManager(String username) {
+	public UserDataManager(String username) {
 		super(username);
 	}
 	
@@ -61,8 +61,8 @@ public class UserDataManager extends DataManager {
 			if(rs.next()) {
 				String DatabasePassword = rs.getString("Password");
 				String HashPassword =  getSHA(password);
-				System.out.println(HashPassword);
-				System.out.println(DatabasePassword);
+				//System.out.println(HashPassword);
+				//System.out.println(DatabasePassword);
 			
 				if(HashPassword.equals(DatabasePassword)) {
 					return 1;

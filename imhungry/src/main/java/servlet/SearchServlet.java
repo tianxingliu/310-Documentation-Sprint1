@@ -33,6 +33,7 @@ import java.net.*;
 import java.io.Reader.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 /**
@@ -122,7 +123,23 @@ public class SearchServlet extends HttpServlet {
         //get lists
         ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
         ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, radius, doNotShowList, favoritesList);
-        ArrayList<String> urlList = getImageURLs(userSearch);
+        
+        //A Hash-map to store all the urls from the quick access list
+        ArrayList<ArrayList<String>> urlMaps = new ArrayList<ArrayList<String>>();
+        
+        
+        List<History> historyList = (List<History>)session.getAttribute("Quick Access");
+        
+        //Get the url lists from the prior search term
+        for(int i = 0;i<historyList.size();i++) {
+        	String searchQuery = historyList.get(i).query;
+        	searchQuery = searchQuery.replaceAll("\"", "");
+        	
+        	ArrayList<String> urlList = getImageURLs(searchQuery);
+        	urlMaps.add(urlList);
+        }
+        
+        //ArrayList<String> urlList = getImageURLs(userSearch);
 
         //return content
         if (!success){
@@ -138,7 +155,7 @@ public class SearchServlet extends HttpServlet {
             results.add(castedRestaurantList);
             results.add(castedRecipeList);
             //Put together the Search Result and Message object, convert to Json, and reply.
-            out.println(new Gson().toJson(new Message("Success",new SearchResult(results, urlList))));
+            out.println(new Gson().toJson(new Message("Success",new SearchResult(results, urlMaps))));
         }
 		out.close();
     }

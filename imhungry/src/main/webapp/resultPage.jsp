@@ -19,7 +19,7 @@
 
 .pagination{
 	position: absolute;
-	top: 360px;
+	top: 320px;
 	left: 30%;
 }
 </style>
@@ -86,15 +86,19 @@
     <script>
    
         var query = parseQuery(window.location.search);
+        
+        //Add the search term to quick access list
+        addItem("Quick Access", query.search);
+        
         //Have to replace '+'s with ' 's before displaying name to user
         document.getElementById("header").innerHTML = 'Results for ' + query.search.replace(/\+/g, ' ');
         var results;
-        var imageURLs;
+        var urlMap;
         //To reduce server overhead and improve performance, the page will only search from the server if it was arrived at from the search page
         //or if a list was modified on the last page. Otherwise, it'll load the results from localStorage (much faster).
         if(query.number == "cache") {
             results = JSON.parse(localStorage.getItem("searchResults"));
-            imageURLs = JSON.parse(localStorage.getItem("imageURLs"));
+            urlMap = JSON.parse(localStorage.getItem("urlMap"));
         }
         else {
             var xhttp = new XMLHttpRequest();
@@ -102,28 +106,28 @@
             xhttp.send();
             var response = JSON.parse(xhttp.response);
             results = response.body.results;
-            imageURLs = response.body.imageURLs;
-        }
-        //Add the search term to quick access list
-        
-        addItem("Quick Access", query.search);
-        
+            urlMap = response.body.imageURLs;
+        }        
         
         //Store results in local storage
         window.localStorage.setItem("search", query.search);
         window.localStorage.setItem("searchResults", JSON.stringify(results));
-        window.localStorage.setItem("imageURLs", JSON.stringify(imageURLs));
+        window.localStorage.setItem("urlMap", JSON.stringify(urlMap));
+        
+        console.log(urlMap);
 
         //Assemble the collage
         var collage = document.getElementById("collage");
-        for(let i = 0; i < imageURLs.length; i++) {
+        var mainCollage = urlMap[0];
+        console.log(mainCollage);
+        for(let i = 0; i < mainCollage.length; i++) {
             //Create a div to hold this image
             let imgdiv = document.createElement("div");
             imgdiv.setAttribute("class", "imageDiv");
             imgdiv.setAttribute("id", "image"+i);
             //Create the img element
             let img = document.createElement("img");
-            img.setAttribute("src", imageURLs[i]);
+            img.setAttribute("src", mainCollage[i]);
             img.setAttribute("class", "image");
             //Add the img to the div
             imgdiv.appendChild(img);
@@ -230,6 +234,64 @@
 		                /* if(decimalPart != 0 && page = pageNum && counter == decimalPart)
 		                	break; */
 		            }
+		            
+		            //create empty items for the last page
+		            if(page == pageNum && decimalPart != 0){
+		            	
+		            	var newCount = 3 - decimalPart;
+		            	
+		            	for(let k = 0; k < newCount; k++){
+		            	
+			                //Create each sub section for the entry and populate it with data and attributes
+			                let sec1 = document.createElement("div");
+			                sec1.setAttribute("class", "Res_section1");
+			                sec1.setAttribute("visibility", "hidden");
+			                
+	
+			                let sec2 = document.createElement("div");
+			                sec2.setAttribute("class", "Res_section2");
+			                sec2.setAttribute("visibility", "hidden");
+			                
+	
+			                let divider = document.createElement("div");
+			                divider.setAttribute("class", "divider");
+			                divider.setAttribute("visibility", "hidden");
+	
+			                let sec3 = document.createElement("div");
+			                sec3.setAttribute("class", "Res_section3");
+			                sec3.setAttribute("visibility", "hidden");
+			                
+	
+			                let sec4 = document.createElement("div");
+			                sec4.setAttribute("class", "Res_section4");
+			                sec4.setAttribute("visibility", "hidden");
+			                
+	
+			                let sec5 = document.createElement("div");
+			                sec5.setAttribute("class", "Res_section5");
+			                sec5.setAttribute("visibility", "hidden");
+			                
+	
+			                //Create the actual entry element and set the previous subsections to be its children
+			                let res = document.createElement("div");
+			                res.setAttribute("class","item");
+			                res.style.visibility = "hidden";
+			                
+			          
+			                res.appendChild(sec1);
+			                res.appendChild(sec2);
+			                res.appendChild(divider);
+			                res.appendChild(sec3);
+			                res.appendChild(sec4);
+			                res.appendChild(sec5);
+	
+			                //Add the entry to the proper place on the page
+			                col1.appendChild(res);
+		            	}
+		            	
+		            }
+		            
+		            
 	            }
 	        }).on('page', function (event, page) {
 	            console.info(page + ' (from event listening)');
@@ -255,7 +317,7 @@
                 var pageNum = Math.ceil(results[1].length/3);
 	          	
 	          	var integerPart = 3;
-	          	//var decimalPart = results[1].length % 3;
+	          	var decimalPart = results[1].length % 3;
 	          	var counter2 = 0;
 	          	
 	          	if(counter2 == 0){
@@ -322,7 +384,57 @@
 		            		break;
 	                    }
 	            }
-            }
+	            
+        //create empty items for the last page
+        if(page == pageNum && decimalPart != 0){
+        	
+        	var newCount = 3 - decimalPart;
+        	
+        	for(let k = 0; k < newCount; k++){
+        	
+                //Create each sub section for the entry and populate it with data and attributes
+                let sec1 = document.createElement("div");
+                sec1.setAttribute("class", "Res_section1");
+                sec1.setAttribute("visibility", "hidden");
+                
+
+                let sec2 = document.createElement("div");
+                sec2.setAttribute("class", "Res_section2");
+                sec2.setAttribute("visibility", "hidden");
+                
+
+                let divider = document.createElement("div");
+                divider.setAttribute("class", "divider");
+                divider.setAttribute("visibility", "hidden");
+
+                let sec3 = document.createElement("div");
+                sec3.setAttribute("class", "Res_section3");
+                sec3.setAttribute("visibility", "hidden");
+                
+
+                let sec4 = document.createElement("div");
+                sec4.setAttribute("class", "Res_section4");
+                sec4.setAttribute("visibility", "hidden");
+                
+
+                //Create the actual entry element and set the previous subsections to be its children
+                let res = document.createElement("div");
+                res.setAttribute("class","item");
+                res.style.visibility = "hidden";
+                
+          
+                res.appendChild(sec1);
+                res.appendChild(sec2);
+                res.appendChild(divider);
+                res.appendChild(sec3);
+                res.appendChild(sec4);
+
+                //Add the entry to the proper place on the page
+                col2.appendChild(res);
+        	}
+        }
+        	
+        }
         }).on('page', function (event, page) {
             console.info(page + ' (from event listening)');
             

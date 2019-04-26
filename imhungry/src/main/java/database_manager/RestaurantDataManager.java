@@ -116,7 +116,7 @@ public class RestaurantDataManager  extends DataManager {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		String filter = "WHERE PlaceID LIKE '" + placeID + "' AND User LIKE '" + username + "'";
+		String filter = "WHERE PlaceID = '" + placeID + "' AND User = '" + username + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
@@ -135,7 +135,7 @@ public class RestaurantDataManager  extends DataManager {
 			update.execute();  
 			System.out.println("Restaurant removed from list but kept.");
 		
-			ps = conn.prepareStatement("SELECT r.InFavorites, r.InDoNotShow, r.InToExplore FROM Restaurants r " + filter);
+			ps = conn.prepareStatement("SELECT InFavorites, InDoNotShow, InToExplore FROM Restaurants " + filter);
 			rs = ps.executeQuery();
 			rs.next();
 			int currFav = rs.getInt("InFavorites");

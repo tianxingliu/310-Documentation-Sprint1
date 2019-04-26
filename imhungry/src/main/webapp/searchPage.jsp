@@ -32,7 +32,7 @@
 					Restaurant search radius
 				</div>
 			</div>
-			
+		
 			<br>
 			<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!" />
 			
@@ -48,13 +48,16 @@
 	<div id = "log">
 		<input type= "button" onclick="logoutfunc()" id = "buttonlogin" value="Logout" />
 	</div>
-	<div id="quickAccess">
+	
+	
+<!-- 	<div id="quickAccess">
 		<div id = "quickAccess1"></div>
 		<div id = "quickAccess2"></div>
-	</div>
+	</div> -->
 <script src="js/ListClient.js"></script>
 <script src="js/quickAccess.js"></script>	
 <script>
+
     //Functions to switch emoji states
     function happyToSad()
     {

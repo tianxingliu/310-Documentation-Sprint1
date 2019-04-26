@@ -1,6 +1,8 @@
 package message;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import info.Info;
@@ -9,9 +11,9 @@ import info.Info;
 public class SearchResult implements Serializable
 {
     public List<List<Info>> results;
-    public List<String> imageURLs;
+    public ArrayList<ArrayList<String>> imageURLs;
 
-    public SearchResult(List<List<Info>> results, List<String> imageURLs)
+    public SearchResult(List<List<Info>> results, ArrayList<ArrayList<String>> imageURLs)
     {
         this.results = results;
         this.imageURLs = imageURLs;

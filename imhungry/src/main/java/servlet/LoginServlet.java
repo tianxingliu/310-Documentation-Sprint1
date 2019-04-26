@@ -12,16 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-
-import database_manager.GroceryDataManager;
-import database_manager.RecipeDataManager;
-import database_manager.RestaurantDataManager;
-import database_manager.HistoryDataManager;
 import database_manager.UserDataManager;
 import info.*;
-
-
 
 
 
@@ -59,7 +51,6 @@ public class LoginServlet extends HttpServlet {
 		String pw = request.getParameter("pw");
 		username = username.trim();
 		pw = pw.trim();
-		String url = "";
 		if (username.equals("") || pw.equals("")) {
 			if (username.equals("")) {
 				next = "/login.jsp";
@@ -73,13 +64,12 @@ public class LoginServlet extends HttpServlet {
 			UserDataManager userDB = new UserDataManager(username);
 			
 			int check = userDB.checkPassword(username,pw);
-			if (check != 1) { //should be !=1
+			if (check != 1) {
 				next = "/login.jsp";
 				request.setAttribute("uerror", "Username or Password wrong");
 				request.setAttribute("perror", "Username or Password wrong");
 			} else {
-				//System.out.println("pass");
-				next = "/searchPage.jsp"; //successfuly login
+				next = "/searchPage.jsp"; //successfully login
 				response.setContentType("text/html"); // what's this for?
 				HttpSession session=request.getSession(true);
 		        session.setAttribute("log","login");

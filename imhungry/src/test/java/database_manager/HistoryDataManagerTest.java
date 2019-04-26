@@ -19,4 +19,11 @@ public class HistoryDataManagerTest {
 		ArrayList<History> list = manager.loadHistory();
 		assert(list.size() >= 0);
 	}
+	
+	@Test
+	public void anotherUserLoadHistoryTest() throws SQLException {
+		HistoryDataManager manager = new HistoryDataManager("julius");
+		ArrayList<History> list = manager.loadHistory();
+		assert(list.size() == 0);
+	}
 }
