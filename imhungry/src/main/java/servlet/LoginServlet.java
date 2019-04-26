@@ -73,7 +73,7 @@ public class LoginServlet extends HttpServlet {
 			UserDataManager userDB = new UserDataManager(username);
 			
 			int check = userDB.checkPassword(username,pw);
-			if (check == 1) { //should be !=1
+			if (check != 1) { //should be !=1
 				next = "/login.jsp";
 				request.setAttribute("uerror", "Username or Password wrong");
 				request.setAttribute("perror", "Username or Password wrong");
