@@ -345,13 +345,3 @@ color:white;
 	width: 50%;
 	float: right;
 }
-
-.quickAccessArea
-{
-	position:absolute;
-	background:lightblue;
-	width:100%;
-	height:200px;
-	top:125%;
-	left:0%;
-}

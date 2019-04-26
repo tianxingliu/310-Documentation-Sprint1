@@ -1,15 +1,10 @@
 package servlet;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,10 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+
 
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
@@ -28,51 +20,59 @@ import database_manager.RestaurantDataManager;
 import database_manager.HistoryDataManager;
 import database_manager.UserDataManager;
 import info.*;
-import message.Message;
-import message.SearchResult;
-import user.User;
-
-import java.net.*;
-import java.io.Reader.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 
- @WebServlet(name = "LoginServlet", urlPatterns = "/Login")
+
+
+
+/**
+ * Servlet implementation class myFirstServlet
+ */
+@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
-	 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	    {	
-	        HttpSession session = request.getSession();
-	        String username = request.getParameter("username"); //See what list was requested
-	        String password = request.getParameter("password"); 
-    			UserDataManager userdata = new UserDataManager(username);
-    			Boolean check = userdata.checkPassword(username, password);
-	        PrintWriter respWriter = response.getWriter();
-	        Gson gson = new Gson();
-			if(check) {
-	            respWriter.println(gson.toJson(new Message("success")));
-			}else {
-				respWriter.println(gson.toJson(new Message("Fail")));
+	/**
+	 * @throws FileNotFoundException
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public LoginServlet() throws FileNotFoundException {
+		super();
+
+	}
+
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String next = "";
+		String username = request.getParameter("username");
+		String pw = request.getParameter("pw");
+		username = username.trim();
+		pw = pw.trim();
+		String url = "";
+		if (username.equals("") || pw.equals("")) {
+			if (username.equals("")) {
+				next = "/login.jsp";
+				request.setAttribute("uerror", "No Username Entered");
 			}
-            respWriter.close();
+			if (pw.equals("")) {
+				next = "/login.jsp";
+				request.setAttribute("perror", "No Password Entered");
+			}
+		} else {
+			UserDataManager userDB = new UserDataManager(username);
+			
+			int check = userDB.checkPassword(username,pw);
+			System.out.println(check);
+			if (check != 1) {
+				next = "/login.jsp";
+				request.setAttribute("uerror", "Username or Password wrong");
+				request.setAttribute("perror", "Username or Password wrong");
+			} else {
+				next = "/searchPage.jsp"; //successfuly login
+				response.setContentType("text/html"); // what's this for?
+			}
 		}
-	 
-	 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	    {	
-	        HttpSession session = request.getSession();
-	        String username = request.getParameter("username"); //See what list was requested
-	        String password = request.getParameter("password"); 
-	        User newUser = new User(username,password);
- 			UserDataManager userdata = new UserDataManager(username);
- 			userdata.addUser(newUser);
-	        PrintWriter respWriter = response.getWriter();
-	        Gson gson = new Gson();
-	        respWriter.close();
-		}
-	 
-	 
-	 
+		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
+		dispatch.forward(request, response);
+	}
 }
