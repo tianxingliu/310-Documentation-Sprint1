@@ -50,12 +50,28 @@
 	</div>
 	
 	
-<!-- 	<div id="quickAccess">
+	<div id="quickAccess">
 		<div id = "quickAccess1"></div>
 		<div id = "quickAccess2"></div>
-	</div> -->
+	</div>
 <script src="js/ListClient.js"></script>
-<script src="js/quickAccess.js"></script>	
+<script>
+var list = getList("Quick Access").body;
+document.getElementById("quickAccess1").innerHTML += "| Quick Access List |";
+document.getElementById("quickAccess1").innerHTML += "<br/>";
+for(let i = 0;i < list.length;i++){
+	if (i === 6) {
+	    break;
+	}
+	var noun = list[i];
+	var displaynoun = noun;
+	var prefix = "■ - ";
+	displaynoun = prefix.concat(noun);
+	var itemString = document.getElementById("quickAccess2");
+	itemString.innerHTML += "<a href = 'http://localhost:9090/resultPage.jsp?search=" + noun + "&number=5&radius=5&submit.x=0&submit.y=0'>" + displaynoun;
+	itemString.innerHTML += "</br>";
+}
+</script>
 <script>
 
     //Functions to switch emoji states
