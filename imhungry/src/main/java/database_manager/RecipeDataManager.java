@@ -32,7 +32,6 @@ public class RecipeDataManager extends DataManager {
 		for(String instruction : recipe.instructions)
 			instructions += instruction + "|||";
 		String imageURL = recipe.imageURL;
-		System.out.println(username);
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -121,7 +120,7 @@ public class RecipeDataManager extends DataManager {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		String filter = "WHERE SpoonID = " + recipeID + " AND User LIKE '" + username + "'";
+		String filter = "WHERE SpoonID = " + recipeID + " AND User = '" + username + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
