@@ -73,7 +73,7 @@ public class SearchServlet extends HttpServlet {
 		ArrayList<Info> favoritesList, doNotShowList, toExploreList;
 		ArrayList<Info> groceryList;
 
-		String username = "nero";  //TODO: get username
+		String username = (String)session.getAttribute("username");  
 		
 		RestaurantDataManager restaurantDB = new RestaurantDataManager(username);
 		RecipeDataManager recipeDB = new RecipeDataManager(username);
