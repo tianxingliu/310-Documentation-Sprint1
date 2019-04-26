@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>I'm Hungry</title>
+<title>Sign Up</title>
 <link rel="stylesheet" type="text/css" href="css/searchPage.css" />
 <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
