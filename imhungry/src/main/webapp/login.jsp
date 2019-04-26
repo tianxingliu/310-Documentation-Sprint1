@@ -11,13 +11,14 @@
 <body>
 <div id = "header">I'm Hungry </div>
 <div class = "b">
-	<form name = "myform" action = "LoginServlet" method = "GET">
+	<form name = "myform" action = "LoginServlet" method = "POST">
 	<div class = "loginform" id ="login" >
 			Username 
 			<br>
 			<input type = "text" id = "login1" name = "username" value =${param.username!=null? param.username : ''}> 
 			<span style="color: red;font-weight:bold">${uerror!=null? uerror : ''}</span><br />
 			<!--  what's submitted is value, didn't write it here because it's by default blank. -->
+			<input type = "text" id = "login3" name = "logoutformSIGNAL" value = "kk">
 			<br>
 			Password 
 			<br>

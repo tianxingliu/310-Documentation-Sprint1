@@ -25,6 +25,21 @@
 </style>
 </head>
 <body>
+<script>
+		//login check
+		var check = "<%=session.getAttribute("log")%>"
+		if (check != "login")
+	    {
+	    	//console.log("JJ");
+			location.href='login.jsp';
+	    }
+		</script>
+<div id = "log">
+		<input type= "button" onclick="logoutfunc()" id = "buttonlogin" value="Logout" />
+	</div>
+	<form name = "fakeform" action = "LoginServlet" method = "POST" id = "logoutForm">
+			<input type = "text" id = "login3" name = "logoutformSIGNAL" value = "logoutformSIGNAL">
+		</form>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	<form action="listPage.jsp">
@@ -317,7 +332,11 @@
 	
 	
 	
-	
+    function logoutfunc()
+    {
+    	location.href='searchPage.jsp';
+    	document.getElementById('logoutForm').submit();
+    }
 	
 	</script>
 	<script src="js/quickAccess.js"></script>
