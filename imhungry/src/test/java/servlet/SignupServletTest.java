@@ -10,11 +10,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 public class SignupServletTest {
 	
+	@Ignore
 	@Test
 	//correct user test
 	public void testServlet1() throws Exception {
