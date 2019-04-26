@@ -6,7 +6,7 @@ Background:
 	
 Scenario: "Move up" button found
 	
-	When I search for "cat" and expect 5 results
+	When I search for "cat" and expect "5" results
 	And press "submit" button
 	And press a recipe
 	And select the list "Favorites"
@@ -18,7 +18,7 @@ Scenario: "Move up" button found
 	Then I should see "Move up" button
 	
 Scenario: "Move down" button found
-	When I search for "cat" and expect 5 results
+	When I search for "cat" and expect "5" results
 	And press "submit" button
 	And press "Manage List" button
 	And select the list "Favorites"
@@ -26,7 +26,7 @@ Scenario: "Move down" button found
 	Then I should see "Move down" button
 
 Scenario: "Move up" button worked
-	When I search for "pizza" and expect 5 results
+	When I search for "pizza" and expect "5" results
 	And press "submit" button
 	And press a recipe
 	And select the list "Favorites"
@@ -38,7 +38,7 @@ Scenario: "Move up" button worked
 	Then the item will be moved up
 #	
 Scenario: "Move down" button worked
-	When I search for "pizza" and expect 5 results
+	When I search for "pizza" and expect "5" results
 	And press "submit" button
 	And select the list "Favorites"
 	And press "Manage List" button

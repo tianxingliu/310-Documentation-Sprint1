@@ -230,3 +230,21 @@ end
 Then(/^there will be less results than the using default radius/) do
   expect(page.first('.pagination')).to have_no_content("4")
 end
+
+And(/^the collage for "([^"]*)" should be placed there/) do |query|
+  expect(page).to have_css(".quickAccessItem")
+end
+
+Then(/^there will be less results than the using default radius/) do
+  expect(page.first('.pagination')).to have_no_content("4")
+end
+
+
+Then(/^I should see a "Login" button/) do
+  expect(page).to have_content("Login")
+end
+
+Then(/^I should see a "Sign Up" button/) do
+  expect(page).to have_content("Sign Up")
+end
+
