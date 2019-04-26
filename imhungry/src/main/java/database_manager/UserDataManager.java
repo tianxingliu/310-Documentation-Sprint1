@@ -46,7 +46,7 @@ public class UserDataManager extends DataManager {
 		}
 	}
 	
-	public Boolean checkPassword(String username,String password) {
+	public int checkPassword(String username,String password) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -57,12 +57,14 @@ public class UserDataManager extends DataManager {
 			
 			ps = conn.prepareStatement("SELECT u.Username, u.Password FROM User u " + filter);
 			rs = ps.executeQuery();
-			rs.next();
-			String DatabasePassword = rs.getString("Password");
-			if(DatabasePassword == getSHA(password)) {
-				return true;
-			}else {
-				return false;
+			if(rs.next()) {
+				String DatabasePassword = rs.getString("Password");
+				if(DatabasePassword == getSHA(password)) {
+					return 1;
+				}else {
+					return 0;
+				}else {
+					return 2;
 			}
 
 		} catch (SQLException sqle) {
