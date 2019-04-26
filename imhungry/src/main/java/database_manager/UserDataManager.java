@@ -55,7 +55,7 @@ public class UserDataManager extends DataManager {
 			Class.forName("com.mysql.jdbc.Driver"); // get driver for database
 			conn = DriverManager.getConnection(JDBC_CONNECTION);
 			
-			ps = conn.prepareStatement("SELECT u.Username, u.Password FROM User u " + filter);
+			ps = conn.prepareStatement("SELECT u.Username, u.Password FROM Users u " + filter);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				String DatabasePassword = rs.getString("Password");
@@ -63,11 +63,10 @@ public class UserDataManager extends DataManager {
 					return 1;
 				}else {
 					return 0;
-				}else {
-					return 2;
-			}else{return 0;
-		
 				}
+			}else {
+				return 2;
+			}
 
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
@@ -108,5 +107,5 @@ public class UserDataManager extends DataManager {
             return null; 
         } 
     } 
-	
+	return 0;
 }
