@@ -13,7 +13,7 @@ body{
 	left:0%;
 	top:125%;
 	width:99%;
-	text-align: center;
+	text-align: left;
 }
 
 #quickAccess1
@@ -22,33 +22,55 @@ body{
 	color: white;
 	text-decoration: underline overline;
 	font-size: 1rem;
+	text-align: center;
 }
 
 #quickAccess2
 {
 	position:absolute;
-	left:4%;
 	top:130%;
-	width: 90%;
-	height:160px;
+	width: 100%;
+	height:200px;
 	color: white;
 	font-family: 'Roboto', sans-serif;
 	background-color: lightblue;
-	border: 2px solid lightyellow;
-	overflow: scroll;
-	overflow-x:scroll;
+	overflow: auto;
+	overflow-x: auto;
 	white-space: nowrap;
 }
 
-#quickAccess2 a {
+#quickAccess2 .quickAccessItem {
+  border: 2px solid lightyellow;
   display: inline-block;
   color: white;
-  text-align: center;
+  text-align: left;
   padding-bottom:1%;
   padding-left: 15%;
   padding-right: 15%;
   text-decoration: none;
+  width: 15%;
+  height: 180px;
+
 }
+
+.quickAccessItem div{
+	display: table-cell;
+}
+
+.miniCollage {
+  
+  height: 120px;
+  text-decoration: none;
+}
+
+.quickAccessText{
+	display:inline-block;
+	vertical-align:top;
+	position: relative;
+	width: 100%;
+}
+
+
 
 #quickAccess2 a:hover {
 	background-color:lightgreen;
@@ -63,10 +85,6 @@ A
 	color: lightyellow;
 }
 
-.easyPaginateNav
-{
-	color:white;
-}
 
 #header{
 	font-family: 'Roboto', sans-serif;

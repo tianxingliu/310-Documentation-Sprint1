@@ -13,7 +13,7 @@ Scenario: Page number found
 	When I search for "pizza" and expect 5 results
 	And press "submit" button
 	Then I should see the page number
-#	
+	
 Scenario: "Next Page" button is working
 	When I search for "pizza" and expect 5 results
 	And press "submit" button

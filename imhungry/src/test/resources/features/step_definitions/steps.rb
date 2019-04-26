@@ -6,9 +6,9 @@ Given(/^I visit the website$/) do
   visit "localhost:9090"
 end
 
-When(/^I search for "([^"]*)" and expect 5 results$/) do |query|
+When(/^I search for "([^"]*)" and expect "([^"]*)" results$/) do |query, num|
     fill_in('search', :with => query)
-    fill_in('number', :with => 3)
+    fill_in('number', :with => num)
 end
 
 When(/^press "([^"]*)" button$/) do |buttonName|
@@ -34,14 +34,7 @@ end
 When(/^press the "([^"]*)"$/) do |elementName|
     find('#' + elementName).click
 end
-#
-# When(/^I press "Add to grocery" button$/) do
-#     page.find('.addToGrocery', match: :first).click
-# end
-#
-# When(/^I press "Display Grocery" bnutton$/) do
-#     page.find('#display_grocery', match: :first).click
-# end
+
 
 Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
     expect(page).to have_title pageTitle
@@ -123,25 +116,24 @@ Then(/^I should see the "Next Page" button$/) do
 end
 
 Then(/^I should see the page number$/) do
-   expect(page).to have_css(".page")
+   expect(page).to have_css(".pagination")
 end
 
 And(/^go to next page$/) do
-   page.first('.next').click
+  page.first('.pagination').find('.next').click
 end
 
 And(/^go to previous page$/) do
-   page.first('.prev').click
+  page.first('.pagination').find('.prev').click
 end
 
 Then(/^I should go to the next page$/) do
-   expect(page.first(:css, '.current')).to have_content("2")
+   expect(page.first('.pagination').find('.active')).to have_content("2")
 end
 
 Then(/^I should go back to the Previous Page$/) do
-   expect(page.first(:css, '.current')).to have_content("1")
+  expect(page.first('.pagination').find('.active')).to have_content("1")
 end
-
 
 
 Then(/^I should see the "Previous Page" button$/) do
@@ -181,12 +173,8 @@ Then(/^the radius input field exists$/) do
    expect(page.find("#format").find("#hover_format1")).to have_css("#radius");
 end
 
-Then(/^the radis input field should have default value 2000$/) do
-   expect(page.find("#format").find("#hover_format1")).to have_field("radius", :with => 2000);
-end
-
-And(/^change radius to 10000$/) do
-  fill_in('radius', :with => 10000)
+And(/^change radius to "([^"]*)"$/) do |radius|
+  fill_in('radius', :with => radius)
 end
 
 
@@ -235,4 +223,10 @@ Then(/^I should see the prior search term$/) do
    expect(page).to have_content("cat")
 end
 
+Then(/^the radius input field should have value "([^"]*)"/) do |radius|
+  expect(page).to have_field('radius', with: radius)
+end
 
+Then(/^there will be less results than the using default radius/) do
+  expect(page.first('.pagination')).to have_no_content("4")
+end
