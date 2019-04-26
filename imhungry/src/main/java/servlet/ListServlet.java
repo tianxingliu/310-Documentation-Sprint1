@@ -103,12 +103,14 @@ public class ListServlet extends HttpServlet
             }
             if(listName.equals("Quick Access")) {
 	        	String s = (String)reqListAndItem.body;
+	        	System.out.println(s);
 	        	s = s.replaceAll("\"", "");
 	        	String[] parts = s.split(",");
 	        	System.out.println(s);
 	        	s = parts[0];
 	        	int numResults = Integer.parseInt(parts[1]);
 	        	int radius = Integer.parseInt(parts[2]);
+	        	
 	        	
 	        	
 	        	List<History> historyList = (List<History>)session.getAttribute(listName);

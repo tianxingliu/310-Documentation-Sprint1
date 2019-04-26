@@ -39,7 +39,7 @@ public class ListServletTest {
 		Stream<String> stream = (Stream<String>)mock(Stream.class);
 		when(reader.lines()).thenReturn(stream);
 		when(request.getReader()).thenReturn(reader);
-		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"Quick Access\\\",\\\"body\\\":\\\"\\\\\\\"burger\\\\\\\"\\\"}\"}");
+		when(stream.collect(any())).thenReturn("{\"header\":\"addItem\",\"body\":\"{\\\"header\\\":\\\"Quick Access\\\",\\\"body\\\":\\\"\\\\\\\"burger,5,5\\\\\\\"\\\"}\"}");
 		when(request.getSession()).thenReturn(session);
 		
 		HttpServletResponse response = mock(HttpServletResponse.class);
