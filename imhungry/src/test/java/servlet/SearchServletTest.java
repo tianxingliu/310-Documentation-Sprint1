@@ -30,7 +30,6 @@ import info.RestaurantInfo;
 
 public class SearchServletTest {
 	
-	@Ignore
 	@Test
 	//doGet test 1
 	public void testServlet1() throws Exception {
@@ -53,7 +52,7 @@ public class SearchServletTest {
         assertTrue(stringWriter.toString().contains("Success"));
 	}
 	
-	@Ignore
+
 	@Test
 	//doGet test 2
 	public void testServlet2() throws Exception {
@@ -120,7 +119,7 @@ public class SearchServletTest {
 		assertEquals(1,rest.size());
 	}
 	
-	@Ignore
+
 	@Test
 	//getting the Restaurant arraylist API test with radius = 10000
 	public void getResInfoTest2() {
@@ -131,7 +130,7 @@ public class SearchServletTest {
 		assertEquals(10,rest.size());
 	}
 	
-	@Ignore
+
 	@Test
 	//getting the Recipe arraylist API test
 	public void getReciInfoTest() {
@@ -142,14 +141,15 @@ public class SearchServletTest {
 		assertEquals(1,rest.size());
 	}
 	
-	@Ignore
+
 	@Test
 	//Test for Backlog 8
 	public void differentRadiusTest() throws Exception {
 		SearchServlet servlet = new SearchServlet();
-		ArrayList<RestaurantInfo> rest1 = servlet.restaurantSearch("fish", 10, 1, new ArrayList<Info>(), new ArrayList<Info>());
-		ArrayList<RestaurantInfo> rest2 = servlet.restaurantSearch("fish", 10, 5, new ArrayList<Info>(), new ArrayList<Info>());
+		ArrayList<RestaurantInfo> rest1 = servlet.restaurantSearch("cat", 8, 1, new ArrayList<Info>(), new ArrayList<Info>());
+		ArrayList<RestaurantInfo> rest2 = servlet.restaurantSearch("cat", 8, 10, new ArrayList<Info>(), new ArrayList<Info>());
         System.out.println(rest1.size());
+        System.out.println(rest2.size());
 		assert(rest1.size() < rest2.size());
 	}
 	

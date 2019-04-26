@@ -24,7 +24,6 @@ public class GroceryDataManagerTest {
 		assert(list.size() >= 0);
 	}
 	
-	@Ignore
 	@Test
 	public void removeFromListTest() throws SQLException {
 		GroceryDataManager gd = new GroceryDataManager("nero");

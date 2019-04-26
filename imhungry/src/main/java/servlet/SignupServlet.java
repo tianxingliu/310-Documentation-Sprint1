@@ -70,7 +70,7 @@ public class SignupServlet extends HttpServlet {
     	  if (pw2.equals(""))
     	  {
     	   next = "/signup.jsp";
-    	   request.setAttribute("ierror", "No ImageURL Entered");
+    	   request.setAttribute("perror", "No Password Entered");
     	   //System.out.println("P empty");
     	  }
     	  }
