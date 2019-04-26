@@ -9,6 +9,7 @@ import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
 import database_manager.HistoryDataManager;
+import database_manager.OrderDataManager;
 import info.Info;
 import info.RecipeInfo;
 import info.RestaurantInfo;
@@ -54,7 +55,7 @@ public class ListServlet extends HttpServlet
         }
         if(listName.equals("Quick Access")) {
         	HistoryDataManager historyDB = new HistoryDataManager(username);
-        	ArrayList<History> quickAccessList = new ArrayList<History>();
+        	ArrayList<History> quickAccessList;
         	if(session.getAttribute("Quick Access") == null) { //the first time we set this list
         		//load quickAccessList from database
     			quickAccessList = historyDB.loadHistory();
@@ -111,13 +112,11 @@ public class ListServlet extends HttpServlet
 	        	int numResults = Integer.parseInt(parts[1]);
 	        	int radius = Integer.parseInt(parts[2]);
 	        	
-	        	
-	        	
 	        	List<History> historyList = (List<History>)session.getAttribute(listName);
 	        	//Prevent adding the search term to list
 	        	List<String> checkList = new ArrayList<String>();
 	        	//System.out.println(historyList.size());
-	        	for(int i = 0;i<historyList.size();i++) {
+	        	for(int i = 0;i < historyList.size();i++) {
 	        		checkList.add(historyList.get(i).query);
 	        	}
 	        	//If the item is not in the list or the list is empty
@@ -161,7 +160,6 @@ public class ListServlet extends HttpServlet
             
             //Either move the item up or down
             if(reqMessage.header.equals("moveUp") || reqMessage.header.equals("moveDown")) {
-            	//TODO: Add connection to database
             	List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
             	String curr = ((String)reqListAndItem.body);
             	int currOrder = Integer.parseInt(curr); //the current order of the selected item
@@ -183,7 +181,7 @@ public class ListServlet extends HttpServlet
             	}
             	int currIndexInList = 0; 
             	int toSwapIndexInList = 0;
-            	for(int i = 0;i<list.size();i++) {
+            	for(int i = 0;i < list.size();i++) {
             		if(list.get(i).order == currOrder) {
             			currIndexInList = i;
             		}
@@ -198,6 +196,9 @@ public class ListServlet extends HttpServlet
             	list.get(toSwapIndexInList).order = currOrder;
             	System.out.println("After: " + list.get(currIndexInList).name + ": " + list.get(currIndexInList).order);
             	System.out.println("After: " + list.get(toSwapIndexInList).name + ": " + list.get(toSwapIndexInList).order);
+            	OrderDataManager odm = new OrderDataManager(username);
+            	odm.setOrder(list.get(currIndexInList));
+            	odm.setOrder(list.get(toSwapIndexInList));
             	respWriter.println(gson.toJson(new Message("Success")));
             	return;
             }

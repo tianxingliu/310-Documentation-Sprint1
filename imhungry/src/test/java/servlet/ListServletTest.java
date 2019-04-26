@@ -32,6 +32,7 @@ public class ListServletTest {
 	//doPost test: add a search query to Quick Access list
 	public void doPostTest1() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("Quick Access")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -55,6 +56,7 @@ public class ListServletTest {
 	//doPost test: add a restaurant to a list
 	public void doPostTest2a() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -78,6 +80,7 @@ public class ListServletTest {
 	//doPost test: add a restaurant to another list
 	public void doPostTest2b() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -101,6 +104,7 @@ public class ListServletTest {
 	//doPost test: add a restaurant to all lists part 1
 	public void doPostTest2c1() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -124,6 +128,7 @@ public class ListServletTest {
 	//doPost test: add a restaurant to all lists part 2
 	public void doPostTest2c2() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -147,6 +152,7 @@ public class ListServletTest {
 	//doPost test: add a restaurant to all lists part 3
 	public void doPostTest2c3() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("Favorites")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -170,6 +176,7 @@ public class ListServletTest {
 	//doPost test: add a recipe to a list
 	public void doPostTest3a() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -193,6 +200,7 @@ public class ListServletTest {
 	//doPost test: add a recipe to another list
 	public void doPostTest3b() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("Favorites")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -216,6 +224,7 @@ public class ListServletTest {
 	//doPost test: add a recipe to all lists part 1
 	public void doPostTest3c1() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("Favorites")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -239,6 +248,7 @@ public class ListServletTest {
 	//doPost test: add a recipe to all lists part 2
 	public void doPostTest3c2() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -262,6 +272,7 @@ public class ListServletTest {
 	//doPost test: add a recipe to all lists part 3
 	public void doPostTest3c3() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -285,6 +296,7 @@ public class ListServletTest {
 	//doPost test: add to grocery
 	public void doPostTest4() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("Grocery")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -308,6 +320,7 @@ public class ListServletTest {
 	//doPost test: remove a recipe from a list
 	public void doPostTest5a() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -331,6 +344,7 @@ public class ListServletTest {
 	//doPost test: remove a recipe from another list
 	public void doPostTest5b() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("Favorites")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -354,6 +368,7 @@ public class ListServletTest {
 	//doPost test: remove a restaurant from a list
 	public void doPostTest6a() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("Do Not Show")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -377,6 +392,7 @@ public class ListServletTest {
 	//doPost test: remove a restaurant from another list
 	public void doPostTest6b() throws IOException, ServletException {
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(session.getAttribute("To Explore")).thenReturn((List<Info>)new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
@@ -402,8 +418,11 @@ public class ListServletTest {
 		ListServlet servlet = new ListServlet();
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
+		
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(request.getSession()).thenReturn(session);
+		
 		List<Info> list = new ArrayList<Info>();
 		when(request.getParameter("list")).thenReturn("wrongList");
 		when(request.getSession().getAttribute("Favorites")).thenReturn(list);
@@ -425,8 +444,11 @@ public class ListServletTest {
 		ListServlet servlet = new ListServlet();
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
+		
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(request.getSession()).thenReturn(session);
+		
 		List<Info> list = new ArrayList<Info>();
 		when(request.getParameter("list")).thenReturn("");
 		when(request.getSession().getAttribute("Favorites")).thenReturn(list);
@@ -448,8 +470,11 @@ public class ListServletTest {
 		ListServlet servlet = new ListServlet();
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
+		
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(request.getSession()).thenReturn(session);
+		
 		List<Info> listAc = new ArrayList<Info>();
 		List<Info> list = new ArrayList<Info>();
 		RestaurantInfo ri = new RestaurantInfo("string", 767812, "string", "string", 0, "string", 0, "string", "string");
@@ -479,8 +504,11 @@ public class ListServletTest {
 		ListServlet servlet = new ListServlet();
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
+		
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(request.getSession()).thenReturn(session);
+		
 		List<Info> listAc = new ArrayList<Info>();
 		List<Info> list = new ArrayList<Info>();
 		RestaurantInfo ri = new RestaurantInfo("string", 244, "string", "string", 0, "string", 0, "string", "github.com");
@@ -512,8 +540,11 @@ public class ListServletTest {
 		ListServlet servlet = new ListServlet();
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
+		
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(request.getSession()).thenReturn(session);
+		
 		List<Info> listAc = new ArrayList<Info>();
 		List<Info> list = new ArrayList<Info>();
 		RestaurantInfo ri = new RestaurantInfo("string", 20, "string", "string", 0, "string", 0, "string", "google.com");
@@ -545,8 +576,11 @@ public class ListServletTest {
 		ListServlet servlet = new ListServlet();
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
+		
 		HttpSession session = mock(HttpSession.class);
+		when(session.getAttribute("username")).thenReturn("nero");
 		when(request.getSession()).thenReturn(session);
+		
 		List<History> listAc = new ArrayList<History>();
 		List<Info> list = new ArrayList<Info>();
 		listAc.add(new History("chicken", 1, 2000));
