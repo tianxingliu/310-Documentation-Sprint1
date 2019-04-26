@@ -181,6 +181,13 @@ div#signup.signupform
 	border: 5px solid lightyellow;
 }
 
+#quickAccess2 A:hover
+{
+	font-family: 'Roboto', sans-serif;
+	background-color: black;
+	border: 5px solid lightyellow;
+}
+
 A
 {
 	font-family: 'Roboto', sans-serif;
