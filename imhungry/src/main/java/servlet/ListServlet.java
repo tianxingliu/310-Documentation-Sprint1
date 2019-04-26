@@ -106,7 +106,7 @@ public class ListServlet extends HttpServlet
 	        	List<History> historyList = (List<History>)session.getAttribute(listName);
 	        	//Prevent adding the search term to list
 	        	List<String> checkList = new ArrayList<String>();
-	        	System.out.println(historyList.size());
+	        	//System.out.println(historyList.size());
 	        	for(int i = 0;i<historyList.size();i++) {
 	        		checkList.add(historyList.get(i).query);
 	        	}
