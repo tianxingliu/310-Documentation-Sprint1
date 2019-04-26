@@ -15,7 +15,7 @@ public class SearchResultTest {
 	//testing with a random string
 	public void twoParamInstantiation1() { 
 		List<List<Info>> results = new ArrayList<List<Info>>();
-		List<String> imageURLs = new ArrayList<String>();
+		ArrayList<ArrayList<String>> imageURLs = new ArrayList<ArrayList<String>>();
 		SearchResult sr = new SearchResult(results,imageURLs);
 		assertEquals(results,sr.results);
 		assertEquals(imageURLs,sr.imageURLs);

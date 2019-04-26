@@ -15,12 +15,9 @@ var list = getList("Quick Access").body;
     	collage.setAttribute("class", "miniCollage");
     	
     	
-    	var xhttp = new XMLHttpRequest();
-    	console.log(list[i]);
-        xhttp.open("GET", "/Search?search=" + list[i] + "&number=" + 5 + "&radius=" + 5, false);
-        xhttp.send();
-        var response = JSON.parse(xhttp.response);
-        var searchTermURL = response.body.imageURLs;
+
+        var searchTermURL = urlMap[i];
+        console.log(searchTermURL);
         
 	    for(let j = 0; j < searchTermURL.length; j++) {
 	        //Create a div to hold this image
