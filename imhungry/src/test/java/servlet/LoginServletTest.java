@@ -27,11 +27,15 @@ public class LoginServletTest {
 	//correct user test
 	public void testServlet1() throws Exception {
 		ServletConfig sg = mock(ServletConfig.class);
+		HttpSession session = mock(HttpSession.class);
+		when(session.isNew()).thenReturn(true);
+		when(session.getAttribute(any())).thenReturn(null);
 
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         when(request.getParameter("username")).thenReturn("nero");
         when(request.getParameter("pw")).thenReturn("domusaurea");
         when(request.getParameter("logoutformSIGNAL")).thenReturn("");
+        when(request.getSession(true)).thenReturn(session);
         Mockito.doNothing().when(request).setAttribute(any(), any());
 
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -56,11 +60,16 @@ public class LoginServletTest {
 	//wrong user test
 	public void testServlet2() throws Exception {
 		ServletConfig sg = mock(ServletConfig.class);
+		HttpSession session = mock(HttpSession.class);
+		when(session.isNew()).thenReturn(true);
+		when(session.getAttribute(any())).thenReturn(null);
+		Mockito.doNothing().when(session).setAttribute(any(), any());
 
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         when(request.getParameter("username")).thenReturn("julius");
         when(request.getParameter("pw")).thenReturn("domusaurea");
         when(request.getParameter("logoutformSIGNAL")).thenReturn("");
+        when(request.getSession(true)).thenReturn(session);
         Mockito.doNothing().when(request).setAttribute(any(), any());
 
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -85,11 +94,16 @@ public class LoginServletTest {
 	//empty user test
 	public void testServlet3() throws Exception {
 		ServletConfig sg = mock(ServletConfig.class);
+		HttpSession session = mock(HttpSession.class);
+		when(session.isNew()).thenReturn(true);
+		when(session.getAttribute(any())).thenReturn(null);
+		Mockito.doNothing().when(session).setAttribute(any(), any());
 
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         when(request.getParameter("username")).thenReturn("");
         when(request.getParameter("pw")).thenReturn("domusaurea");
         when(request.getParameter("logoutformSIGNAL")).thenReturn("");
+        when(request.getSession(true)).thenReturn(session);
         Mockito.doNothing().when(request).setAttribute(any(), any());
 
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -114,11 +128,16 @@ public class LoginServletTest {
 	//empty password test
 	public void testServlet4() throws Exception {
 		ServletConfig sg = mock(ServletConfig.class);
+		HttpSession session = mock(HttpSession.class);
+		when(session.isNew()).thenReturn(true);
+		when(session.getAttribute(any())).thenReturn(null);
+		Mockito.doNothing().when(session).setAttribute(any(), any());
 
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         when(request.getParameter("username")).thenReturn("nero");
         when(request.getParameter("pw")).thenReturn("");
         when(request.getParameter("logoutformSIGNAL")).thenReturn("");
+        when(request.getSession(true)).thenReturn(session);
         Mockito.doNothing().when(request).setAttribute(any(), any());
 
         HttpServletResponse response = mock(HttpServletResponse.class);
