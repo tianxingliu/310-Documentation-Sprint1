@@ -42,7 +42,7 @@ public class ListServlet extends HttpServlet
         HttpSession session = request.getSession();
         String listName = request.getParameter("list"); //See what list was requested
         
-        String username = "nero";  //TODO: get username
+        String username = (String)session.getAttribute("username");
         
         PrintWriter respWriter = response.getWriter();
         Gson gson = new Gson();
@@ -82,7 +82,7 @@ public class ListServlet extends HttpServlet
     {
         HttpSession session = request.getSession();
         
-        String username = "nero";  //TODO: get username
+        String username = (String)session.getAttribute("username"); 
         
         String reqBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator())); //Java 8 magic to collect all lines from a BufferedReadder, in this case the request.
         Gson gson = new Gson();
@@ -102,6 +102,10 @@ public class ListServlet extends HttpServlet
 	        	System.out.println(s);
 	        	s = s.replaceAll("\"", "");
 	        	String[] parts = s.split(",");
+	        	if(parts[1].equals("cache") || parts[2].equals("cache")) {
+	        		respWriter.println(gson.toJson(new Message("Returned from other pages "+listName)));
+		        	return;
+	        	}
 	        	System.out.println(s);
 	        	s = parts[0];
 	        	int numResults = Integer.parseInt(parts[1]);

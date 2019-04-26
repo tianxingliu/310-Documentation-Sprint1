@@ -34,13 +34,22 @@ public class LoginServlet extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession(true);
+		if(session.isNew() || session.getAttribute("username") == null) {
+			session.setAttribute("username", "");
+		}
+		
 		String logoutformSIGNAL = "";
 		logoutformSIGNAL = request.getParameter("logoutformSIGNAL");
 		if (logoutformSIGNAL.equals("logoutformSIGNAL"))
 		{
+			session.setAttribute("username", "");
 			String next = "/searchPage.jsp";
-			HttpSession session=request.getSession(true);
 	        session.setAttribute("log","logout");
+	        session.setAttribute("Favorites", null);
+			session.setAttribute("To Explore", null);
+			session.setAttribute("Do Not Show", null);
+			session.setAttribute("Grocery", null);
 			RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
 			dispatch.forward(request, response);
 			return;
@@ -52,10 +61,12 @@ public class LoginServlet extends HttpServlet {
 		pw = pw.trim();
 		if (username.equals("") || pw.equals("")) {
 			if (username.equals("")) {
+				session.setAttribute("username", "");
 				next = "/login.jsp";
 				request.setAttribute("uerror", "No Username Entered");
 			}
 			if (pw.equals("")) {
+				session.setAttribute("username", "");
 				next = "/login.jsp";
 				request.setAttribute("perror", "No Password Entered");
 			}
@@ -64,14 +75,15 @@ public class LoginServlet extends HttpServlet {
 			
 			int check = userDB.checkPassword(username,pw);
 			if (check != 1) {
+				session.setAttribute("username", "");
 				next = "/login.jsp";
 				request.setAttribute("uerror", "Username or Password wrong");
 				request.setAttribute("perror", "Username or Password wrong");
 			} else {
 				next = "/searchPage.jsp"; //successfully login
 				response.setContentType("text/html"); // what's this for?
-				HttpSession session=request.getSession(true);
 		        session.setAttribute("log","login");
+		        session.setAttribute("username", username);
 			}
 		}
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
