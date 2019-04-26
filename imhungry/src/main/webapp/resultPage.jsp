@@ -38,7 +38,6 @@ right: 350px;
 </style>
 </head>
 <body>
-	<div class = "quickAccessArea"></div>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	<form action="listPage.jsp">
@@ -75,11 +74,6 @@ right: 350px;
 	<div id="quickAccess">
 		<div id = "quickAccess1"></div>
 		<div id = "quickAccess2"></div>
-		<div id = "quickAccess3"></div>
-		<div id = "quickAccess4"></div>
-		<div id = "quickAccess5"></div>
-		<div id = "quickAccess6"></div>
-		<div id = "quickAccess7"></div>
 	</div>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="js/jquery.easyPaginate.js"></script>
