@@ -23,13 +23,18 @@ import info.RestaurantInfo;
 
 public class SearchServletTest {
 	
-	@Ignore
+
 	@Test
 	//doGet test 1
 	public void testServlet1() throws Exception {
 		HttpSession session = mock(HttpSession.class);
 		when(session.isNew()).thenReturn(false);
-		when(session.getAttribute(any(String.class))).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("username")).thenReturn("nero");
+		when(session.getAttribute("Favorites")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("To Explore")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Do Not Show")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Grocery")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Quick Access")).thenReturn(new ArrayList<Info>());
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -46,13 +51,18 @@ public class SearchServletTest {
         assertTrue(stringWriter.toString().contains("Success"));
 	}
 	
-	@Ignore
+
 	@Test
 	//doGet test 2
 	public void testServlet2() throws Exception {
 		HttpSession session = mock(HttpSession.class);
 		when(session.isNew()).thenReturn(false);
-		when(session.getAttribute(any(String.class))).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("username")).thenReturn("nero");
+		when(session.getAttribute("Favorites")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("To Explore")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Do Not Show")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Grocery")).thenReturn(new ArrayList<Info>());
+		when(session.getAttribute("Quick Access")).thenReturn(new ArrayList<Info>());
 		
 		//perform search
 		HttpServletRequest request = mock(HttpServletRequest.class);       
@@ -113,7 +123,7 @@ public class SearchServletTest {
 		assertEquals(1,rest.size());
 	}
 	
-	@Ignore
+
 	@Test
 	//getting the Restaurant arraylist API test with radius = 10000
 	public void getResInfoTest2() {
@@ -124,7 +134,7 @@ public class SearchServletTest {
 		assertEquals(10,rest.size());
 	}
 	
-	@Ignore
+
 	@Test
 	//getting the Recipe arraylist API test
 	public void getReciInfoTest() {
@@ -135,7 +145,7 @@ public class SearchServletTest {
 		assertEquals(1,rest.size());
 	}
 	
-	@Ignore
+
 	@Test
 	//Test for Backlog 8
 	public void differentRadiusTest() throws Exception {
