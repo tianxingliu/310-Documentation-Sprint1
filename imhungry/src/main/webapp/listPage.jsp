@@ -9,6 +9,21 @@
 		<link rel="stylesheet" type="text/css" href="css/listPage.css" />
 	</head>
 	<body>
+	<script>
+		//login check
+		var check = "<%=session.getAttribute("log")%>"
+		if (check != "login")
+	    {
+	    	//console.log("JJ");
+			location.href='login.jsp';
+	    }
+		</script>
+	<div id = "log">
+		<input type= "button" onclick="logoutfunc()" id = "buttonlogin" value="Logout" />
+	</div>
+	<form name = "fakeform" action = "LoginServlet" method = "POST" id = "logoutForm">
+			<input type = "text" id = "login3" name = "logoutformSIGNAL" value = "logoutformSIGNAL">
+		</form>
 		<form action="listPage.jsp" method="GET">
 			<div class="dropDown">
 				<select id = "dropdown" name="list">
@@ -228,6 +243,12 @@
                     localStorage.setItem("listItem", JSON.stringify(list[i]));
                 }
             }
+			
+			function logoutfunc()
+		    {
+		    	location.href='searchPage.jsp';
+		    	document.getElementById('logoutForm').submit();
+		    }
 		</script>
 	</body>
 </html>

@@ -35,6 +35,17 @@ public class LoginServlet extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String logoutformSIGNAL = "";
+		logoutformSIGNAL = request.getParameter("logoutformSIGNAL");
+		if (logoutformSIGNAL.equals("logoutformSIGNAL"))
+		{
+			String next = "/searchPage.jsp";
+			HttpSession session=request.getSession(true);
+	        session.setAttribute("log","logout");
+			RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
+			dispatch.forward(request, response);
+			return;
+		}
 		String next = "";
 		String username = request.getParameter("username");
 		String pw = request.getParameter("pw");
@@ -60,6 +71,8 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				next = "/searchPage.jsp"; //successfully login
 				response.setContentType("text/html"); // what's this for?
+				HttpSession session=request.getSession(true);
+		        session.setAttribute("log","login");
 			}
 		}
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);

@@ -11,7 +11,7 @@
 <body>
 <div id = "header">I'm Hungry </div>
 <div class = "b">
-	<form name = "myform" action = "SignupServlet" method = "GET">
+	<form name = "myform" action = "SignupServlet" method = "POST">
 			<div class = "signupform" id ="signup" >
 			Username<br><input type = "text" id ="signup1" name = "username" value =${param.username!=null? param.username : ''}> 
 			<span style="color: red;font-weight:bold">${uerror!=null? uerror : ''}</span><br />
