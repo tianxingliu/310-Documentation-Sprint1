@@ -65,7 +65,9 @@ public class UserDataManager extends DataManager {
 					return 0;
 				}else {
 					return 2;
-			}
+			}else{return 0;
+		
+				}
 
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
