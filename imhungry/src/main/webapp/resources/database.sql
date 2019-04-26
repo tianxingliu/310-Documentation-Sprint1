@@ -7,7 +7,7 @@ CREATE TABLE Users(
     Password VARCHAR(500) NOT NULL
 );
 
-INSERT INTO Users VALUES('nero', 'domusaurea');
+INSERT INTO Users VALUES('nero', 'b2b9beb8a18c9a04ea2ef4aa48087eb035fab13b7c6e87c63da7f333777cf437');
 
 CREATE TABLE Restaurants (
     RestaurantID INT(11) PRIMARY KEY AUTO_INCREMENT,
@@ -24,6 +24,7 @@ CREATE TABLE Restaurants (
     InDoNotShow INT(2) NOT NULL,
     InToExplore INT(2) NOT NULL,
     User VARCHAR(50) NOT NULL,
+    Seq INT(11),
     FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
 );
 
@@ -41,6 +42,7 @@ CREATE TABLE Recipes(
     InDoNotShow INT(2) NOT NULL,
     InToExplore INT(2) NOT NULL,
     User VARCHAR(50) NOT NULL,
+    Seq INT(11),
     FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
 );
 

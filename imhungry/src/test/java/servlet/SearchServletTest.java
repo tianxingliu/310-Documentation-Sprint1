@@ -5,24 +5,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.junit.Ignore;
 import org.junit.Test;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import info.Info;
 import info.RecipeInfo;
@@ -147,9 +140,8 @@ public class SearchServletTest {
 	//Test for Backlog 8
 	public void differentRadiusTest() throws Exception {
 		SearchServlet servlet = new SearchServlet();
-		ArrayList<RestaurantInfo> rest1 = servlet.restaurantSearch("fish", 10, 1, new ArrayList<Info>(), new ArrayList<Info>());
-		ArrayList<RestaurantInfo> rest2 = servlet.restaurantSearch("fish", 10, 5, new ArrayList<Info>(), new ArrayList<Info>());
-        System.out.println(rest1.size());
+		ArrayList<RestaurantInfo> rest1 = servlet.restaurantSearch("cat", 8, 1, new ArrayList<Info>(), new ArrayList<Info>());
+		ArrayList<RestaurantInfo> rest2 = servlet.restaurantSearch("cat", 8, 10, new ArrayList<Info>(), new ArrayList<Info>());
 		assert(rest1.size() < rest2.size());
 	}
 	

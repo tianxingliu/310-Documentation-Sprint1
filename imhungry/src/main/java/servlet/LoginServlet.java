@@ -12,16 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-
-import database_manager.GroceryDataManager;
-import database_manager.RecipeDataManager;
-import database_manager.RestaurantDataManager;
-import database_manager.HistoryDataManager;
 import database_manager.UserDataManager;
-import info.*;
-
-
 
 
 
@@ -43,12 +34,22 @@ public class LoginServlet extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String logoutformSIGNAL = "";
+		logoutformSIGNAL = request.getParameter("logoutformSIGNAL");
+		if (logoutformSIGNAL.equals("logoutformSIGNAL"))
+		{
+			String next = "/searchPage.jsp";
+			HttpSession session=request.getSession(true);
+	        session.setAttribute("log","logout");
+			RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
+			dispatch.forward(request, response);
+			return;
+		}
 		String next = "";
 		String username = request.getParameter("username");
 		String pw = request.getParameter("pw");
 		username = username.trim();
 		pw = pw.trim();
-		String url = "";
 		if (username.equals("") || pw.equals("")) {
 			if (username.equals("")) {
 				next = "/login.jsp";
@@ -62,14 +63,15 @@ public class LoginServlet extends HttpServlet {
 			UserDataManager userDB = new UserDataManager(username);
 			
 			int check = userDB.checkPassword(username,pw);
-			System.out.println(check);
 			if (check != 1) {
 				next = "/login.jsp";
 				request.setAttribute("uerror", "Username or Password wrong");
 				request.setAttribute("perror", "Username or Password wrong");
 			} else {
-				next = "/searchPage.jsp"; //successfuly login
+				next = "/searchPage.jsp"; //successfully login
 				response.setContentType("text/html"); // what's this for?
+				HttpSession session=request.getSession(true);
+		        session.setAttribute("log","login");
 			}
 		}
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);

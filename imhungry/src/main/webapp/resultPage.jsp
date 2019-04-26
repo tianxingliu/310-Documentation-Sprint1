@@ -19,12 +19,27 @@
 
 .pagination{
 	position: absolute;
-	top: 360px;
+	top: 320px;
 	left: 30%;
 }
 </style>
 </head>
 <body>
+<script>
+		//login check
+		var check = "<%=session.getAttribute("log")%>"
+		if (check != "login")
+	    {
+	    	//console.log("JJ");
+			location.href='login.jsp';
+	    }
+		</script>
+<div id = "log">
+		<input type= "button" onclick="logoutfunc()" id = "buttonlogin" value="Logout" />
+	</div>
+	<form name = "fakeform" action = "LoginServlet" method = "POST" id = "logoutForm">
+			<input type = "text" id = "login3" name = "logoutformSIGNAL" value = "logoutformSIGNAL">
+		</form>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	<form action="listPage.jsp">
@@ -225,6 +240,64 @@
 		                /* if(decimalPart != 0 && page = pageNum && counter == decimalPart)
 		                	break; */
 		            }
+		            
+		            //create empty items for the last page
+		            if(page == pageNum && decimalPart != 0){
+		            	
+		            	var newCount = 3 - decimalPart;
+		            	
+		            	for(let k = 0; k < newCount; k++){
+		            	
+			                //Create each sub section for the entry and populate it with data and attributes
+			                let sec1 = document.createElement("div");
+			                sec1.setAttribute("class", "Res_section1");
+			                sec1.setAttribute("visibility", "hidden");
+			                
+	
+			                let sec2 = document.createElement("div");
+			                sec2.setAttribute("class", "Res_section2");
+			                sec2.setAttribute("visibility", "hidden");
+			                
+	
+			                let divider = document.createElement("div");
+			                divider.setAttribute("class", "divider");
+			                divider.setAttribute("visibility", "hidden");
+	
+			                let sec3 = document.createElement("div");
+			                sec3.setAttribute("class", "Res_section3");
+			                sec3.setAttribute("visibility", "hidden");
+			                
+	
+			                let sec4 = document.createElement("div");
+			                sec4.setAttribute("class", "Res_section4");
+			                sec4.setAttribute("visibility", "hidden");
+			                
+	
+			                let sec5 = document.createElement("div");
+			                sec5.setAttribute("class", "Res_section5");
+			                sec5.setAttribute("visibility", "hidden");
+			                
+	
+			                //Create the actual entry element and set the previous subsections to be its children
+			                let res = document.createElement("div");
+			                res.setAttribute("class","item");
+			                res.style.visibility = "hidden";
+			                
+			          
+			                res.appendChild(sec1);
+			                res.appendChild(sec2);
+			                res.appendChild(divider);
+			                res.appendChild(sec3);
+			                res.appendChild(sec4);
+			                res.appendChild(sec5);
+	
+			                //Add the entry to the proper place on the page
+			                col1.appendChild(res);
+		            	}
+		            	
+		            }
+		            
+		            
 	            }
 	        }).on('page', function (event, page) {
 	            console.info(page + ' (from event listening)');
@@ -250,7 +323,7 @@
                 var pageNum = Math.ceil(results[1].length/3);
 	          	
 	          	var integerPart = 3;
-	          	//var decimalPart = results[1].length % 3;
+	          	var decimalPart = results[1].length % 3;
 	          	var counter2 = 0;
 	          	
 	          	if(counter2 == 0){
@@ -317,7 +390,57 @@
 		            		break;
 	                    }
 	            }
-            }
+	            
+        //create empty items for the last page
+        if(page == pageNum && decimalPart != 0){
+        	
+        	var newCount = 3 - decimalPart;
+        	
+        	for(let k = 0; k < newCount; k++){
+        	
+                //Create each sub section for the entry and populate it with data and attributes
+                let sec1 = document.createElement("div");
+                sec1.setAttribute("class", "Res_section1");
+                sec1.setAttribute("visibility", "hidden");
+                
+
+                let sec2 = document.createElement("div");
+                sec2.setAttribute("class", "Res_section2");
+                sec2.setAttribute("visibility", "hidden");
+                
+
+                let divider = document.createElement("div");
+                divider.setAttribute("class", "divider");
+                divider.setAttribute("visibility", "hidden");
+
+                let sec3 = document.createElement("div");
+                sec3.setAttribute("class", "Res_section3");
+                sec3.setAttribute("visibility", "hidden");
+                
+
+                let sec4 = document.createElement("div");
+                sec4.setAttribute("class", "Res_section4");
+                sec4.setAttribute("visibility", "hidden");
+                
+
+                //Create the actual entry element and set the previous subsections to be its children
+                let res = document.createElement("div");
+                res.setAttribute("class","item");
+                res.style.visibility = "hidden";
+                
+          
+                res.appendChild(sec1);
+                res.appendChild(sec2);
+                res.appendChild(divider);
+                res.appendChild(sec3);
+                res.appendChild(sec4);
+
+                //Add the entry to the proper place on the page
+                col2.appendChild(res);
+        	}
+        }
+        	
+        }
         }).on('page', function (event, page) {
             console.info(page + ' (from event listening)');
             
@@ -327,7 +450,11 @@
 	
 	
 	
-	
+    function logoutfunc()
+    {
+    	location.href='searchPage.jsp';
+    	document.getElementById('logoutForm').submit();
+    }
 	
 	</script>
 	<script src="js/quickAccess.js"></script>

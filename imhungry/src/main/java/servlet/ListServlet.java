@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
@@ -24,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
@@ -32,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @WebServlet(name = "ListServlet", urlPatterns = "/Lists")
 public class ListServlet extends HttpServlet
@@ -78,7 +75,6 @@ public class ListServlet extends HttpServlet
     	List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
         respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
         respWriter.close();
-	        
     }
 
     //POST method used to add and remove items from a list
@@ -244,12 +240,19 @@ public class ListServlet extends HttpServlet
                     }
                     else {
                     	if(!list.contains(item)) {
-                    		item.order = list.size(); //New added item should have the highest order(displayed at the very end)
+                    		int maxOrder = 0;
+                    		for(int i = 0; i < list.size(); i++) {
+                    			int currentOrder = list.get(i).order;
+                    			if(currentOrder > maxOrder) maxOrder = currentOrder;
+                    		}
+                    		item.order = maxOrder + 1;
                     		list.add(item);
+                    		
                     		System.out.println("Current order in list: ");
                             for(int i = 0;i<list.size();i++) {
                             	System.out.println(list.get(i).name + ", " + list.get(i).order);
                             }
+                            
                     		int listToAdd = 1;
                     		if(listName.equals("Favorites")) listToAdd = 1;
                     		else if(listName.equals("Do Not Show")) listToAdd = 2;

@@ -23,6 +23,24 @@ div#signup.signupform
 	left:43%;
 }
 
+#nlog
+{
+	font-family: 'Roboto', sans-serif;
+	color: white;
+	position:absolute;
+	top:2%;
+	left:2%;
+}
+
+#log
+{
+	font-family: 'Roboto', sans-serif;
+	color: white;
+	position:absolute;
+	top:2%;
+	left:2%;
+}
+
 #buttonlogin {
     background-color: lightblue;
     -moz-border-radius: 5px;
@@ -140,7 +158,7 @@ div#signup.signupform
 #quickAccess
 {
 	font-family: 'Roboto', sans-serif;
-	background-color: lightgreen;
+	background-color: #00ecda;
 	border: 5px solid lightblue;
 	position:absolute;
 	left:70%;
@@ -187,4 +205,12 @@ A
    	right:5vw;
    	top:calc(21vh  - 3rem);
    	background-color:#ffc1ab;
+}
+
+#login3
+{
+	visibility:hidden;
+	position:absolute;
+	top:90%;
+	left:90%;
 }

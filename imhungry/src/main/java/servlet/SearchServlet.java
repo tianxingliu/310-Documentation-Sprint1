@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,7 +21,6 @@ import com.google.gson.JsonParser;
 import database_manager.GroceryDataManager;
 import database_manager.RecipeDataManager;
 import database_manager.RestaurantDataManager;
-import database_manager.HistoryDataManager;
 import info.*;
 
 import info.History;
@@ -30,12 +28,9 @@ import message.Message;
 import message.SearchResult;
 
 import java.net.*;
-import java.io.Reader.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 /**
  * Servlet implementation class SearchResult
  */
@@ -126,7 +121,6 @@ public class SearchServlet extends HttpServlet {
         
         //A Hash-map to store all the urls from the quick access list
         ArrayList<ArrayList<String>> urlMaps = new ArrayList<ArrayList<String>>();
-        
         
         List<History> historyList = (List<History>)session.getAttribute("Quick Access");
         
@@ -375,8 +369,13 @@ public class SearchServlet extends HttpServlet {
 				+ "&num=" + IMAGE_COLLAGE_NUM + "&cx=" + GOOGLE_CX_ENGINE + "&q=food%20" + query.replaceAll("\\s+","%20")
 				+ "&alt=json&searchType=image";
 		//extract relevant of the JSON response
-		JsonArray imagesJSON = new JsonParser().parse(getJSONResponse(imageSearchURL)).getAsJsonObject()
-				.get("items").getAsJsonArray();
+		JsonArray imagesJSON;
+		try {
+			imagesJSON = new JsonParser().parse(getJSONResponse(imageSearchURL)).getAsJsonObject()
+					.get("items").getAsJsonArray();
+		} catch(Exception e) {
+			return images;
+		}
 		//store URL of this image to the list
 		for(int i = 0; i < imagesJSON.size(); i++) {
 			images.add(imagesJSON.get(i).getAsJsonObject().get("link").getAsString());
