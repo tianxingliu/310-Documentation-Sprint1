@@ -2,7 +2,7 @@ Feature: List Management Page
 
 Background:
 
-	Given I visit the website
+	Given I visit the website and database is empty
 
 
 Scenario: Radius input field exists
