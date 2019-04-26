@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import info.GroceryInfo;
@@ -23,6 +24,7 @@ public class GroceryDataManagerTest {
 		assert(list.size() >= 0);
 	}
 	
+	@Ignore
 	@Test
 	public void removeFromListTest() throws SQLException {
 		GroceryDataManager gd = new GroceryDataManager("nero");

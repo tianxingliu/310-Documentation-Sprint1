@@ -10,6 +10,12 @@
 <title>Search Page</title>
 </head>
 <body>
+		<!--Jump to Grocery Page  -->
+	<form action="grocery.jsp">
+		<input type="submit" id = "display_grocery" value="Display Grocery" />
+	</form>
+
+	
 	<div id = "header">I'm Hungry </div>
 	<div id = "format">
 		<form action = "resultPage.jsp" method = "GET">

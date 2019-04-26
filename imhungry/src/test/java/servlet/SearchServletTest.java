@@ -78,18 +78,10 @@ public class SearchServletTest {
 	}
 	
 	@Test
-	//URL API value test 1
+	//URL API value test
 	public void getImageUrlTest1() {
 		SearchServlet servlet = new SearchServlet();
 		ArrayList<String> testConfirm = servlet.getImageURLs("Noodle");
-		assertEquals(10,testConfirm.size());
-	}
-	
-	@Test
-	//URL API value test 2
-	public void getImageUrlTest2() {
-		SearchServlet servlet = new SearchServlet();
-		ArrayList<String> testConfirm = servlet.getImageURLs("Dumpling");
 		assertEquals(10,testConfirm.size());
 	}
 	
@@ -128,6 +120,7 @@ public class SearchServletTest {
 		assertEquals(1,rest.size());
 	}
 	
+	@Ignore
 	@Test
 	//getting the Restaurant arraylist API test with radius = 10000
 	public void getResInfoTest2() {
@@ -149,6 +142,7 @@ public class SearchServletTest {
 		assertEquals(1,rest.size());
 	}
 	
+	@Ignore
 	@Test
 	//Test for Backlog 8
 	public void differentRadiusTest() throws Exception {

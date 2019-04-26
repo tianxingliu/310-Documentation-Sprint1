@@ -7,6 +7,25 @@
 		<title>Recipe Page</title>
 		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
 	</head>
+	<style>
+		#display_grocery{
+			font-family: 'Roboto', sans-serif;
+			background-color:#ffc1ab;
+			color: white;
+			width:15vw;
+			min-width: 12rem;
+			border: 0;
+			box-shadow: none;
+			border-radius: 0;
+			font-size:1.5rem;
+			cursor: pointer;
+			padding: 0;
+			position: fixed;
+			margin-bottom:0;
+			right: 20vw;
+			top:calc(20vh + 15rem);
+		}
+	</style>
 	<body>
 		<div class = "textinfo">
 			<p id="title" style="margin-bottom: 1rem"></p>
@@ -58,6 +77,11 @@
                 <button type="button">Add to Grocery</button>
             </div>
         </form>
+        
+      	<!--Jump to Grocery Page  -->
+		<form action="grocery.jsp">
+			<input type="submit" id = "display_grocery" value="Display Grocery" />
+		</form>
         
        
  

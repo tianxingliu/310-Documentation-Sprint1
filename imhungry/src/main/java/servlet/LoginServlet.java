@@ -12,6 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
+
+import database_manager.GroceryDataManager;
+import database_manager.RecipeDataManager;
+import database_manager.RestaurantDataManager;
+import database_manager.HistoryDataManager;
+import database_manager.UserDataManager;
+import info.*;
+
+
+
+
+
 /**
  * Servlet implementation class myFirstServlet
  */
@@ -46,8 +59,11 @@ public class LoginServlet extends HttpServlet {
 				request.setAttribute("perror", "No Password Entered");
 			}
 		} else {
-			int check = 0; // do database check right now
-			if (check == 0) {
+			UserDataManager userDB = new UserDataManager(username);
+			
+			int check = userDB.checkPassword(username,pw);
+			System.out.println(check);
+			if (check != 1) {
 				next = "/login.jsp";
 				request.setAttribute("uerror", "Username or Password wrong");
 				request.setAttribute("perror", "Username or Password wrong");
