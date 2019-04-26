@@ -2,15 +2,8 @@ package servlet;
 
 
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,14 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import database_manager.GroceryDataManager;
-import database_manager.RecipeDataManager;
-import database_manager.RestaurantDataManager;
-import database_manager.HistoryDataManager;
 import database_manager.UserDataManager;
-import info.*;
 import user.User;
 
 
@@ -85,7 +72,6 @@ public class SignupServlet extends HttpServlet {
     	   {
    		UserDataManager userDB = new UserDataManager(username);	
    		int check = userDB.checkPassword(username,pw);
-   		System.out.println(check);
     	    if (check == 2) {
 	    	    	User u =new User(username,pw);
 	    	    	userDB.addUser(u);

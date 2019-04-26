@@ -24,6 +24,7 @@ CREATE TABLE Restaurants (
     InDoNotShow INT(2) NOT NULL,
     InToExplore INT(2) NOT NULL,
     User VARCHAR(50) NOT NULL,
+    Seq INT(11),
     FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
 );
 
@@ -41,6 +42,7 @@ CREATE TABLE Recipes(
     InDoNotShow INT(2) NOT NULL,
     InToExplore INT(2) NOT NULL,
     User VARCHAR(50) NOT NULL,
+    Seq INT(11),
     FOREIGN KEY (User) REFERENCES Users(Username) ON DELETE CASCADE
 );
 
